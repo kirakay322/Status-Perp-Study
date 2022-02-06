@@ -7,6 +7,10 @@ library(dplyr)
 View(d)
 describe(d)
 
+### Convert Atonement to factor variable ---------------------------------------
+d$Atonement_fact <- as.factor(d$Atonement)
+levels(d$Atonement_fact)
+
 ### Reverse-code needed items --------------------------------------------------
 ## ESJ
 d$ESJ4_r <- dplyr::recode(d$ESJ4, "7" = 1, "6" = 2, "5" = 3, "3" = 5, "4" = 4, 
@@ -46,11 +50,11 @@ d$Sev4_r <- dplyr::recode(d$Sev4_r, "7" = 1, "6" = 2, "5" = 3, "3" = 5, "4" = 4,
 ### Create average columns -----------------------------------------------------
 ## ESJ -------------------------------------------------------------------------
 # Add average column
-d$ESJ_av <- rowMeans(d[,c(2,3,4,124,6,125,9,126,11,127,13,14,128,16,129,18,
-                          130)], na.rm = T)
+d$ESJ_av <- rowMeans(d[,c(2,3,4,125,6,126,9,127,11,128,13,14,129,16,130,18,
+                          131)], na.rm = T)
 
 # Create data frame from selected columns
-ESJ_d <- d[,c(2,3,4,124,6,125,9,126,11,127,13,14,128,16,129,18,130)]
+ESJ_d <- d[,c(2,3,4,125,6,126,9,127,11,128,13,14,129,16,130,18,131)]
 
 # Calculate Cronbach's alpha from new data frame
 alpha(ESJ_d)
