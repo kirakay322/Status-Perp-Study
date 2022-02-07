@@ -311,3 +311,189 @@ RQ1B_Y5 <- lm(data = d_lo, EmpathyP_av ~ ESJ_av*Atonement_fact_r, contrasts =
 summary(RQ1B_Y5)
 eta_squared(car::Anova(RQ1B_Y5, type = 3))
 
+
+
+
+
+############################################Allison's Script############################################
+#This is analyses related to the Vic DVs#
+#Also, note that Kira and I have different R quirks, so the way we script things does not totaly align, 
+#but that's part of what makes us such a good team XD
+
+
+#load libraries
+library(psych)
+
+#Import data sets
+
+library(readxl)
+Prof1 <- read_excel("C:/Users/allis/Documents/Western Washington/Research/Redemption Narratives/Perp Study Data Analysis/PSS_Prolific1_CLEAN.xlsx")
+
+
+#####Scale Scoring####
+
+#economic system justification
+#reverse score necessary items
+Prof1$ESJ4_r <- 8 - Prof1$ESJ4
+Prof1$ESJ6_r <- 8 - Prof1$ESJ6
+Prof1$ESJ8_r <- 8 - Prof1$ESJ8
+Prof1$ESJ10_r <- 8 - Prof1$ESJ10
+Prof1$ESJ13_r <- 8 - Prof1$ESJ13
+Prof1$ESJ15_r <- 8 - Prof1$ESJ15
+Prof1$ESJ17_r <- 8 - Prof1$ESJ17
+Prof1$esj <- (Prof1$ESJ1 + Prof1$ESJ2 + Prof1$ESJ3 + Prof1$ESJ4_r + 
+              Prof1$ESJ5 + Prof1$ESJ6_r + Prof1$ESJ7 + 
+              Prof1$ESJ8_r + Prof1$ESJ9 + Prof1$ESJ10_r + Prof1$ESJ11 + 
+              Prof1$ESJ12 + Prof1$ESJ13_r + Prof1$ESJ14 + Prof1$ESJ15_r + 
+              Prof1$ESJ16 + Prof1$ESJ17_r)/17
+
+hist(Prof1$esj) #pretty normal distribution - not quite hitting full rnage (no 6 or 7s, but overall good)
+
+esj_a <- subset(Prof1, select = c(ESJ1, ESJ2, ESJ3, ESJ4_r, ESJ5, ESJ6_r, ESJ7, 
+                                ESJ8_r, ESJ9, ESJ10_r, ESJ11, ESJ12, ESJ13_r, 
+                                ESJ14, ESJ15_r, ESJ16, ESJ17_r))
+alpha(esj_a)
+
+#mean center
+Prof1$esj.m <- scale(Prof1$esj, center = T)
+
+#z-score
+Prof1$esj.z <- scale(Prof1$esj, center = T, scale = T)
+
+
+
+#Perp Response
+Prof1$Presp <- (Prof1$P_resp1 + Prof1$P_resp2 + Prof1$P_resp3 + Prof1$P_resp4 + Prof1$P_resp5)/5
+hist(Prof1$Presp)
+
+Presp_a <- subset(Prof1, select = c(P_resp1, P_resp2, P_resp3, P_resp4, P_resp5))
+alpha(Presp_a)
+
+#Vic Response
+Prof1$Vresp <- (Prof1$V_resp1 + Prof1$V_resp2 + Prof1$V_resp3 + Prof1$V_resp4)/4
+hist(Prof1$Vresp)
+
+
+Vresp_a <- subset(Prof1, select = c(V_resp1, V_resp2, V_resp3, V_resp4))
+alpha(Vresp_a)
+
+
+#TIPI- Perpetrator
+Prof1$TIPI_P2_r <- 6 - Prof1$TIPI_P2
+Prof1$TIPI_P4_r <- 6 - Prof1$TIPI_P4
+Prof1$TIPI_P6_r <- 6 - Prof1$TIPI_P6
+Prof1$TIPI_P8_r <- 6 - Prof1$TIPI_P8
+Prof1$TIPI_P10_r <- 6 - Prof1$TIPI_P10
+
+Prof1$TIPI_P <- (Prof1$TIPI_P1 + Prof1$TIPI_P2_r + Prof1$TIPI_P3 + Prof1$TIPI_P4_r + 
+                   Prof1$TIPI_P5 + Prof1$TIPI_P6_r + Prof1$TIPI_P7 + Prof1$TIPI_P8_r + 
+                   Prof1$TIPI_P9 + Prof1$TIPI_P10_r)/10
+hist(Prof1$TIPI_P)
+
+TIPI_Pos <- subset(Prof1, select = c(TIPI_P1, TIPI_P2_r, TIPI_P3, TIPI_P4_r, 
+                                     TIPI_P5, TIPI_P6_r, TIPI_P7, TIPI_P8_r,
+                                     TIPI_P9, TIPI_P10_r))
+alpha(TIPI_Pos) ##When I ran cronbachs, it looks like 6 does not fit in. Cronbach
+                ##is indicating that it should not be reverse scored. Could be an
+                ##argument to drop the item
+
+#TIPI - Victim
+Prof1$TIPI_V2_r <- 8 - Prof1$TIPI_V2
+Prof1$TIPI_V4_r <- 8 - Prof1$TIPI_V4
+Prof1$TIPI_V6_r <- 8 - Prof1$TIPI_V6
+Prof1$TIPI_V8_r <- 8 - Prof1$TIPI_V8
+Prof1$TIPI_V10_r <- 8 - Prof1$TIPI_V10
+
+Prof1$TIPI_V <- (Prof1$TIPI_V1 + Prof1$TIPI_V2_r + Prof1$TIPI_V3 + Prof1$TIPI_V4_r + 
+                   Prof1$TIPI_V5 + Prof1$TIPI_V6_r + Prof1$TIPI_V7 + Prof1$TIPI_V8_r + 
+                   Prof1$TIPI_V9 + Prof1$TIPI_V10_r)/10
+hist(Prof1$TIPI_V)
+
+
+TIPI_Vic <- subset(Prof1, select = c(TIPI_V1, TIPI_V2_r, TIPI_V3, TIPI_V4_r, 
+                                     TIPI_V5, TIPI_V6_r, TIPI_V7, TIPI_V8_r,
+                                     TIPI_V9, TIPI_V10_r))
+alpha(TIPI_Vic) #six is a bad item. 
+
+##ASK BRI IF WE SHOULD DROP ITEM 6 - can drop from both V and P if we want#########
+
+#Likeability of victim
+Prof1$Like_V <- (Prof1$Like_V1 + Prof1$Like_V2 + Prof1$Like_V3 + Prof1$Like_V4 + 
+                   Prof1$Like_V5)/5
+
+Like_Va <- subset(Prof1, select = c(Like_V1, Like_V2, Like_V3, Like_V4, Like_V5))
+alpha(Like_Va) #very low alpha - this scale needs to be changed
+#Items 3, 4 and 5 were presented weird to participants. ASK BRI whether to keep or trash
+
+#SA - Victim
+Prof1$SA_V <- (Prof1$SA_V_1 + Prof1$SA_V_2 + Prof1$SA_V_3 + Prof1$SA_V_4 + 
+                 Prof1$SA_V_5)/5
+SA_va <- subset(Prof1, select = c(SA_V_1, SA_V_2, SA_V_3, SA_V_4, SA_V_5))
+alpha(SA_va)
+
+
+
+#Empathy for the Victim - these are just the 6 empathy items
+##there are still some distress and filler items not included in this summation
+Prof1$Emp_V <- (Prof1$Emp_V_1 + Prof1$Emp_V_2 + Prof1$Emp_V_5 + Prof1$Emp_V_10 +
+                  Prof1$Emp_V_15 + Prof1$Emp_V_17)/6
+hist(Prof1$Emp_V)
+
+Emp_Va <- subset(Prof1, select = c(Emp_V_1, Emp_V_2, Emp_V_5, Emp_V_10, 
+                                   Emp_V_15, Emp_V_17))
+alpha(Emp_Va)
+
+
+
+
+
+
+
+
+####Data Subsets###
+#make atonement condition a factor
+#reverse code atonement so that 2 = low, 1 = med, and 0 = high
+Prof1$atone.r <- 2-Prof1$Atonement
+Prof1$atone.r <- factor(Prof1$Atonement, 
+                           levels = c("0", "1", "2"),
+                           labels = c("High", "Med", "Low"))
+
+#High Status Condition
+HS <- subset(Prof1, SES == 1)
+
+#Low status Condition
+LS <- subset(Prof1, SES == 0)
+
+
+
+
+
+
+
+########################################Analysis########################################
+#Setting Helmert Contrasts
+contr1 <- list(atone.r = contr.helmert)
+  #we are using the reverse coded atonement to create the contrasts. 
+  #this will contrast 0 and 1 to 2 (high/med to low) and 0 to 1 (high to med)
+
+
+###Research Question 2 and 3: Looking at DVs relevant to the Victim####
+#Victim response
+Vresp_anal1 <- lm(Vresp ~ esj.m*atone.r, data = HS, contrasts = contr1)
+summary(Vresp_anal1)
+
+#TIPI - Vict
+TIPIv_anal1 <- lm(TIPI_V ~ esj.m*atone.r, data = HS, contrasts = contr1)
+summary(TIPIv_anal1)
+
+
+#Likeability of Vic - need to come back to after fixing scale
+
+#SA - Victim
+SAV_anal1 <- lm(SA_V ~ esj.m*atone.r, data = HS, contrasts = contr1)
+summary(SAV_anal1)
+
+
+#Empathy for victim
+EmpV_anal1 <- lm(Emp_V ~ esj.m*atone.r, data = HS, contrasts = contr1)
+summary(EmpV_anal1)
