@@ -1,8 +1,14 @@
+############################### Kira's Script ##################################
+
+############################# PROLIFIC SAMPLE 1 ################################
+
 ### Set WD, then load in dataset and load packages -----------------------------
 d <- read.csv("PSS_Prolific1_CLEAN.csv")
 library(psych)
 library(dplyr)
 library(effectsize)
+library(interactions)
+library(sjPlot)
 
 ### Check it out ---------------------------------------------------------------
 View(d)
@@ -145,7 +151,7 @@ LikabilityP_d <- d[,c(53,54,55,56,57)]
 # Calculate Cronbach's alpha from new data frame
 alpha(LikabilityP_d)
 
-# Alpha for Stigma (P) = .75
+# Alpha for Likability (P) = .85
 
 ## Y4 = Positive personality traits---------------------------------------------
 # Add average column
@@ -199,19 +205,9 @@ boxplot.stats(d$BlameP_z_av)$out
 hist(d$StigmaP_av)
 boxplot(d$StigmaP_av)
 
-## Likability (P) - 15 high outliers (rows = 17, 20, 32, 43, 47, 71, 75, 78, 
-## 106, 116, 120, 158, 208, 212, 279; values = 5.20 - 6.40)
+## Likability (P) - Looks good
 hist(d$LikabilityP_av)
 boxplot(d$LikabilityP_av)
-boxplot.stats(d$LikabilityP_av)$out
-
-# Find value for 3 SDs above the mean (value = 5.84)
-mean(d$LikabilityP_av) + (3*sd(d$LikabilityP_av))
-
-# Rows 158 and 208 have values over 5.8 (values = 6.25, 6.40): Remove values 
-# for those rows
-d$LikabilityP_av[which(d$ResponseId == "158")] <- NA
-d$LikabilityP_av[which(d$ResponseId == "208")] <- NA
 
 ## Personality (P) - Two outliers high and two low (IDs = 9, 62, 68, 158; 
 ## values = 1.7 and 4.6)
@@ -249,7 +245,7 @@ d_lo <- d[which(d$SES == "0"),]
 d_hi <- d[which(d$SES == "1"),]
 
 ### MAIN ANALYSES - REGRESSION -------------------------------------------------
-## RQ1A
+## RQ1A ------------------------------------------------------------------------
 # Y1: Blame
 RQ1A_Y1 <- lm(data = d_hi, BlameP_z_av ~ ESJ_av_c*Atonement_fact_r, contrasts = 
                 my.contrasts)
@@ -280,7 +276,7 @@ RQ1A_Y5 <- lm(data = d_hi, EmpathyP_av ~ ESJ_av*Atonement_fact_r, contrasts =
 summary(RQ1A_Y5)
 eta_squared(car::Anova(RQ1A_Y5, type = 3))
 
-## RQ1B
+## RQ1B ------------------------------------------------------------------------
 # Y1: Blame
 RQ1B_Y1 <- lm(data = d_lo, BlameP_z_av ~ ESJ_av_c*Atonement_fact_r, contrasts = 
                 my.contrasts)
@@ -292,18 +288,21 @@ RQ1B_Y2 <- lm(data = d_lo, StigmaP_av ~ ESJ_av*Atonement_fact_r, contrasts =
                 my.contrasts)
 summary(RQ1B_Y2)
 eta_squared(car::Anova(RQ1B_Y2, type = 3))
+plot_model(RQ1B_Y2, type = "pred", terms = c("Atonement_fact_r", "ESJ_av"))
 
 #Y3: Likability
 RQ1B_Y3 <- lm(data = d_lo, LikabilityP_av ~ ESJ_av*Atonement_fact_r, contrasts =
                 my.contrasts)
 summary(RQ1B_Y3)
 eta_squared(car::Anova(RQ1B_Y3, type = 3))
+plot_model(RQ1B_Y3, type = "pred", terms = c("Atonement_fact_r", "ESJ_av"))
 
 #Y4: Personality
 RQ1B_Y4 <- lm(data = d_lo, PersonalityP_av ~ ESJ_av*Atonement_fact_r, contrasts =
                 my.contrasts)
 summary(RQ1B_Y4)
 eta_squared(car::Anova(RQ1B_Y4, type = 3))
+plot_model(RQ1B_Y4, type = "pred", terms = c("Atonement_fact_r", "ESJ_av"))
 
 #Y5: Empathy
 RQ1B_Y5 <- lm(data = d_lo, EmpathyP_av ~ ESJ_av*Atonement_fact_r, contrasts =
@@ -311,7 +310,736 @@ RQ1B_Y5 <- lm(data = d_lo, EmpathyP_av ~ ESJ_av*Atonement_fact_r, contrasts =
 summary(RQ1B_Y5)
 eta_squared(car::Anova(RQ1B_Y5, type = 3))
 
+## Exploratory 3-way interaction -----------------------------------------------
+# Y1: Blame
+RQExp_Y1 <- lm(data = d, BlameP_z_av ~ ESJ_av_c*Atonement_fact_r*SES, contrasts = 
+                my.contrasts)
+summary(RQExp_Y1)
+eta_squared(car::Anova(RQExp_Y1, type = 3))
 
+#Y2: Stigma
+RQExp_Y2 <- lm(data = d, StigmaP_av ~ ESJ_av*Atonement_fact_r*SES, contrasts =
+                my.contrasts)
+summary(RQExp_Y2)
+eta_squared(car::Anova(RQExp_Y2, type = 3))
+
+#Y3: Likability
+RQExp_Y3 <- lm(data = d, LikabilityP_av ~ ESJ_av*Atonement_fact_r*SES, contrasts =
+                my.contrasts)
+summary(RQExp_Y3)
+eta_squared(car::Anova(RQExp_Y3, type = 3))
+
+#Y4: Personality
+RQExp_Y4 <- lm(data = d, PersonalityP_av ~ ESJ_av*Atonement_fact_r*SES, contrasts =
+                my.contrasts)
+summary(RQExp_Y4)
+eta_squared(car::Anova(RQExp_Y4, type = 3))
+plot_model(RQExp_Y4, type = "pred", terms = c("Atonement_fact_r", "ESJ_av", "SES"))
+
+#Y5: Empathy
+RQExp_Y5 <- lm(data = d, EmpathyP_av ~ ESJ_av*Atonement_fact_r*SES, contrasts =
+                my.contrasts)
+summary(RQExp_Y5)
+eta_squared(car::Anova(RQExp_Y5, type = 3))
+
+
+
+############################# PROLIFIC SAMPLE 2 ################################
+
+### Set WD, then load in dataset and load packages -----------------------------
+d2 <- read.csv("PSS_Prolific2_CLEAN.csv")
+library(psych)
+library(dplyr)
+library(effectsize)
+library(interactions)
+library(sjPlot)
+
+### Check it out ---------------------------------------------------------------
+View(d2)
+describe(d2)
+
+### Convert Atonement to factor variable ---------------------------------------
+d2$Atonement_fact <- as.factor(d2$Atonement)
+levels(d2$Atonement_fact)
+
+### Reverse-code needed items --------------------------------------------------
+## ESJ
+d2$ESJ4_r <- dplyr::recode(d2$ESJ4, "7" = 1, "6" = 2, "5" = 3, "3" = 5, "4" = 4, 
+                          "2" = 6, "1" = 7)
+d2$ESJ6_r <- dplyr::recode(d2$ESJ6, "7" = 1, "6" = 2, "5" = 3, "3" = 5, "4" = 4, 
+                          "2" = 6, "1" = 7)
+d2$ESJ8_r <- dplyr::recode(d2$ESJ8, "7" = 1, "6" = 2, "5" = 3, "3" = 5, "4" = 4, 
+                          "2" = 6, "1" = 7)
+d2$ESJ10_r <- dplyr::recode(d2$ESJ10, "7" = 1, "6" = 2, "5" = 3, "3" = 5, "4" = 4, 
+                           "2" = 6, "1" = 7)
+d2$ESJ13_r <- dplyr::recode(d2$ESJ13, "7" = 1, "6" = 2, "5" = 3, "3" = 5, "4" = 4, 
+                           "2" = 6, "1" = 7)
+d2$ESJ15_r <- dplyr::recode(d2$ESJ15, "7" = 1, "6" = 2, "5" = 3, "3" = 5, "4" = 4, 
+                           "2" = 6, "1" = 7)
+d2$ESJ17_r <- dplyr::recode(d2$ESJ17, "7" = 1, "6" = 2, "5" = 3, "3" = 5, "4" = 4, 
+                           "2" = 6, "1" = 7)
+
+## Y4: Positive personality traits (P)
+d2$TIPI_P2_r <- dplyr::recode(d2$TIPI_P2 , "5" = 1, "4" = 2, "3" = 3, "2" = 4, "1"
+                             = 5)
+d2$TIPI_P4_r <- dplyr::recode(d2$TIPI_P4, "5" = 1, "4" = 2, "3" = 3, "2" = 4, "1"
+                             = 5)
+d2$TIPI_P6_r <- dplyr::recode(d2$TIPI_P6, "5" = 1, "4" = 2, "3" = 3, "2" = 4, "1"
+                             = 5)
+d2$TIPI_P8_r <- dplyr::recode(d2$TIPI_P8, "5" = 1, "4" = 2, "3" = 3, "2" = 4, "1"
+                             = 5)
+d2$TIPI_P10_r <- dplyr::recode(d2$TIPI_P10, "5" = 1, "4" = 2, "3" = 3, "2" = 4, 
+                              "1" = 5)
+
+## Y6: Severity
+d2$Sev3_r <- dplyr::recode(d2$Sev3_r , "7" = 1, "6" = 2, "5" = 3, "3" = 5, "4" = 
+                            4, "2" = 6, "1" = 7)
+d2$Sev4_r <- dplyr::recode(d2$Sev4_r, "7" = 1, "6" = 2, "5" = 3, "3" = 5, "4" = 4, 
+                          "2" = 6, "1" = 7)
+
+### Recode all Empathy (P) items to fix error ----------------------------------
+## Empathy (P) was coded in Qualtrics as 1, 2, 3, 4, 6, 8, 7: Have to recode
+d2$P_empathy_1 <- dplyr::recode(d2$P_empathy_1, "1" = 1, "2" = 2, "3" = 3, 
+                               "4" = 4, "6" = 5, "8" = 6, "7" = 7)
+d2$P_empathy_2 <- dplyr::recode(d2$P_empathy_2, "1" = 1, "2" = 2, "3" = 3, 
+                               "4" = 4, "6" = 5, "8" = 6, "7" = 7)
+d2$P_empathy_3 <- dplyr::recode(d2$P_empathy_3, "1" = 1, "2" = 2, "3" = 3, 
+                               "4" = 4, "6" = 5, "8" = 6, "7" = 7)
+d2$P_empathy_4 <- dplyr::recode(d2$P_empathy_4, "1" = 1, "2" = 2, "3" = 3, 
+                               "4" = 4, "6" = 5, "8" = 6, "7" = 7)
+d2$P_empathy_5 <- dplyr::recode(d2$P_empathy_5, "1" = 1, "2" = 2, "3" = 3, 
+                               "4" = 4, "6" = 5, "8" = 6, "7" = 7)
+d2$P_empathy_6 <- dplyr::recode(d2$P_empathy_6, "1" = 1, "2" = 2, "3" = 3, 
+                               "4" = 4, "6" = 5, "8" = 6, "7" = 7)
+d2$P_empathy_7 <- dplyr::recode(d2$P_empathy_7, "1" = 1, "2" = 2, "3" = 3, 
+                               "4" = 4, "6" = 5, "8" = 6, "7" = 7)
+d2$P_empathy_8 <- dplyr::recode(d2$P_empathy_8, "1" = 1, "2" = 2, "3" = 3, 
+                               "4" = 4, "6" = 5, "8" = 6, "7" = 7)
+d2$P_empathy_9 <- dplyr::recode(d2$P_empathy_9, "1" = 1, "2" = 2, "3" = 3, 
+                               "4" = 4, "6" = 5, "8" = 6, "7" = 7)
+d2$P_empathy_10 <- dplyr::recode(d2$P_empathy_10, "1" = 1, "2" = 2, "3" = 3, 
+                                "4" = 4, "6" = 5, "8" = 6, "7" = 7)
+d2$P_empathy_11 <- dplyr::recode(d2$P_empathy_11, "1" = 1, "2" = 2, "3" = 3, 
+                                "4" = 4, "6" = 5, "8" = 6, "7" = 7)
+d2$P_empathy_12 <- dplyr::recode(d2$P_empathy_12, "1" = 1, "2" = 2, "3" = 3, 
+                                "4" = 4, "6" = 5, "8" = 6, "7" = 7)
+d2$P_empathy_13 <- dplyr::recode(d2$P_empathy_13, "1" = 1, "2" = 2, "3" = 3, 
+                                "4" = 4, "6" = 5, "8" = 6, "7" = 7)
+d2$P_empathy_14 <- dplyr::recode(d2$P_empathy_14, "1" = 1, "2" = 2, "3" = 3, 
+                                "4" = 4, "6" = 5, "8" = 6, "7" = 7)
+d2$P_empathy_15 <- dplyr::recode(d2$P_empathy_15, "1" = 1, "2" = 2, "3" = 3, 
+                                "4" = 4, "6" = 5, "8" = 6, "7" = 7)
+d2$P_empathy_16 <- dplyr::recode(d2$P_empathy_16, "1" = 1, "2" = 2, "3" = 3, 
+                                "4" = 4, "6" = 5, "8" = 6, "7" = 7)
+d2$P_empathy_17 <- dplyr::recode(d2$P_empathy_17, "1" = 1, "2" = 2, "3" = 3, 
+                                "4" = 4, "6" = 5, "8" = 6, "7" = 7)
+d2$P_empathy_18 <- dplyr::recode(d2$P_empathy_18, "1" = 1, "2" = 2, "3" = 3, 
+                                "4" = 4, "6" = 5, "8" = 6, "7" = 7)
+
+### Recode Like_P3 to fix error ------------------------------------------------
+## Like_P3 was coded in Qualtrics as 1, 2, 3, 4, 12: Have to recode
+d2$Like_P3 <- dplyr::recode(d2$Like_P3, "1" = 1, "2" = 2, "3" = 3, 
+                           "4" = 4, "12" = 5)
+
+### Create average columns -----------------------------------------------------
+## ESJ -------------------------------------------------------------------------
+# Add average column
+d2$ESJ_av <- rowMeans(d2[,c(2,3,4,125,6,126,9,127,11,128,13,14,129,16,130,18,
+                          131)], na.rm = T)
+
+# Create data frame from selected columns
+ESJ_d2 <- d2[,c(2,3,4,125,6,126,9,127,11,128,13,14,129,16,130,18,131)]
+
+# Calculate Cronbach's alpha from new data frame
+alpha(ESJ_d2)
+
+# Alpha for ESJ = .89
+
+## Y1 = Blame (P)---------------------------------------------------------------
+
+# STANDARDIZE ALL VARIABLES (they're on different scales)
+
+# First, create dataframe from raw varialbes
+BlameP_d2 <- d2[,c(27,28,29,30,31,36,37)]
+
+# Use scale to standardize that dataframe
+BlameP_d2_z <- scale(BlameP_d2)
+
+# Find average of standardized variables and add column to original df
+d2$BlameP_z_av <- rowMeans(BlameP_d2_z[,c(1,2,3,4,5,6,7)], na.rm = T)
+
+# Calculate Cronbach's alpha from raw dataframe
+alpha(BlameP_d2)
+
+# Alpha for Blame (P) = .88
+
+## Y2 = Stigma (P) -------------------------------------------------------------
+# Add average column
+d2$StigmaP_av <- rowMeans(d2[,c(38,39,40,41,42)], na.rm = T)
+
+# Create data frame from selected columns
+StigmaP_d2 <- d2[,c(38,39,40,41,42)]
+
+# Calculate Cronbach's alpha from new data frame
+alpha(StigmaP_d2)
+
+# Alpha for Stigma (P) = .97
+
+## Y3 = Likability (P) ---------------------------------------------------------
+# Add average column
+d2$LikabilityP_av <- rowMeans(d2[,c(53,54,55,56,57)], na.rm = T)
+
+# Create data frame from selected columns
+LikabilityP_d2 <- d2[,c(53,54,55,56,57)]
+
+# Calculate Cronbach's alpha from new data frame
+alpha(LikabilityP_d2)
+
+# Alpha for Likability (P) = .87
+
+## Y4 = Positive personality traits---------------------------------------------
+# Add average column
+d2$PersonalityP_av <- rowMeans(d2[,c(43,132,45,133,47,134,49,135,51,136)], 
+                              na.rm = T)
+
+# Create data frame from selected columns
+PersonalityP_d2 <- d2[,c(43,132,45,133,47,134,49,135,51,136)]
+
+# Calculate Cronbach's alpha from new data frame
+alpha(PersonalityP_d2)
+
+# Alpha for Personality (P) = .76
+
+## Y5 = Empathic concern (P) ---------------------------------------------------
+# Add average column
+d2$EmpathyP_av <- rowMeans(d2[,c(58,59,62,67,72,74)], na.rm = T)
+
+# Create data frame from selected columns
+EmpathyP_d2 <- d2[,c(58,59,62,67,72,74)]
+
+# Calculate Cronbach's alpha from new data frame
+alpha(EmpathyP_d2)
+
+# Alpha for Empathy (P) = .95
+
+## Y6 = Severity (P) -----------------------------------------------------------
+# Add average column
+d2$SeverityP_av <- rowMeans(d2[,c(20,21,23,24,25)], na.rm = T)
+
+# Create data frame from selected columns
+SeverityP_d2 <- d2[,c(20,21,23,24,25)]
+
+# Calculate Cronbach's alpha from new data frame
+alpha(SeverityP_d2)
+
+# Alpha for Severity (P) = .92
+
+### Histograms and boxplots ----------------------------------------------------
+## ESJ - Looks good
+hist(d2$ESJ_av)
+boxplot(d2$ESJ_av)
+
+## Blame (P) - Looks good
+hist(d2$BlameP_z_av)
+boxplot(d2$BlameP_z_av)
+
+## Stigma (P) - Looks good
+hist(d2$StigmaP_av)
+boxplot(d2$StigmaP_av)
+
+## Likability (P) - Looks good
+hist(d2$LikabilityP_av)
+boxplot(d2$LikabilityP_av)
+
+## Personality (P) - Two outliers low and one high (values = 1.8, 1.9, and 5.0)
+hist(d2$PersonalityP_av)
+boxplot(d2$PersonalityP_av)
+boxplot.stats(d2$PersonalityP_av)$out
+
+# Find value for 3 SDs above the mean (value = 4.92)
+mean(d2$PersonalityP_av) + (3*sd(d2$PersonalityP_av))
+
+# Find value for 3 SDs below the mean (value = 1.70)
+mean(d2$PersonalityP_av) - (3*sd(d2$PersonalityP_av))
+
+# High outlier is above 4.92, so it should be changed
+d2$PersonalityP_av[which(d2$ResponseId == "202")] <- 4.92
+
+## Empathy (P) - Looks good
+hist(d2$EmpathyP_av)
+boxplot(d2$EmpathyP_av)
+
+### Mean Center ESJ ------------------------------------------------------------
+d2$ESJ_av_c <- d2$ESJ_av - mean(d2$ESJ_av)
+
+### Set up Helmert contrasts ---------------------------------------------------
+## Reverse-code Atonement
+d2$Atonement_f_r <- dplyr::recode(d2$Atonement_fact, "2" = 0, "1" = 1, "0" = 2)
+
+## Change reverse-coded Atonement to factor variable
+d2$Atonement_fact_r <- as.factor(d2$Atonement_f_r)
+
+## Establish contrasts
+my.contrasts <- list(Atonement_fact_r = contr.helmert)
+
+### Split dataset by status condition ------------------------------------------
+d2_lo <- d2[which(d$SES == "0"),]
+d2_hi <- d2[which(d$SES == "1"),]
+
+### MAIN ANALYSES - REGRESSION -------------------------------------------------
+## RQ1A ------------------------------------------------------------------------
+# Y1: Blame
+RQ1A_Y1_2 <- lm(data = d2_hi, BlameP_z_av ~ ESJ_av_c*Atonement_fact_r, contrasts = 
+                my.contrasts)
+summary(RQ1A_Y1_2)
+eta_squared(car::Anova(RQ1A_Y1_2, type = 3))
+
+#Y2: Stigma
+RQ1A_Y2_2 <- lm(data = d2_hi, StigmaP_av ~ ESJ_av*Atonement_fact_r, contrasts =
+                my.contrasts)
+summary(RQ1A_Y2_2)
+eta_squared(car::Anova(RQ1A_Y2_2, type = 3))
+
+#Y3: Likability
+RQ1A_Y3_2 <- lm(data = d2_hi, LikabilityP_av ~ ESJ_av*Atonement_fact_r, contrasts =
+                my.contrasts)
+summary(RQ1A_Y3_2)
+eta_squared(car::Anova(RQ1A_Y3_2, type = 3))
+
+#Y4: Personality
+RQ1A_Y4_2 <- lm(data = d2_hi, PersonalityP_av ~ ESJ_av*Atonement_fact_r, contrasts =
+                my.contrasts)
+summary(RQ1A_Y4_2)
+eta_squared(car::Anova(RQ1A_Y4_2, type = 3))
+
+#Y5: Empathy
+RQ1A_Y5_2 <- lm(data = d2_hi, EmpathyP_av ~ ESJ_av*Atonement_fact_r, contrasts =
+                my.contrasts)
+summary(RQ1A_Y5_2)
+eta_squared(car::Anova(RQ1A_Y5_2, type = 3))
+
+## RQ1B ------------------------------------------------------------------------
+# Y1: Blame
+RQ1B_Y1_2 <- lm(data = d2_lo, BlameP_z_av ~ ESJ_av_c*Atonement_fact_r, contrasts = 
+                my.contrasts)
+summary(RQ1B_Y1_2)
+eta_squared(car::Anova(RQ1B_Y1_2, type = 3))
+
+#Y2: Stigma
+RQ1B_Y2_2 <- lm(data = d2_lo, StigmaP_av ~ ESJ_av*Atonement_fact_r, contrasts =
+                my.contrasts)
+summary(RQ1B_Y2_2)
+eta_squared(car::Anova(RQ1B_Y2_2, type = 3))
+
+#Y3: Likability
+RQ1B_Y3_2 <- lm(data = d2_lo, LikabilityP_av ~ ESJ_av*Atonement_fact_r, contrasts =
+                my.contrasts)
+summary(RQ1B_Y3_2)
+eta_squared(car::Anova(RQ1B_Y3_2, type = 3))
+plot_model(RQ1B_Y3_2, type = "pred", terms = c("Atonement_fact_r", "ESJ_av"))
+
+#Y4: Personality
+RQ1B_Y4_2 <- lm(data = d2_lo, PersonalityP_av ~ ESJ_av*Atonement_fact_r, contrasts =
+                my.contrasts)
+summary(RQ1B_Y4_2)
+eta_squared(car::Anova(RQ1B_Y4_2, type = 3))
+plot_model(RQ1B_Y4_2, type = "pred", terms = c("Atonement_fact_r", "ESJ_av"))
+
+#Y5: Empathy
+RQ1B_Y5_2 <- lm(data = d2_lo, EmpathyP_av ~ ESJ_av*Atonement_fact_r, contrasts =
+                my.contrasts)
+summary(RQ1B_Y5_2)
+eta_squared(car::Anova(RQ1B_Y5_2, type = 3))
+
+## Exploratory 3-way interaction -----------------------------------------------
+# Y1: Blame
+RQExp_Y1_2 <- lm(data = d2, BlameP_z_av ~ ESJ_av_c*Atonement_fact_r*SES, contrasts = 
+                  my.contrasts)
+summary(RQExp_Y1_2)
+eta_squared(car::Anova(RQExp_Y1_2, type = 3))
+
+#Y2: Stigma
+RQExp_Y2_2 <- lm(data = d2, StigmaP_av ~ ESJ_av*Atonement_fact_r*SES, contrasts =
+                  my.contrasts)
+summary(RQExp_Y2_2)
+eta_squared(car::Anova(RQExp_Y2_2, type = 3))
+plot_model(RQExp_Y2_2, type = "pred", terms = c("Atonement_fact_r", "ESJ_av", "SES"))
+
+#Y3: Likability
+RQExp_Y3_2 <- lm(data = d2, LikabilityP_av ~ ESJ_av*Atonement_fact_r*SES, contrasts =
+                  my.contrasts)
+summary(RQExp_Y3_2)
+eta_squared(car::Anova(RQExp_Y3_2, type = 3))
+
+#Y4: Personality
+RQExp_Y4_2 <- lm(data = d2, PersonalityP_av ~ ESJ_av*Atonement_fact_r*SES, contrasts =
+                  my.contrasts)
+summary(RQExp_Y4_2)
+eta_squared(car::Anova(RQExp_Y4_2, type = 3))
+
+#Y5: Empathy
+RQExp_Y5_2 <- lm(data = d2, EmpathyP_av ~ ESJ_av*Atonement_fact_r*SES, contrasts =
+                  my.contrasts)
+summary(RQExp_Y5_2)
+eta_squared(car::Anova(RQExp_Y5_2, type = 3))
+plot_model(RQExp_Y5_2, type = "pred", terms = c("Atonement_fact_r", "ESJ_av", "SES"))
+
+
+
+################################ SONA SAMPLE ###################################
+
+### Set WD, then load in dataset and load packages -----------------------------
+d3 <- read.csv("PSS_SONA_CLEAN.csv")
+library(psych)
+library(dplyr)
+library(effectsize)
+library(interactions)
+library(sjPlot)
+
+### Check it out ---------------------------------------------------------------
+View(d3)
+describe(d3)
+
+### Convert Atonement to factor variable ---------------------------------------
+d3$Atonement_fact <- as.factor(d3$Atonement)
+levels(d3$Atonement_fact)
+
+### Reverse-code needed items --------------------------------------------------
+## ESJ
+d3$ESJ4_r <- dplyr::recode(d3$ESJ4, "7" = 1, "6" = 2, "5" = 3, "3" = 5, "4" = 4, 
+                           "2" = 6, "1" = 7)
+d3$ESJ6_r <- dplyr::recode(d3$ESJ6, "7" = 1, "6" = 2, "5" = 3, "3" = 5, "4" = 4, 
+                           "2" = 6, "1" = 7)
+d3$ESJ8_r <- dplyr::recode(d3$ESJ8, "7" = 1, "6" = 2, "5" = 3, "3" = 5, "4" = 4, 
+                           "2" = 6, "1" = 7)
+d3$ESJ10_r <- dplyr::recode(d3$ESJ10, "7" = 1, "6" = 2, "5" = 3, "3" = 5, "4" = 4, 
+                            "2" = 6, "1" = 7)
+d3$ESJ13_r <- dplyr::recode(d3$ESJ13, "7" = 1, "6" = 2, "5" = 3, "3" = 5, "4" = 4, 
+                            "2" = 6, "1" = 7)
+d3$ESJ15_r <- dplyr::recode(d3$ESJ15, "7" = 1, "6" = 2, "5" = 3, "3" = 5, "4" = 4, 
+                            "2" = 6, "1" = 7)
+d3$ESJ17_r <- dplyr::recode(d3$ESJ17, "7" = 1, "6" = 2, "5" = 3, "3" = 5, "4" = 4, 
+                            "2" = 6, "1" = 7)
+
+## Y4: Positive personality traits (P)
+d3$TIPI_P2_r <- dplyr::recode(d3$TIPI_P2 , "5" = 1, "4" = 2, "3" = 3, "2" = 4, "1"
+                              = 5)
+d3$TIPI_P4_r <- dplyr::recode(d3$TIPI_P4, "5" = 1, "4" = 2, "3" = 3, "2" = 4, "1"
+                              = 5)
+d3$TIPI_P6_r <- dplyr::recode(d3$TIPI_P6, "5" = 1, "4" = 2, "3" = 3, "2" = 4, "1"
+                              = 5)
+d3$TIPI_P8_r <- dplyr::recode(d3$TIPI_P8, "5" = 1, "4" = 2, "3" = 3, "2" = 4, "1"
+                              = 5)
+d3$TIPI_P10_r <- dplyr::recode(d3$TIPI_P10, "5" = 1, "4" = 2, "3" = 3, "2" = 4, 
+                               "1" = 5)
+
+## Y6: Severity
+d3$Sev3_r <- dplyr::recode(d3$Sev3_r , "7" = 1, "6" = 2, "5" = 3, "3" = 5, "4" = 
+                             4, "2" = 6, "1" = 7)
+d3$Sev4_r <- dplyr::recode(d3$Sev4_r, "7" = 1, "6" = 2, "5" = 3, "3" = 5, "4" = 4, 
+                           "2" = 6, "1" = 7)
+
+### Recode all Empathy (P) items to fix error ----------------------------------
+## Empathy (P) was coded in Qualtrics as 1, 2, 3, 4, 6, 8, 7: Have to recode
+d3$P_empathy_1 <- dplyr::recode(d3$P_empathy_1, "1" = 1, "2" = 2, "3" = 3, 
+                                "4" = 4, "6" = 5, "8" = 6, "7" = 7)
+d3$P_empathy_2 <- dplyr::recode(d3$P_empathy_2, "1" = 1, "2" = 2, "3" = 3, 
+                                "4" = 4, "6" = 5, "8" = 6, "7" = 7)
+d3$P_empathy_3 <- dplyr::recode(d3$P_empathy_3, "1" = 1, "2" = 2, "3" = 3, 
+                                "4" = 4, "6" = 5, "8" = 6, "7" = 7)
+d2$P_empathy_4 <- dplyr::recode(d3$P_empathy_4, "1" = 1, "2" = 2, "3" = 3, 
+                                "4" = 4, "6" = 5, "8" = 6, "7" = 7)
+d3$P_empathy_5 <- dplyr::recode(d3$P_empathy_5, "1" = 1, "2" = 2, "3" = 3, 
+                                "4" = 4, "6" = 5, "8" = 6, "7" = 7)
+d3$P_empathy_6 <- dplyr::recode(d3$P_empathy_6, "1" = 1, "2" = 2, "3" = 3, 
+                                "4" = 4, "6" = 5, "8" = 6, "7" = 7)
+d3$P_empathy_7 <- dplyr::recode(d3$P_empathy_7, "1" = 1, "2" = 2, "3" = 3, 
+                                "4" = 4, "6" = 5, "8" = 6, "7" = 7)
+d3$P_empathy_8 <- dplyr::recode(d3$P_empathy_8, "1" = 1, "2" = 2, "3" = 3, 
+                                "4" = 4, "6" = 5, "8" = 6, "7" = 7)
+d3$P_empathy_9 <- dplyr::recode(d3$P_empathy_9, "1" = 1, "2" = 2, "3" = 3, 
+                                "4" = 4, "6" = 5, "8" = 6, "7" = 7)
+d3$P_empathy_10 <- dplyr::recode(d3$P_empathy_10, "1" = 1, "2" = 2, "3" = 3, 
+                                 "4" = 4, "6" = 5, "8" = 6, "7" = 7)
+d3$P_empathy_11 <- dplyr::recode(d3$P_empathy_11, "1" = 1, "2" = 2, "3" = 3, 
+                                 "4" = 4, "6" = 5, "8" = 6, "7" = 7)
+d3$P_empathy_12 <- dplyr::recode(d3$P_empathy_12, "1" = 1, "2" = 2, "3" = 3, 
+                                 "4" = 4, "6" = 5, "8" = 6, "7" = 7)
+d3$P_empathy_13 <- dplyr::recode(d3$P_empathy_13, "1" = 1, "2" = 2, "3" = 3, 
+                                 "4" = 4, "6" = 5, "8" = 6, "7" = 7)
+d3$P_empathy_14 <- dplyr::recode(d3$P_empathy_14, "1" = 1, "2" = 2, "3" = 3, 
+                                 "4" = 4, "6" = 5, "8" = 6, "7" = 7)
+d3$P_empathy_15 <- dplyr::recode(d3$P_empathy_15, "1" = 1, "2" = 2, "3" = 3, 
+                                 "4" = 4, "6" = 5, "8" = 6, "7" = 7)
+d3$P_empathy_16 <- dplyr::recode(d3$P_empathy_16, "1" = 1, "2" = 2, "3" = 3, 
+                                 "4" = 4, "6" = 5, "8" = 6, "7" = 7)
+d3$P_empathy_17 <- dplyr::recode(d3$P_empathy_17, "1" = 1, "2" = 2, "3" = 3, 
+                                 "4" = 4, "6" = 5, "8" = 6, "7" = 7)
+d3$P_empathy_18 <- dplyr::recode(d3$P_empathy_18, "1" = 1, "2" = 2, "3" = 3, 
+                                 "4" = 4, "6" = 5, "8" = 6, "7" = 7)
+
+### Recode Like_P3 to fix error ------------------------------------------------
+## Like_P3 was coded in Qualtrics as 1, 2, 3, 4, 12: Have to recode
+d3$Like_P3 <- dplyr::recode(d3$Like_P3, "1" = 1, "2" = 2, "3" = 3, 
+                            "4" = 4, "12" = 5)
+
+### Create average columns -----------------------------------------------------
+## ESJ -------------------------------------------------------------------------
+# Add average column
+d3$ESJ_av <- rowMeans(d3[,c(2,3,4,128,6,129,10,130,12,131,14,15,132,17,133,19,
+                            134)], na.rm = T)
+
+# Create data frame from selected columns
+ESJ_d3 <- d3[,c(2,3,4,128,6,129,10,130,12,131,14,15,132,17,133,19,134)]
+
+# Calculate Cronbach's alpha from new data frame
+alpha(ESJ_d3)
+
+# Alpha for ESJ = .83
+
+## Y1 = Blame (P)---------------------------------------------------------------
+
+# STANDARDIZE ALL VARIABLES (they're on different scales)
+
+# First, create dataframe from raw varialbes
+BlameP_d3 <- d3[,c(29,30,31,32,33,38,39)]
+
+# Use scale to standardize that dataframe
+BlameP_d3_z <- scale(BlameP_d3)
+
+# Find average of standardized variables and add column to original df
+d3$BlameP_z_av <- rowMeans(BlameP_d3_z[,c(1,2,3,4,5,6,7)], na.rm = T)
+
+# Calculate Cronbach's alpha from raw dataframe
+alpha(BlameP_d3)
+
+# Alpha for Blame (P) = .88
+
+## Y2 = Stigma (P) -------------------------------------------------------------
+# Add average column
+d3$StigmaP_av <- rowMeans(d3[,c(40,41,42,43,44)], na.rm = T)
+
+# Create data frame from selected columns
+StigmaP_d3 <- d3[,c(40,41,42,43,44)]
+
+# Calculate Cronbach's alpha from new data frame
+alpha(StigmaP_d3)
+
+# Alpha for Stigma (P) = .93
+
+## Y3 = Likability (P) ---------------------------------------------------------
+# Add average column
+d3$LikabilityP_av <- rowMeans(d3[,c(55,56,57,58,59)], na.rm = T)
+
+# Create data frame from selected columns
+LikabilityP_d3 <- d3[,c(55,56,57,58,59)]
+
+# Calculate Cronbach's alpha from new data frame
+alpha(LikabilityP_d3)
+
+# Alpha for Likability (P) = .82
+
+## Y4 = Positive personality traits---------------------------------------------
+# Add average column
+d3$PersonalityP_av <- rowMeans(d3[,c(45,135,47,136,49,137,51,138,53,139)], 
+                               na.rm = T)
+
+# Create data frame from selected columns
+PersonalityP_d3 <- d3[,c(45,135,47,136,49,137,51,138,53,139)]
+
+# Calculate Cronbach's alpha from new data frame
+alpha(PersonalityP_d3)
+
+# Alpha for Personality (P) = .70
+
+## Y5 = Empathic concern (P) ---------------------------------------------------
+# Add average column
+d3$EmpathyP_av <- rowMeans(d3[,c(60,61,64,69,74,76)], na.rm = T)
+
+# Create data frame from selected columns
+EmpathyP_d3 <- d3[,c(60,61,64,69,74,76)]
+
+# Calculate Cronbach's alpha from new data frame
+alpha(EmpathyP_d3)
+
+# Alpha for Empathy (P) = .90
+
+## Y6 = Severity (P) -----------------------------------------------------------
+# Add average column
+d3$SeverityP_av <- rowMeans(d3[,c(21,22,25,26,27)], na.rm = T)
+
+# Create data frame from selected columns
+SeverityP_d3 <- d3[,c(21,22,25,26,27)]
+
+# Calculate Cronbach's alpha from new data frame
+alpha(SeverityP_d3)
+
+# Alpha for Severity (P) = .88
+
+### Histograms and boxplots ----------------------------------------------------
+## ESJ - Looks good
+hist(d3$ESJ_av)
+boxplot(d3$ESJ_av)
+
+## Blame (P) - Two low outliers (values = -2.65, -2.43)
+hist(d3$BlameP_z_av)
+boxplot(d3$BlameP_z_av)
+boxplot.stats(d3$BlameP_z_av)$out
+
+# Find value for 3 SDs below the mean (value = -2.37)
+mean(d3$BlameP_z_av) - (3*sd(d3$BlameP_z_av))
+
+# Both greater than 3 SDs below the mean, so change values
+d3$BlameP_z_av[which(d3$ResponseId == "2")] <- -2.37
+d3$BlameP_z_av[which(d3$ResponseId == "45")] <- -2.37
+
+## Stigma (P) - Looks good
+hist(d3$StigmaP_av)
+boxplot(d3$StigmaP_av)
+
+## Likability (P) - Looks good
+hist(d3$LikabilityP_av)
+boxplot(d3$LikabilityP_av)
+
+## Personality (P) - Three outliers low and six high (values = 1.3, 1.7, 4.2, 4.4, 
+## and 4.5)
+hist(d3$PersonalityP_av)
+boxplot(d3$PersonalityP_av)
+boxplot.stats(d3$PersonalityP_av)$out
+
+# Find value for 3 SDs above the mean (value = 4.52)
+mean(d3$PersonalityP_av) + (3*sd(d3$PersonalityP_av))
+
+# Find value for 3 SDs below the mean (value = 1.48)
+mean(d3$PersonalityP_av) - (3*sd(d3$PersonalityP_av))
+
+# One low outlier is greater than 3 SDs below the mean, so should be changed
+d3$PersonalityP_av[which(d3$ResponseId == "4")] <- 1.48
+
+## Empathy (P) - Four high outliers (Values = 5.66, 5.83, and 6.00)
+hist(d3$EmpathyP_av)
+boxplot(d3$EmpathyP_av)
+boxplot.stats(d3$EmpathyP_av)$out
+
+# Find value for 3 SDs above the mean (value = 5.74)
+mean(d3$EmpathyP_av) + (3*sd(d3$EmpathyP_av))
+
+# Two high outliers are greater than 3 SDs above the mean, so should be changed
+d3$EmpathyP_av[which(d3$ResponseId == "2")] <- 5.74
+d3$EmpathyP_av[which(d3$ResponseId == "270")] <- 5.74
+
+### Mean Center ESJ ------------------------------------------------------------
+d3$ESJ_av_c <- d3$ESJ_av - mean(d3$ESJ_av)
+
+### Set up Helmert contrasts ---------------------------------------------------
+## Reverse-code Atonement
+d3$Atonement_f_r <- dplyr::recode(d3$Atonement_fact, "2" = 0, "1" = 1, "0" = 2)
+
+## Change reverse-coded Atonement to factor variable
+d3$Atonement_fact_r <- as.factor(d3$Atonement_f_r)
+
+## Establish contrasts
+my.contrasts <- list(Atonement_fact_r = contr.helmert)
+
+### Split dataset by status condition ------------------------------------------
+d3_lo <- d3[which(d$SES == "0"),]
+d3_hi <- d3[which(d$SES == "1"),]
+
+### MAIN ANALYSES - REGRESSION -------------------------------------------------
+## RQ1A ------------------------------------------------------------------------
+# Y1: Blame
+RQ1A_Y1_3 <- lm(data = d3_hi, BlameP_z_av ~ ESJ_av_c*Atonement_fact_r, contrasts = 
+                  my.contrasts)
+summary(RQ1A_Y1_3)
+eta_squared(car::Anova(RQ1A_Y1_3, type = 3))
+
+#Y2: Stigma
+RQ1A_Y2_3 <- lm(data = d3_hi, StigmaP_av ~ ESJ_av*Atonement_fact_r, contrasts =
+                  my.contrasts)
+summary(RQ1A_Y2_3)
+eta_squared(car::Anova(RQ1A_Y2_3, type = 3))
+plot_model(RQ1A_Y2_3, type = "pred", terms = c("Atonement_fact_r", "ESJ_av"))
+
+#Y3: Likability
+RQ1A_Y3_3 <- lm(data = d3_hi, LikabilityP_av ~ ESJ_av*Atonement_fact_r, contrasts =
+                  my.contrasts)
+summary(RQ1A_Y3_3)
+eta_squared(car::Anova(RQ1A_Y3_3, type = 3))
+
+#Y4: Personality
+RQ1A_Y4_3 <- lm(data = d3_hi, PersonalityP_av ~ ESJ_av*Atonement_fact_r, contrasts =
+                  my.contrasts)
+summary(RQ1A_Y4_3)
+eta_squared(car::Anova(RQ1A_Y4_3, type = 3))
+
+#Y5: Empathy
+RQ1A_Y5_3 <- lm(data = d3_hi, EmpathyP_av ~ ESJ_av*Atonement_fact_r, contrasts =
+                  my.contrasts)
+summary(RQ1A_Y5_3)
+eta_squared(car::Anova(RQ1A_Y5_3, type = 3))
+
+## RQ1B ------------------------------------------------------------------------
+# Y1: Blame
+RQ1B_Y1_3 <- lm(data = d3_lo, BlameP_z_av ~ ESJ_av_c*Atonement_fact_r, contrasts = 
+                  my.contrasts)
+summary(RQ1B_Y1_3)
+eta_squared(car::Anova(RQ1B_Y1_3, type = 3))
+
+#Y2: Stigma
+RQ1B_Y2_3 <- lm(data = d3_lo, StigmaP_av ~ ESJ_av*Atonement_fact_r, contrasts =
+                  my.contrasts)
+summary(RQ1B_Y2_3)
+eta_squared(car::Anova(RQ1B_Y2_3, type = 3))
+
+#Y3: Likability
+RQ1B_Y3_3 <- lm(data = d3_lo, LikabilityP_av ~ ESJ_av*Atonement_fact_r, contrasts =
+                  my.contrasts)
+summary(RQ1B_Y3_3)
+eta_squared(car::Anova(RQ1B_Y3_3, type = 3))
+
+#Y4: Personality
+RQ1B_Y4_3 <- lm(data = d3_lo, PersonalityP_av ~ ESJ_av*Atonement_fact_r, contrasts =
+                  my.contrasts)
+summary(RQ1B_Y4_3)
+eta_squared(car::Anova(RQ1B_Y4_23, type = 3))
+plot_model(RQ1B_Y4_3, type = "pred", terms = c("Atonement_fact_r", "ESJ_av"))
+
+#Y5: Empathy
+RQ1B_Y5_3 <- lm(data = d3_lo, EmpathyP_av ~ ESJ_av*Atonement_fact_r, contrasts =
+                  my.contrasts)
+summary(RQ1B_Y5_3)
+eta_squared(car::Anova(RQ1B_Y5_3, type = 3))
+
+## Exploratory 3-way interaction -----------------------------------------------
+# Y1: Blame
+RQExp_Y1_3 <- lm(data = d3, BlameP_z_av ~ ESJ_av_c*Atonement_fact_r*SES, contrasts = 
+                   my.contrasts)
+summary(RQExp_Y1_3)
+eta_squared(car::Anova(RQExp_Y1_3, type = 3))
+
+#Y2: Stigma
+RQExp_Y2_3 <- lm(data = d3, StigmaP_av ~ ESJ_av*Atonement_fact_r*SES, contrasts =
+                   my.contrasts)
+summary(RQExp_Y2_3)
+eta_squared(car::Anova(RQExp_Y2_3, type = 3))
+
+#Y3: Likability
+RQExp_Y3_3 <- lm(data = d3, LikabilityP_av ~ ESJ_av*Atonement_fact_r*SES, contrasts =
+                   my.contrasts)
+summary(RQExp_Y3_3)
+eta_squared(car::Anova(RQExp_Y3_3, type = 3))
+
+#Y4: Personality
+RQExp_Y4_3 <- lm(data = d3, PersonalityP_av ~ ESJ_av*Atonement_fact_r*SES, contrasts =
+                   my.contrasts)
+summary(RQExp_Y4_3)
+eta_squared(car::Anova(RQExp_Y4_3, type = 3))
+
+#Y5: Empathy
+RQExp_Y5_3 <- lm(data = d3, EmpathyP_av ~ ESJ_av*Atonement_fact_r*SES, contrasts =
+                   my.contrasts)
+summary(RQExp_Y5_3)
+eta_squared(car::Anova(RQExp_Y5_3, type = 3))
 
 
 
