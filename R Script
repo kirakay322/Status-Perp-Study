@@ -690,11 +690,6 @@ plot_model(RQExp_Y5_2, type = "pred", terms = c("Atonement_fact_r", "ESJ_av", "S
 
 ### Set WD, then load in dataset and load packages -----------------------------
 d3 <- read.csv("PSS_SONA_CLEAN.csv")
-library(psych)
-library(dplyr)
-library(effectsize)
-library(interactions)
-library(sjPlot)
 
 ### Check it out ---------------------------------------------------------------
 View(d3)
@@ -786,11 +781,11 @@ d3$Like_P3 <- dplyr::recode(d3$Like_P3, "1" = 1, "2" = 2, "3" = 3,
 ### Create average columns -----------------------------------------------------
 ## ESJ -------------------------------------------------------------------------
 # Add average column
-d3$ESJ_av <- rowMeans(d3[,c(2,3,4,128,6,129,10,130,12,131,14,15,132,17,133,19,
-                            134)], na.rm = T)
+d3$ESJ_av <- rowMeans(d3[,c(2,3,4,125,6,126,9,127,11,128,13,14,129,16,130,18,
+                            131)], na.rm = T)
 
 # Create data frame from selected columns
-ESJ_d3 <- d3[,c(2,3,4,128,6,129,10,130,12,131,14,15,132,17,133,19,134)]
+ESJ_d3 <- d3[,c(2,3,4,125,6,126,9,127,11,128,13,14,129,16,130,18,131)]
 
 # Calculate Cronbach's alpha from new data frame
 alpha(ESJ_d3)
@@ -802,7 +797,7 @@ alpha(ESJ_d3)
 # STANDARDIZE ALL VARIABLES (they're on different scales)
 
 # First, create dataframe from raw varialbes
-BlameP_d3 <- d3[,c(29,30,31,32,33,38,39)]
+BlameP_d3 <- d3[,c(27,28,29,30,31,36,37)]
 
 # Use scale to standardize that dataframe
 BlameP_d3_z <- scale(BlameP_d3)
@@ -817,10 +812,10 @@ alpha(BlameP_d3)
 
 ## Y2 = Stigma (P) -------------------------------------------------------------
 # Add average column
-d3$StigmaP_av <- rowMeans(d3[,c(40,41,42,43,44)], na.rm = T)
+d3$StigmaP_av <- rowMeans(d3[,c(38,39,40,41,42)], na.rm = T)
 
 # Create data frame from selected columns
-StigmaP_d3 <- d3[,c(40,41,42,43,44)]
+StigmaP_d3 <- d3[,c(38,39,40,41,42)]
 
 # Calculate Cronbach's alpha from new data frame
 alpha(StigmaP_d3)
@@ -829,10 +824,10 @@ alpha(StigmaP_d3)
 
 ## Y3 = Likability (P) ---------------------------------------------------------
 # Add average column
-d3$LikabilityP_av <- rowMeans(d3[,c(55,56,57,58,59)], na.rm = T)
+d3$LikabilityP_av <- rowMeans(d3[,c(53,54,55,56,57)], na.rm = T)
 
 # Create data frame from selected columns
-LikabilityP_d3 <- d3[,c(55,56,57,58,59)]
+LikabilityP_d3 <- d3[,c(53,54,55,56,57)]
 
 # Calculate Cronbach's alpha from new data frame
 alpha(LikabilityP_d3)
@@ -841,11 +836,11 @@ alpha(LikabilityP_d3)
 
 ## Y4 = Positive personality traits---------------------------------------------
 # Add average column
-d3$PersonalityP_av <- rowMeans(d3[,c(45,135,47,136,49,137,51,138,53,139)], 
+d3$PersonalityP_av <- rowMeans(d3[,c(43,132,45,133,47,134,49,135,51,136)], 
                                na.rm = T)
 
 # Create data frame from selected columns
-PersonalityP_d3 <- d3[,c(45,135,47,136,49,137,51,138,53,139)]
+PersonalityP_d3 <- d3[,c(43,132,45,133,47,134,49,135,51,136)]
 
 # Calculate Cronbach's alpha from new data frame
 alpha(PersonalityP_d3)
@@ -854,10 +849,10 @@ alpha(PersonalityP_d3)
 
 ## Y5 = Empathic concern (P) ---------------------------------------------------
 # Add average column
-d3$EmpathyP_av <- rowMeans(d3[,c(60,61,64,69,74,76)], na.rm = T)
+d3$EmpathyP_av <- rowMeans(d3[,c(58,59,62,67,72,74)], na.rm = T)
 
 # Create data frame from selected columns
-EmpathyP_d3 <- d3[,c(60,61,64,69,74,76)]
+EmpathyP_d3 <- d3[,c(58,59,62,67,72,74)]
 
 # Calculate Cronbach's alpha from new data frame
 alpha(EmpathyP_d3)
@@ -866,10 +861,10 @@ alpha(EmpathyP_d3)
 
 ## Y6 = Severity (P) -----------------------------------------------------------
 # Add average column
-d3$SeverityP_av <- rowMeans(d3[,c(21,22,25,26,27)], na.rm = T)
+d3$SeverityP_av <- rowMeans(d3[,c(20,21,23,24,25)], na.rm = T)
 
 # Create data frame from selected columns
-SeverityP_d3 <- d3[,c(21,22,25,26,27)]
+SeverityP_d3 <- d3[,c(20,21,23,24,25)]
 
 # Calculate Cronbach's alpha from new data frame
 alpha(SeverityP_d3)
@@ -1040,7 +1035,6 @@ RQExp_Y5_3 <- lm(data = d3, EmpathyP_av ~ ESJ_av*Atonement_fact_r*SES, contrasts
                    my.contrasts)
 summary(RQExp_Y5_3)
 eta_squared(car::Anova(RQExp_Y5_3, type = 3))
-
 
 
 ############################################Allison's Script############################################
