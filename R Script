@@ -943,8 +943,8 @@ d3_hi <- d3[which(d$SES == "1"),]
 ### MAIN ANALYSES - REGRESSION -------------------------------------------------
 ## RQ1A ------------------------------------------------------------------------
 # Y1: Blame
-RQ1A_Y1_3 <- lm(data = d3_hi, BlameP_z_av ~ ESJ_av_c*Atonement_fact_r, contrasts = 
-                  my.contrasts)
+RQ1A_Y1_3 <- lm(data = d3_hi, BlameP_z_av ~ ESJ_av_c*Atonement_fact_r, contrasts 
+= my.contrasts)
 summary(RQ1A_Y1_3)
 eta_squared(car::Anova(RQ1A_Y1_3, type = 3))
 
@@ -956,27 +956,27 @@ eta_squared(car::Anova(RQ1A_Y2_3, type = 3))
 plot_model(RQ1A_Y2_3, type = "pred", terms = c("Atonement_fact_r", "ESJ_av"))
 
 #Y3: Likability
-RQ1A_Y3_3 <- lm(data = d3_hi, LikabilityP_av ~ ESJ_av*Atonement_fact_r, contrasts =
-                  my.contrasts)
+RQ1A_Y3_3 <- lm(data = d3_hi, LikabilityP_av ~ ESJ_av*Atonement_fact_r, 
+contrasts = my.contrasts)
 summary(RQ1A_Y3_3)
 eta_squared(car::Anova(RQ1A_Y3_3, type = 3))
 
 #Y4: Personality
-RQ1A_Y4_3 <- lm(data = d3_hi, PersonalityP_av ~ ESJ_av*Atonement_fact_r, contrasts =
-                  my.contrasts)
+RQ1A_Y4_3 <- lm(data = d3_hi, PersonalityP_av ~ ESJ_av*Atonement_fact_r, 
+contrasts = my.contrasts)
 summary(RQ1A_Y4_3)
 eta_squared(car::Anova(RQ1A_Y4_3, type = 3))
 
 #Y5: Empathy
-RQ1A_Y5_3 <- lm(data = d3_hi, EmpathyP_av ~ ESJ_av*Atonement_fact_r, contrasts =
-                  my.contrasts)
+RQ1A_Y5_3 <- lm(data = d3_hi, EmpathyP_av ~ ESJ_av*Atonement_fact_r, contrasts 
+= my.contrasts)
 summary(RQ1A_Y5_3)
 eta_squared(car::Anova(RQ1A_Y5_3, type = 3))
 
 ## RQ1B ------------------------------------------------------------------------
 # Y1: Blame
-RQ1B_Y1_3 <- lm(data = d3_lo, BlameP_z_av ~ ESJ_av_c*Atonement_fact_r, contrasts = 
-                  my.contrasts)
+RQ1B_Y1_3 <- lm(data = d3_lo, BlameP_z_av ~ ESJ_av_c*Atonement_fact_r, contrasts 
+= my.contrasts)
 summary(RQ1B_Y1_3)
 eta_squared(car::Anova(RQ1B_Y1_3, type = 3))
 
@@ -987,14 +987,14 @@ summary(RQ1B_Y2_3)
 eta_squared(car::Anova(RQ1B_Y2_3, type = 3))
 
 #Y3: Likability
-RQ1B_Y3_3 <- lm(data = d3_lo, LikabilityP_av ~ ESJ_av*Atonement_fact_r, contrasts =
-                  my.contrasts)
+RQ1B_Y3_3 <- lm(data = d3_lo, LikabilityP_av ~ ESJ_av*Atonement_fact_r, contrasts 
+= my.contrasts)
 summary(RQ1B_Y3_3)
 eta_squared(car::Anova(RQ1B_Y3_3, type = 3))
 
 #Y4: Personality
-RQ1B_Y4_3 <- lm(data = d3_lo, PersonalityP_av ~ ESJ_av*Atonement_fact_r, contrasts =
-                  my.contrasts)
+RQ1B_Y4_3 <- lm(data = d3_lo, PersonalityP_av ~ ESJ_av*Atonement_fact_r, 
+contrasts = my.contrasts)
 summary(RQ1B_Y4_3)
 eta_squared(car::Anova(RQ1B_Y4_23, type = 3))
 plot_model(RQ1B_Y4_3, type = "pred", terms = c("Atonement_fact_r", "ESJ_av"))
@@ -1007,34 +1007,673 @@ eta_squared(car::Anova(RQ1B_Y5_3, type = 3))
 
 ## Exploratory 3-way interaction -----------------------------------------------
 # Y1: Blame
-RQExp_Y1_3 <- lm(data = d3, BlameP_z_av ~ ESJ_av_c*Atonement_fact_r*SES, contrasts = 
-                   my.contrasts)
+RQExp_Y1_3 <- lm(data = d3, BlameP_z_av ~ ESJ_av_c*Atonement_fact_r*SES, 
+contrasts = my.contrasts)
 summary(RQExp_Y1_3)
 eta_squared(car::Anova(RQExp_Y1_3, type = 3))
 
 #Y2: Stigma
-RQExp_Y2_3 <- lm(data = d3, StigmaP_av ~ ESJ_av*Atonement_fact_r*SES, contrasts =
-                   my.contrasts)
+RQExp_Y2_3 <- lm(data = d3, StigmaP_av ~ ESJ_av*Atonement_fact_r*SES, contrasts 
+= my.contrasts)
 summary(RQExp_Y2_3)
 eta_squared(car::Anova(RQExp_Y2_3, type = 3))
 
 #Y3: Likability
-RQExp_Y3_3 <- lm(data = d3, LikabilityP_av ~ ESJ_av*Atonement_fact_r*SES, contrasts =
-                   my.contrasts)
+RQExp_Y3_3 <- lm(data = d3, LikabilityP_av ~ ESJ_av*Atonement_fact_r*SES, 
+contrasts = my.contrasts)
 summary(RQExp_Y3_3)
 eta_squared(car::Anova(RQExp_Y3_3, type = 3))
 
 #Y4: Personality
-RQExp_Y4_3 <- lm(data = d3, PersonalityP_av ~ ESJ_av*Atonement_fact_r*SES, contrasts =
-                   my.contrasts)
+RQExp_Y4_3 <- lm(data = d3, PersonalityP_av ~ ESJ_av*Atonement_fact_r*SES, 
+contrasts = my.contrasts)
 summary(RQExp_Y4_3)
 eta_squared(car::Anova(RQExp_Y4_3, type = 3))
 
 #Y5: Empathy
-RQExp_Y5_3 <- lm(data = d3, EmpathyP_av ~ ESJ_av*Atonement_fact_r*SES, contrasts =
-                   my.contrasts)
+RQExp_Y5_3 <- lm(data = d3, EmpathyP_av ~ ESJ_av*Atonement_fact_r*SES, contrasts 
+= my.contrasts)
 summary(RQExp_Y5_3)
 eta_squared(car::Anova(RQExp_Y5_3, type = 3))
+
+############################### MEGA-ANALYSIS ##################################
+
+### Export edited dataframes from R --------------------------------------------
+write.csv(d, "/Users/Kira/Desktop/PSS/PSSAnalyses\\Prolific1_REdit.csv", 
+          row.names = FALSE)
+write.csv(d2, "/Users/Kira/Desktop/PSS/PSSAnalyses\\Prolific2_REdit.csv", 
+          row.names = FALSE)
+write.csv(d3, "/Users/Kira/Desktop/PSS/PSSAnalyses\\SONA_REdit.csv", 
+          row.names = FALSE)
+
+### In Excel: Combine datasets. Create a new variable called "Sample" and code
+### Prolific 1 as 0, Prolific 2 as 1, and SONA as 2. Edit "ResponseID" for
+### Prolific 2 and SONA samples, so that the response IDs continue numerically
+### from the Prolific 1 response IDs. Then save that .csv file as 
+### "PSS_Pooled_CLEAN_REdit.csv."
+
+d4 <- read.csv("PSS_Pooled_CLEAN_REdit.csv")
+
+### Check it out ---------------------------------------------------------------
+View(d4)
+describe(d4)
+
+### Dummy code Sample variable -------------------------------------------------
+## Prolific 1 (S1 = 1, S2 = 0, S3 = 0)
+d4$Pro1 <- recode(d4$Sample, "0" = 1, "1" = 0, "2" = 0)
+
+## Prolific 2 (S1 = 0, S2 = 1, S3 = 0)
+d4$Pro2 <- recode(d4$Sample, "0" = 0, "1" = 1, "2" = 0)
+
+## SONA (S1 = 0, S2 = 0, S3 = 1)
+d4$SONA <- recode(d4$Sample, "0" = 0, "1" = 0, "2" = 1)
+
+### Split D4 by Status ---------------------------------------------------------
+d4_lo <- d4[which(d4$SES == "0"),]
+d4_hi <- d4[which(d4$SES == "1"),]
+
+### RQ1A -----------------------------------------------------------------------
+## Y1: Blame
+# Regression table
+# Step 0: Intercept
+RQ1A_Y1_step0 <- lm(BlameP_z_av ~ 1, data = d4_hi)
+summary(RQ1A_Y1_step0)
+
+# Step 1: Control variables
+RQ1A_Y1_step1 <- lm(BlameP_z_av ~ Pro1 + Pro2 + SONA, data = d4_hi)
+summary(RQ1A_Y1_step1)
+
+anova(RQ1A_Y1_step0, RQ1A_Y1_step1)
+RQ1A_Y1_rs1 <- summary(RQ1A_Y1_step0)$r.squared
+RQ1A_Y1_rs2 <- summary(RQ1A_Y1_step1)$r.squared
+RQ1A_Y1_rs.change1 <- RQ1A_Y1_rs1-RQ1A_Y1_rs2 # provides R-sqd-change
+RQ1A_Y1_rs.change1
+
+# Step 2: IVs of interest
+
+RQ1A_Y1_step2 <- lm(BlameP_z_av ~ Pro1 + Pro2 + SONA + ESJ_av_c + 
+                       Atonement_fact, data = d4_hi)
+summary(RQ1A_Y1_step2)
+
+anova(RQ1A_Y1_step1, RQ1A_Y1_step2)
+RQ1A_Y1_rs3 <- summary(RQ1A_Y1_step1)$r.squared
+RQ1A_Y1_rs4 <- summary(RQ1A_Y1_step2)$r.squared
+RQ1A_Y1_rs.change2 <-RQ1A_Y1_rs3-RQ1A_Y1_rs4 # provides R-sqd-change
+RQ1A_Y1_rs.change2
+
+# Step 3: Interactions
+
+RQ1A_Y1_step3 <- lm(BlameP_z_av ~ Pro1 + Pro2 + SONA + ESJ_av_c*Atonement_fact, 
+                     data = d4_hi)
+summary(RQ1A_Y1_step3)
+
+anova(RQ1A_Y1_step2, RQ1A_Y1_step3)
+RQ1A_Y1_rs5 <- summary(RQ1A_Y1_step2)$r.squared
+RQ1A_Y1_rs6 <- summary(RQ1A_Y1_step3)$r.squared
+RQ1A_Y1_rs.change3 <- RQ1A_Y1_rs5-RQ1A_Y1_rs6 # provides R-sqd-change
+RQ1A_Y1_rs.change3
+
+## Y2: Blame
+# Regression table
+# Step 0: Intercept
+RQ1A_Y2_step0 <- lm(StigmaP_av ~ 1, data = d4_hi)
+summary(RQ1A_Y2_step0)
+
+# Step 1: Control variables
+RQ1A_Y2_step1 <- lm(StigmaP_av ~ Pro1 + Pro2 + SONA, data = d4_hi)
+summary(RQ1A_Y2_step1)
+
+anova(RQ1A_Y2_step0, RQ1A_Y2_step1)
+RQ1A_Y2_rs1 <- summary(RQ1A_Y2_step0)$r.squared
+RQ1A_Y2_rs2 <- summary(RQ1A_Y2_step1)$r.squared
+RQ1A_Y2_rs.change1 <- RQ1A_Y2_rs1-RQ1A_Y2_rs2 # provides R-sqd-change
+RQ1A_Y2_rs.change1
+
+# Step 2: IVs of interest
+
+RQ1A_Y2_step2 <- lm(StigmaP_av ~ Pro1 + Pro2 + SONA + ESJ_av_c + 
+                       Atonement_fact, data = d4_hi)
+summary(RQ1A_Y2_step2)
+
+anova(RQ1A_Y2_step1, RQ1A_Y2_step2)
+RQ1A_Y2_rs3 <- summary(RQ1A_Y2_step1)$r.squared
+RQ1A_Y2_rs4 <- summary(RQ1A_Y2_step2)$r.squared
+RQ1A_Y2_rs.change2 <-RQ1A_Y2_rs3-RQ1A_Y2_rs4 # provides R-sqd-change
+RQ1A_Y2_rs.change2
+
+# Step 3: Interactions
+
+RQ1A_Y2_step3 <- lm(StigmaP_av ~ Pro1 + Pro2 + SONA + ESJ_av_c*Atonement_fact, 
+                     data = d4_hi)
+summary(RQ1A_Y2_step3)
+
+anova(RQ1A_Y2_step2, RQ1A_Y2_step3)
+RQ1A_Y2_rs5 <- summary(RQ1A_Y2_step2)$r.squared
+RQ1A_Y2_rs6 <- summary(RQ1A_Y2_step3)$r.squared
+RQ1A_Y2_rs.change3 <- RQ1A_Y2_rs5-RQ1A_Y2_rs6 # provides R-sqd-change
+RQ1A_Y2_rs.change3
+
+## Y3: Likability
+# Regression table
+# Step 0: Intercept
+RQ1A_Y3_step0 <- lm(LikabilityP_av ~ 1, data = d4_hi)
+summary(RQ1A_Y3_step0)
+
+# Step 1: Control variables
+RQ1A_Y3_step1 <- lm(LikabilityP_av ~ Pro1 + Pro2 + SONA, data = d4_hi)
+summary(RQ1A_Y3_step1)
+
+anova(RQ1A_Y3_step0, RQ1A_Y3_step1)
+RQ1A_Y3_rs1 <- summary(RQ1A_Y3_step0)$r.squared
+RQ1A_Y3_rs2 <- summary(RQ1A_Y3_step1)$r.squared
+RQ1A_Y3_rs.change1 <- RQ1A_Y3_rs1-RQ1A_Y3_rs2 # provides R-sqd-change
+RQ1A_Y3_rs.change1
+
+# Step 2: IVs of interest
+
+RQ1A_Y3_step2 <- lm(LikabilityP_av ~ Pro1 + Pro2 + SONA + ESJ_av_c + 
+                       Atonement_fact, data = d4_hi)
+summary(RQ1A_Y3_step2)
+
+anova(RQ1A_Y3_step1, RQ1A_Y3_step2)
+RQ1A_Y3_rs3 <- summary(RQ1A_Y3_step1)$r.squared
+RQ1A_Y3_rs4 <- summary(RQ1A_Y3_step2)$r.squared
+RQ1A_Y3_rs.change2 <-RQ1A_Y3_rs3-RQ1A_Y3_rs4 # provides R-sqd-change
+RQ1A_Y3_rs.change2
+
+# Step 3: Interactions
+
+RQ1A_Y3_step3 <- lm(LikabilityP_av ~ Pro1 + Pro2 + SONA + ESJ_av_c*
+                       Atonement_fact, data = d4_hi)
+summary(RQ1A_Y3_step3)
+
+anova(RQ1A_Y3_step2, RQ1A_Y3_step3)
+RQ1A_Y3_rs5 <- summary(RQ1A_Y3_step2)$r.squared
+RQ1A_Y3_rs6 <- summary(RQ1A_Y3_step3)$r.squared
+RQ1A_Y3_rs.change3 <- RQ1A_Y3_rs5-RQ1A_Y3_rs6 # provides R-sqd-change
+RQ1A_Y3_rs.change3
+
+## Y4: Personality
+# Regression table
+# Step 0: Intercept
+RQ1A_Y4_step0 <- lm(PersonalityP_av ~ 1, data = d4_hi)
+summary(RQ1A_Y4_step0)
+
+# Step 1: Control variables
+RQ1A_Y4_step1 <- lm(PersonalityP_av ~ Pro1 + Pro2 + SONA, data = d4_hi)
+summary(RQ1A_Y4_step1)
+
+anova(RQ1A_Y4_step0, RQ1A_Y4_step1)
+RQ1A_Y4_rs1 <- summary(RQ1A_Y4_step0)$r.squared
+RQ1A_Y4_rs2 <- summary(RQ1A_Y4_step1)$r.squared
+RQ1A_Y4_rs.change1 <- RQ1A_Y4_rs1-RQ1A_Y4_rs2 # provides R-sqd-change
+RQ1A_Y4_rs.change1
+
+# Step 2: IVs of interest
+
+RQ1A_Y4_step2 <- lm(PersonalityP_av ~ Pro1 + Pro2 + SONA + ESJ_av_c + 
+                       Atonement_fact, data = d4_hi)
+summary(RQ1A_Y4_step2)
+
+anova(RQ1A_Y4_step1, RQ1A_Y4_step2)
+RQ1A_Y4_rs3 <- summary(RQ1A_Y4_step1)$r.squared
+RQ1A_Y4_rs4 <- summary(RQ1A_Y4_step2)$r.squared
+RQ1A_Y4_rs.change2 <-RQ1A_Y4_rs3-RQ1A_Y4_rs4 # provides R-sqd-change
+RQ1A_Y4_rs.change2
+
+# Step 3: Interactions
+
+RQ1A_Y4_step3 <- lm(PersonalityP_av ~ Pro1 + Pro2 + SONA + ESJ_av_c*
+                       Atonement_fact, data = d4_hi)
+summary(RQ1A_Y4_step3)
+
+anova(RQ1A_Y4_step2, RQ1A_Y4_step3)
+RQ1A_Y4_rs5 <- summary(RQ1A_Y4_step2)$r.squared
+RQ1A_Y4_rs6 <- summary(RQ1A_Y4_step3)$r.squared
+RQ1A_Y4_rs.change3 <- RQ1A_Y4_rs5-RQ1A_Y4_rs6 # provides R-sqd-change
+RQ1A_Y4_rs.change3
+
+## Y5: Empathy
+# Regression table
+# Step 0: Intercept
+RQ1A_Y5_step0 <- lm(EmpathyP_av ~ 1, data = d4_hi)
+summary(RQ1A_Y5_step0)
+
+# Step 1: Control variables
+RQ1A_Y5_step1 <- lm(EmpathyP_av ~ Pro1 + Pro2 + SONA, data = d4_hi)
+summary(RQ1A_Y5_step1)
+
+anova(RQ1A_Y5_step0, RQ1A_Y5_step1)
+RQ1A_Y5_rs1 <- summary(RQ1A_Y5_step0)$r.squared
+RQ1A_Y5_rs2 <- summary(RQ1A_Y5_step1)$r.squared
+RQ1A_Y5_rs.change1 <- RQ1A_Y5_rs1-RQ1A_Y5_rs2 # provides R-sqd-change
+RQ1A_Y5_rs.change1
+
+# Step 2: IVs of interest
+
+RQ1A_Y5_step2 <- lm(EmpathyP_av ~ Pro1 + Pro2 + SONA + ESJ_av_c + 
+                       Atonement_fact, data = d4_hi)
+summary(RQ1A_Y5_step2)
+
+anova(RQ1A_Y5_step1, RQ1A_Y5_step2)
+RQ1A_Y5_rs3 <- summary(RQ1A_Y5_step1)$r.squared
+RQ1A_Y5_rs4 <- summary(RQ1A_Y5_step2)$r.squared
+RQ1A_Y5_rs.change2 <-RQ1A_Y5_rs3-RQ1A_Y5_rs4 # provides R-sqd-change
+RQ1A_Y5_rs.change2
+
+# Step 3: Interactions
+
+RQ1A_Y5_step3 <- lm(EmpathyP_av ~ Pro1 + Pro2 + SONA + ESJ_av_c*
+                       Atonement_fact, data = d4_hi)
+summary(RQ1A_Y5_step3)
+
+anova(RQ1A_Y5_step2, RQ1A_Y5_step3)
+RQ1A_Y5_rs5 <- summary(RQ1A_Y5_step2)$r.squared
+RQ1A_Y5_rs6 <- summary(RQ1A_Y5_step3)$r.squared
+RQ1A_Y5_rs.change3 <- RQ1A_Y5_rs5-RQ1A_Y5_rs6 # provides R-sqd-change
+RQ1A_Y5_rs.change3
+
+### RQ1B -----------------------------------------------------------------------
+## Y1: Blame
+# Regression table
+# Step 0: Intercept
+RQ1B_Y1_step0 <- lm(BlameP_z_av ~ 1, data = d4_lo)
+summary(RQ1B_Y1_step0)
+
+# Step 1: Control variables
+RQ1B_Y1_step1 <- lm(BlameP_z_av ~ Pro1 + Pro2 + SONA, data = d4_lo)
+summary(RQ1B_Y1_step1)
+
+anova(RQ1B_Y1_step0, RQ1B_Y1_step1)
+RQ1B_Y1_rs1 <- summary(RQ1B_Y1_step0)$r.squared
+RQ1B_Y1_rs2 <- summary(RQ1B_Y1_step1)$r.squared
+RQ1B_Y1_rs.change1 <- RQ1B_Y1_rs1-RQ1B_Y1_rs2 # provides R-sqd-change
+RQ1B_Y1_rs.change1
+
+# Step 2: IVs of interest
+
+RQ1B_Y1_step2 <- lm(BlameP_z_av ~ Pro1 + Pro2 + SONA + ESJ_av_c + 
+                      Atonement_fact, data = d4_lo)
+summary(RQ1B_Y1_step2)
+
+anova(RQ1B_Y1_step1, RQ1B_Y1_step2)
+RQ1B_Y1_rs3 <- summary(RQ1B_Y1_step1)$r.squared
+RQ1B_Y1_rs4 <- summary(RQ1B_Y1_step2)$r.squared
+RQ1B_Y1_rs.change2 <-RQ1B_Y1_rs3-RQ1B_Y1_rs4 # provides R-sqd-change
+RQ1B_Y1_rs.change2
+
+# Step 3: Interactions
+
+RQ1B_Y1_step3 <- lm(BlameP_z_av ~ Pro1 + Pro2 + SONA + ESJ_av_c*Atonement_fact, 
+                    data = d4_lo)
+summary(RQ1B_Y1_step3)
+
+anova(RQ1B_Y1_step2, RQ1B_Y1_step3)
+RQ1B_Y1_rs5 <- summary(RQ1B_Y1_step2)$r.squared
+RQ1B_Y1_rs6 <- summary(RQ1B_Y1_step3)$r.squared
+RQ1B_Y1_rs.change3 <- RQ1B_Y1_rs5-RQ1B_Y1_rs6 # provides R-sqd-change
+RQ1B_Y1_rs.change3
+
+## Y2: Blame
+# Regression table
+# Step 0: Intercept
+RQ1B_Y2_step0 <- lm(StigmaP_av ~ 1, data = d4_lo)
+summary(RQ1B_Y2_step0)
+
+# Step 1: Control variables
+RQ1B_Y2_step1 <- lm(StigmaP_av ~ Pro1 + Pro2 + SONA, data = d4_lo)
+summary(RQ1B_Y2_step1)
+
+anova(RQ1B_Y2_step0, RQ1B_Y2_step1)
+RQ1B_Y2_rs1 <- summary(RQ1B_Y2_step0)$r.squared
+RQ1B_Y2_rs2 <- summary(RQ1B_Y2_step1)$r.squared
+RQ1B_Y2_rs.change1 <- RQ1B_Y2_rs1-RQ1B_Y2_rs2 # provides R-sqd-change
+RQ1B_Y2_rs.change1
+
+# Step 2: IVs of interest
+
+RQ1B_Y2_step2 <- lm(StigmaP_av ~ Pro1 + Pro2 + SONA + ESJ_av_c + 
+                      Atonement_fact, data = d4_lo)
+summary(RQ1B_Y2_step2)
+
+anova(RQ1B_Y2_step1, RQ1B_Y2_step2)
+RQ1B_Y2_rs3 <- summary(RQ1B_Y2_step1)$r.squared
+RQ1B_Y2_rs4 <- summary(RQ1B_Y2_step2)$r.squared
+RQ1B_Y2_rs.change2 <-RQ1B_Y2_rs3-RQ1B_Y2_rs4 # provides R-sqd-change
+RQ1B_Y2_rs.change2
+
+# Step 3: Interactions
+
+RQ1B_Y2_step3 <- lm(StigmaP_av ~ Pro1 + Pro2 + SONA + ESJ_av_c*Atonement_fact, 
+                    data = d4_lo)
+summary(RQ1B_Y2_step3)
+
+anova(RQ1B_Y2_step2, RQ1B_Y2_step3)
+RQ1B_Y2_rs5 <- summary(RQ1B_Y2_step2)$r.squared
+RQ1B_Y2_rs6 <- summary(RQ1B_Y2_step3)$r.squared
+RQ1B_Y2_rs.change3 <- RQ1B_Y2_rs5-RQ1B_Y2_rs6 # provides R-sqd-change
+RQ1B_Y2_rs.change3
+
+## Y3: Likability
+# Regression table
+# Step 0: Intercept
+RQ1B_Y3_step0 <- lm(LikabilityP_av ~ 1, data = d4_lo)
+summary(RQ1B_Y3_step0)
+
+# Step 1: Control variables
+RQ1B_Y3_step1 <- lm(LikabilityP_av ~ Pro1 + Pro2 + SONA, data = d4_lo)
+summary(RQ1B_Y3_step1)
+
+anova(RQ1B_Y3_step0, RQ1B_Y3_step1)
+RQ1B_Y3_rs1 <- summary(RQ1B_Y3_step0)$r.squared
+RQ1B_Y3_rs2 <- summary(RQ1B_Y3_step1)$r.squared
+RQ1B_Y3_rs.change1 <- RQ1B_Y3_rs1-RQ1B_Y3_rs2 # provides R-sqd-change
+RQ1B_Y3_rs.change1
+
+# Step 2: IVs of interest
+
+RQ1B_Y3_step2 <- lm(LikabilityP_av ~ Pro1 + Pro2 + SONA + ESJ_av_c + 
+                      Atonement_fact, data = d4_lo)
+summary(RQ1B_Y3_step2)
+
+anova(RQ1B_Y3_step1, RQ1B_Y3_step2)
+RQ1B_Y3_rs3 <- summary(RQ1B_Y3_step1)$r.squared
+RQ1B_Y3_rs4 <- summary(RQ1B_Y3_step2)$r.squared
+RQ1B_Y3_rs.change2 <-RQ1B_Y3_rs3-RQ1B_Y3_rs4 # provides R-sqd-change
+RQ1B_Y3_rs.change2
+
+# Step 3: Interactions
+
+RQ1B_Y3_step3 <- lm(LikabilityP_av ~ Pro1 + Pro2 + SONA + ESJ_av_c*
+                      Atonement_fact, data = d4_lo)
+summary(RQ1B_Y3_step3)
+
+anova(RQ1B_Y3_step2, RQ1B_Y3_step3)
+RQ1B_Y3_rs5 <- summary(RQ1B_Y3_step2)$r.squared
+RQ1B_Y3_rs6 <- summary(RQ1B_Y3_step3)$r.squared
+RQ1B_Y3_rs.change3 <- RQ1B_Y3_rs5-RQ1B_Y3_rs6 # provides R-sqd-change
+RQ1B_Y3_rs.change3
+
+## Y4: Personality
+# Regression table
+# Step 0: Intercept
+RQ1B_Y4_step0 <- lm(PersonalityP_av ~ 1, data = d4_lo)
+summary(RQ1B_Y4_step0)
+
+# Step 1: Control variables
+RQ1B_Y4_step1 <- lm(PersonalityP_av ~ Pro1 + Pro2 + SONA, data = d4_lo)
+summary(RQ1B_Y4_step1)
+
+anova(RQ1B_Y4_step0, RQ1B_Y4_step1)
+RQ1B_Y4_rs1 <- summary(RQ1B_Y4_step0)$r.squared
+RQ1B_Y4_rs2 <- summary(RQ1B_Y4_step1)$r.squared
+RQ1B_Y4_rs.change1 <- RQ1B_Y4_rs1-RQ1B_Y4_rs2 # provides R-sqd-change
+RQ1B_Y4_rs.change1
+
+# Step 2: IVs of interest
+
+RQ1B_Y4_step2 <- lm(PersonalityP_av ~ Pro1 + Pro2 + SONA + ESJ_av_c + 
+                      Atonement_fact, data = d4_lo)
+summary(RQ1B_Y4_step2)
+
+anova(RQ1B_Y4_step1, RQ1B_Y4_step2)
+RQ1B_Y4_rs3 <- summary(RQ1B_Y4_step1)$r.squared
+RQ1B_Y4_rs4 <- summary(RQ1B_Y4_step2)$r.squared
+RQ1B_Y4_rs.change2 <-RQ1B_Y4_rs3-RQ1B_Y4_rs4 # provides R-sqd-change
+RQ1B_Y4_rs.change2
+
+# Step 3: Interactions
+
+RQ1B_Y4_step3 <- lm(PersonalityP_av ~ Pro1 + Pro2 + SONA + ESJ_av_c*
+                      Atonement_fact, data = d4_lo)
+summary(RQ1B_Y4_step3)
+
+anova(RQ1B_Y4_step2, RQ1B_Y4_step3)
+RQ1B_Y4_rs5 <- summary(RQ1B_Y4_step2)$r.squared
+RQ1B_Y4_rs6 <- summary(RQ1B_Y4_step3)$r.squared
+RQ1B_Y4_rs.change3 <- RQ1B_Y4_rs5-RQ1B_Y4_rs6 # provides R-sqd-change
+RQ1B_Y4_rs.change3
+
+## Y5: Empathy
+# Regression table
+# Step 0: Intercept
+RQ1B_Y5_step0 <- lm(EmpathyP_av ~ 1, data = d4_lo)
+summary(RQ1B_Y5_step0)
+
+# Step 1: Control variables
+RQ1B_Y5_step1 <- lm(EmpathyP_av ~ Pro1 + Pro2 + SONA, data = d4_lo)
+summary(RQ1B_Y5_step1)
+
+anova(RQ1B_Y5_step0, RQ1B_Y5_step1)
+RQ1B_Y5_rs1 <- summary(RQ1B_Y5_step0)$r.squared
+RQ1B_Y5_rs2 <- summary(RQ1B_Y5_step1)$r.squared
+RQ1B_Y5_rs.change1 <- RQ1B_Y5_rs1-RQ1B_Y5_rs2 # provides R-sqd-change
+RQ1B_Y5_rs.change1
+
+# Step 2: IVs of interest
+
+RQ1B_Y5_step2 <- lm(EmpathyP_av ~ Pro1 + Pro2 + SONA + ESJ_av_c + 
+                      Atonement_fact, data = d4_lo)
+summary(RQ1B_Y5_step2)
+
+anova(RQ1B_Y5_step1, RQ1B_Y5_step2)
+RQ1B_Y5_rs3 <- summary(RQ1B_Y5_step1)$r.squared
+RQ1B_Y5_rs4 <- summary(RQ1B_Y5_step2)$r.squared
+RQ1B_Y5_rs.change2 <-RQ1B_Y5_rs3-RQ1B_Y5_rs4 # provides R-sqd-change
+RQ1B_Y5_rs.change2
+
+# Step 3: Interactions
+
+RQ1B_Y5_step3 <- lm(EmpathyP_av ~ Pro1 + Pro2 + SONA + ESJ_av_c*
+                      Atonement_fact, data = d4_lo)
+summary(RQ1B_Y5_step3)
+
+anova(RQ1B_Y5_step2, RQ1B_Y5_step3)
+RQ1B_Y5_rs5 <- summary(RQ1B_Y5_step2)$r.squared
+RQ1B_Y5_rs6 <- summary(RQ1B_Y5_step3)$r.squared
+RQ1B_Y5_rs.change3 <- RQ1B_Y5_rs5-RQ1B_Y5_rs6 # provides R-sqd-change
+RQ1B_Y5_rs.change3
+
+### EXPLORATORY ANALYSES -------------------------------------------------------
+## Y1: Blame
+# Regression table
+# Step 0: Intercept
+RQExp_Y1_step0 <- lm(BlameP_z_av ~ 1, data = d4)
+summary(RQExp_Y1_step0)
+
+# Step 1: Control variables
+RQExp_Y1_step1 <- lm(BlameP_z_av ~ Pro1 + Pro2 + SONA, data = d4)
+summary(RQExp_Y1_step1)
+
+anova(RQExp_Y1_step0, RQExp_Y1_step1)
+RQExp_Y1_rs1 <- summary(RQExp_Y1_step0)$r.squared
+RQExp_Y1_rs2 <- summary(RQExp_Y1_step1)$r.squared
+RQExp_Y1_rs.change1 <- RQExp_Y1_rs1-RQExp_Y1_rs2 # provides R-sqd-change
+RQExp_Y1_rs.change1
+
+# Step 2: IVs of interest
+
+RQExp_Y1_step2 <- lm(BlameP_z_av ~ Pro1 + Pro2 + SONA + ESJ_av_c + SES +
+                       Atonement_fact, data = d4)
+summary(RQExp_Y1_step2)
+
+anova(RQExp_Y1_step1, RQExp_Y1_step2)
+RQExp_Y1_rs3 <- summary(RQExp_Y1_step1)$r.squared
+RQExp_Y1_rs4 <- summary(RQExp_Y1_step2)$r.squared
+RQExp_Y1_rs.change2 <-RQExp_Y1_rs3-RQExp_Y1_rs4 # provides R-sqd-change
+RQExp_Y1_rs.change2
+
+# Step 3: Interactions
+
+RQExp_Y1_step3 <- lm(BlameP_z_av ~ Pro1 + Pro2 + SONA + ESJ_av_c*Atonement_fact
+                     *SES, data = d4)
+summary(RQExp_Y1_step3)
+
+anova(RQExp_Y1_step2, RQExp_Y1_step3)
+RQExp_Y1_rs5 <- summary(RQExp_Y1_step2)$r.squared
+RQExp_Y1_rs6 <- summary(RQExp_Y1_step3)$r.squared
+RQExp_Y1_rs.change3 <- RQExp_Y1_rs5-RQExp_Y1_rs6 # provides R-sqd-change
+RQExp_Y1_rs.change3
+
+## Y2: Blame
+# Regression table
+# Step 0: Intercept
+RQExp_Y2_step0 <- lm(StigmaP_av ~ 1, data = d4)
+summary(RQExp_Y2_step0)
+
+# Step 1: Control variables
+RQExp_Y2_step1 <- lm(StigmaP_av ~ Pro1 + Pro2 + SONA, data = d4)
+summary(RQExp_Y2_step1)
+
+anova(RQExp_Y2_step0, RQExp_Y2_step1)
+RQExp_Y2_rs1 <- summary(RQExp_Y2_step0)$r.squared
+RQExp_Y2_rs2 <- summary(RQExp_Y2_step1)$r.squared
+RQExp_Y2_rs.change1 <- RQExp_Y2_rs1-RQExp_Y2_rs2 # provides R-sqd-change
+RQExp_Y2_rs.change1
+
+# Step 2: IVs of interest
+
+RQExp_Y2_step2 <- lm(StigmaP_av ~ Pro1 + Pro2 + SONA + ESJ_av_c + SES +
+                       Atonement_fact, data = d4)
+summary(RQExp_Y2_step2)
+
+anova(RQExp_Y2_step1, RQExp_Y2_step2)
+RQExp_Y2_rs3 <- summary(RQExp_Y2_step1)$r.squared
+RQExp_Y2_rs4 <- summary(RQExp_Y2_step2)$r.squared
+RQExp_Y2_rs.change2 <-RQExp_Y2_rs3-RQExp_Y2_rs4 # provides R-sqd-change
+RQExp_Y2_rs.change2
+
+# Step 3: Interactions
+
+RQExp_Y2_step3 <- lm(StigmaP_av ~ Pro1 + Pro2 + SONA + ESJ_av_c*Atonement_fact
+                     *SES, data = d4)
+summary(RQExp_Y2_step3)
+
+anova(RQExp_Y2_step2, RQExp_Y2_step3)
+RQExp_Y2_rs5 <- summary(RQExp_Y2_step2)$r.squared
+RQExp_Y2_rs6 <- summary(RQExp_Y2_step3)$r.squared
+RQExp_Y2_rs.change3 <- RQExp_Y2_rs5-RQExp_Y2_rs6 # provides R-sqd-change
+RQExp_Y2_rs.change3
+
+## Y3: Likability
+# Regression table
+# Step 0: Intercept
+RQExp_Y3_step0 <- lm(LikabilityP_av ~ 1, data = d4)
+summary(RQExp_Y3_step0)
+
+# Step 1: Control variables
+RQExp_Y3_step1 <- lm(LikabilityP_av ~ Pro1 + Pro2 + SONA, data = d4)
+summary(RQExp_Y3_step1)
+
+anova(RQExp_Y3_step0, RQExp_Y3_step1)
+RQExp_Y3_rs1 <- summary(RQExp_Y3_step0)$r.squared
+RQExp_Y3_rs2 <- summary(RQExp_Y3_step1)$r.squared
+RQExp_Y3_rs.change1 <- RQExp_Y3_rs1-RQExp_Y3_rs2 # provides R-sqd-change
+RQExp_Y3_rs.change1
+
+# Step 2: IVs of interest
+
+RQExp_Y3_step2 <- lm(LikabilityP_av ~ Pro1 + Pro2 + SONA + ESJ_av_c + SES +
+                       Atonement_fact, data = d4)
+summary(RQExp_Y3_step2)
+
+anova(RQExp_Y3_step1, RQExp_Y3_step2)
+RQExp_Y3_rs3 <- summary(RQExp_Y3_step1)$r.squared
+RQExp_Y3_rs4 <- summary(RQExp_Y3_step2)$r.squared
+RQExp_Y3_rs.change2 <-RQExp_Y3_rs3-RQExp_Y3_rs4 # provides R-sqd-change
+RQExp_Y3_rs.change2
+
+# Step 3: Interactions
+
+RQExp_Y3_step3 <- lm(LikabilityP_av ~ Pro1 + Pro2 + SONA + ESJ_av_c*
+                       Atonement_fact*SES, data = d4)
+summary(RQExp_Y3_step3)
+
+anova(RQExp_Y3_step2, RQExp_Y3_step3)
+RQExp_Y3_rs5 <- summary(RQExp_Y3_step2)$r.squared
+RQExp_Y3_rs6 <- summary(RQExp_Y3_step3)$r.squared
+RQExp_Y3_rs.change3 <- RQExp_Y3_rs5-RQExp_Y3_rs6 # provides R-sqd-change
+RQExp_Y3_rs.change3
+
+## Y4: Personality
+# Regression table
+# Step 0: Intercept
+RQExp_Y4_step0 <- lm(PersonalityP_av ~ 1, data = d4)
+summary(RQExp_Y4_step0)
+
+# Step 1: Control variables
+RQExp_Y4_step1 <- lm(PersonalityP_av ~ Pro1 + Pro2 + SONA, data = d4)
+summary(RQExp_Y4_step1)
+
+anova(RQExp_Y4_step0, RQExp_Y4_step1)
+RQExp_Y4_rs1 <- summary(RQExp_Y4_step0)$r.squared
+RQExp_Y4_rs2 <- summary(RQExp_Y4_step1)$r.squared
+RQExp_Y4_rs.change1 <- RQExp_Y4_rs1-RQExp_Y4_rs2 # provides R-sqd-change
+RQExp_Y4_rs.change1
+
+# Step 2: IVs of interest
+
+RQExp_Y4_step2 <- lm(PersonalityP_av ~ Pro1 + Pro2 + SONA + ESJ_av_c + SES +
+                       Atonement_fact, data = d4)
+summary(RQExp_Y4_step2)
+
+anova(RQExp_Y4_step1, RQExp_Y4_step2)
+RQExp_Y4_rs3 <- summary(RQExp_Y4_step1)$r.squared
+RQExp_Y4_rs4 <- summary(RQExp_Y4_step2)$r.squared
+RQExp_Y4_rs.change2 <-RQExp_Y4_rs3-RQExp_Y4_rs4 # provides R-sqd-change
+RQExp_Y4_rs.change2
+
+# Step 3: Interactions
+
+RQExp_Y4_step3 <- lm(PersonalityP_av ~ Pro1 + Pro2 + SONA + ESJ_av_c*
+                       Atonement_fact*SES, data = d4)
+summary(RQExp_Y4_step3)
+
+anova(RQExp_Y4_step2, RQExp_Y4_step3)
+RQExp_Y4_rs5 <- summary(RQExp_Y4_step2)$r.squared
+RQExp_Y4_rs6 <- summary(RQExp_Y4_step3)$r.squared
+RQExp_Y4_rs.change3 <- RQExp_Y4_rs5-RQExp_Y4_rs6 # provides R-sqd-change
+RQExp_Y4_rs.change3
+
+## Y5: Empathy
+# Regression table
+# Step 0: Intercept
+RQExp_Y5_step0 <- lm(EmpathyP_av ~ 1, data = d4)
+summary(RQExp_Y5_step0)
+
+# Step 1: Control variables
+RQExp_Y5_step1 <- lm(EmpathyP_av ~ Pro1 + Pro2 + SONA, data = d4)
+summary(RQExp_Y5_step1)
+
+anova(RQExp_Y5_step0, RQExp_Y5_step1)
+RQExp_Y5_rs1 <- summary(RQExp_Y5_step0)$r.squared
+RQExp_Y5_rs2 <- summary(RQExp_Y5_step1)$r.squared
+RQExp_Y5_rs.change1 <- RQExp_Y5_rs1-RQExp_Y5_rs2 # provides R-sqd-change
+RQExp_Y5_rs.change1
+
+# Step 2: IVs of interest
+
+RQExp_Y5_step2 <- lm(EmpathyP_av ~ Pro1 + Pro2 + SONA + ESJ_av_c + SES +
+                       Atonement_fact, data = d4)
+summary(RQExp_Y5_step2)
+
+anova(RQExp_Y5_step1, RQExp_Y5_step2)
+RQExp_Y5_rs3 <- summary(RQExp_Y5_step1)$r.squared
+RQExp_Y5_rs4 <- summary(RQExp_Y5_step2)$r.squared
+RQExp_Y5_rs.change2 <-RQExp_Y5_rs3-RQExp_Y5_rs4 # provides R-sqd-change
+RQExp_Y5_rs.change2
+
+# Step 3: Interactions
+
+RQExp_Y5_step3 <- lm(EmpathyP_av ~ Pro1 + Pro2 + SONA + ESJ_av_c*
+                       Atonement_fact*SES, data = d4)
+summary(RQExp_Y5_step3)
+
+anova(RQExp_Y5_step2, RQExp_Y5_step3)
+RQExp_Y5_rs5 <- summary(RQExp_Y5_step2)$r.squared
+RQExp_Y5_rs6 <- summary(RQExp_Y5_step3)$r.squared
+RQExp_Y5_rs.change3 <- RQExp_Y5_rs5-RQExp_Y5_rs6 # provides R-sqd-change
+RQExp_Y5_rs.change3
 
 
 ############################################Allison's Script############################################
