@@ -250,28 +250,27 @@ d_hi <- d[which(d$SES == "1"),]
 RQ1A_Y1 <- lm(data = d_hi, BlameP_z_av ~ ESJ_av_c*Atonement_fact_r, contrasts = 
                 my.contrasts)
 summary(RQ1A_Y1)
-eta_squared(car::Anova(RQ1A_Y1, type = 3))
 
 #Y2: Stigma
-RQ1A_Y2 <- lm(data = d_hi, StigmaP_av ~ ESJ_av*Atonement_fact_r, contrasts =
+RQ1A_Y2 <- lm(data = d_hi, StigmaP_av ~ ESJ_av_c*Atonement_fact_r, contrasts =
                 my.contrasts)
 summary(RQ1A_Y2)
 eta_squared(car::Anova(RQ1A_Y2, type = 3))
 
 #Y3: Likability
-RQ1A_Y3 <- lm(data = d_hi, LikabilityP_av ~ ESJ_av*Atonement_fact_r, contrasts =
+RQ1A_Y3 <- lm(data = d_hi, LikabilityP_av ~ ESJ_av_c*Atonement_fact_r, contrasts =
                 my.contrasts)
 summary(RQ1A_Y3)
 eta_squared(car::Anova(RQ1A_Y3, type = 3))
 
 #Y4: Personality
-RQ1A_Y4 <- lm(data = d_hi, PersonalityP_av ~ ESJ_av*Atonement_fact_r, contrasts =
+RQ1A_Y4 <- lm(data = d_hi, PersonalityP_av ~ ESJ_av_c*Atonement_fact_r, contrasts =
                 my.contrasts)
 summary(RQ1A_Y4)
 eta_squared(car::Anova(RQ1A_Y4, type = 3))
 
 #Y5: Empathy
-RQ1A_Y5 <- lm(data = d_hi, EmpathyP_av ~ ESJ_av*Atonement_fact_r, contrasts =
+RQ1A_Y5 <- lm(data = d_hi, EmpathyP_av ~ ESJ_av_c*Atonement_fact_r, contrasts =
                 my.contrasts)
 summary(RQ1A_Y5)
 eta_squared(car::Anova(RQ1A_Y5, type = 3))
@@ -284,28 +283,28 @@ summary(RQ1B_Y1)
 eta_squared(car::Anova(RQ1B_Y1, type = 3))
 
 #Y2: Stigma
-RQ1B_Y2 <- lm(data = d_lo, StigmaP_av ~ ESJ_av*Atonement_fact_r, contrasts =
+RQ1B_Y2 <- lm(data = d_lo, StigmaP_av ~ ESJ_av_c*Atonement_fact_r, contrasts =
                 my.contrasts)
 summary(RQ1B_Y2)
 eta_squared(car::Anova(RQ1B_Y2, type = 3))
-plot_model(RQ1B_Y2, type = "pred", terms = c("Atonement_fact_r", "ESJ_av"))
+plot_model(RQ1B_Y2, type = "pred", terms = c("Atonement_fact_r", "ESJ_av_c"))
 
 #Y3: Likability
-RQ1B_Y3 <- lm(data = d_lo, LikabilityP_av ~ ESJ_av*Atonement_fact_r, contrasts =
+RQ1B_Y3 <- lm(data = d_lo, LikabilityP_av ~ ESJ_av_c*Atonement_fact_r, contrasts =
                 my.contrasts)
 summary(RQ1B_Y3)
 eta_squared(car::Anova(RQ1B_Y3, type = 3))
-plot_model(RQ1B_Y3, type = "pred", terms = c("Atonement_fact_r", "ESJ_av"))
+plot_model(RQ1B_Y3, type = "pred", terms = c("Atonement_fact_r", "ESJ_av_c"))
 
 #Y4: Personality
-RQ1B_Y4 <- lm(data = d_lo, PersonalityP_av ~ ESJ_av*Atonement_fact_r, contrasts =
+RQ1B_Y4 <- lm(data = d_lo, PersonalityP_av ~ ESJ_av_c*Atonement_fact_r, contrasts =
                 my.contrasts)
 summary(RQ1B_Y4)
 eta_squared(car::Anova(RQ1B_Y4, type = 3))
-plot_model(RQ1B_Y4, type = "pred", terms = c("Atonement_fact_r", "ESJ_av"))
+plot_model(RQ1B_Y4, type = "pred", terms = c("Atonement_fact_r", "ESJ_av_c"))
 
 #Y5: Empathy
-RQ1B_Y5 <- lm(data = d_lo, EmpathyP_av ~ ESJ_av*Atonement_fact_r, contrasts =
+RQ1B_Y5 <- lm(data = d_lo, EmpathyP_av ~ ESJ_av_c*Atonement_fact_r, contrasts =
                 my.contrasts)
 summary(RQ1B_Y5)
 eta_squared(car::Anova(RQ1B_Y5, type = 3))
@@ -317,27 +316,31 @@ RQExp_Y1 <- lm(data = d, BlameP_z_av ~ ESJ_av_c*Atonement_fact_r*SES, contrasts 
 summary(RQExp_Y1)
 eta_squared(car::Anova(RQExp_Y1, type = 3))
 
+#### FIX ESJ_av_c EVERYWHERE!!!!! ##############################################
+
 #Y2: Stigma
-RQExp_Y2 <- lm(data = d, StigmaP_av ~ ESJ_av*Atonement_fact_r*SES, contrasts =
+RQExp_Y2 <- lm(data = d, StigmaP_av ~ ESJ_av_c*Atonement_fact_r*SES, contrasts =
                 my.contrasts)
 summary(RQExp_Y2)
 eta_squared(car::Anova(RQExp_Y2, type = 3))
+plot_model(RQExp_Y2, type = "pred", terms = c("Atonement_fact_r", "ESJ_av_c"))
 
 #Y3: Likability
-RQExp_Y3 <- lm(data = d, LikabilityP_av ~ ESJ_av*Atonement_fact_r*SES, contrasts =
+RQExp_Y3 <- lm(data = d, LikabilityP_av ~ ESJ_av_c*Atonement_fact_r*SES, contrasts =
                 my.contrasts)
 summary(RQExp_Y3)
 eta_squared(car::Anova(RQExp_Y3, type = 3))
+plot_model(RQExp_Y3, type = "pred", terms = c("Atonement_fact_r", "ESJ_av_c"))
 
 #Y4: Personality
-RQExp_Y4 <- lm(data = d, PersonalityP_av ~ ESJ_av*Atonement_fact_r*SES, contrasts =
+RQExp_Y4 <- lm(data = d, PersonalityP_av ~ ESJ_av_c*Atonement_fact_r*SES, contrasts =
                 my.contrasts)
 summary(RQExp_Y4)
 eta_squared(car::Anova(RQExp_Y4, type = 3))
-plot_model(RQExp_Y4, type = "pred", terms = c("Atonement_fact_r", "ESJ_av", "SES"))
+plot_model(RQExp_Y4, type = "pred", terms = c("Atonement_fact_r", "ESJ_av_c", "SES"))
 
 #Y5: Empathy
-RQExp_Y5 <- lm(data = d, EmpathyP_av ~ ESJ_av*Atonement_fact_r*SES, contrasts =
+RQExp_Y5 <- lm(data = d, EmpathyP_av ~ ESJ_av_c*Atonement_fact_r*SES, contrasts =
                 my.contrasts)
 summary(RQExp_Y5)
 eta_squared(car::Anova(RQExp_Y5, type = 3))
@@ -348,11 +351,6 @@ eta_squared(car::Anova(RQExp_Y5, type = 3))
 
 ### Set WD, then load in dataset and load packages -----------------------------
 d2 <- read.csv("PSS_Prolific2_CLEAN.csv")
-library(psych)
-library(dplyr)
-library(effectsize)
-library(interactions)
-library(sjPlot)
 
 ### Check it out ---------------------------------------------------------------
 View(d2)
@@ -595,25 +593,25 @@ summary(RQ1A_Y1_2)
 eta_squared(car::Anova(RQ1A_Y1_2, type = 3))
 
 #Y2: Stigma
-RQ1A_Y2_2 <- lm(data = d2_hi, StigmaP_av ~ ESJ_av*Atonement_fact_r, contrasts =
+RQ1A_Y2_2 <- lm(data = d2_hi, StigmaP_av ~ ESJ_av_c*Atonement_fact_r, contrasts =
                 my.contrasts)
 summary(RQ1A_Y2_2)
 eta_squared(car::Anova(RQ1A_Y2_2, type = 3))
 
 #Y3: Likability
-RQ1A_Y3_2 <- lm(data = d2_hi, LikabilityP_av ~ ESJ_av*Atonement_fact_r, contrasts =
+RQ1A_Y3_2 <- lm(data = d2_hi, LikabilityP_av ~ ESJ_av_c*Atonement_fact_r, contrasts =
                 my.contrasts)
 summary(RQ1A_Y3_2)
 eta_squared(car::Anova(RQ1A_Y3_2, type = 3))
 
 #Y4: Personality
-RQ1A_Y4_2 <- lm(data = d2_hi, PersonalityP_av ~ ESJ_av*Atonement_fact_r, contrasts =
+RQ1A_Y4_2 <- lm(data = d2_hi, PersonalityP_av ~ ESJ_av_c*Atonement_fact_r, contrasts =
                 my.contrasts)
 summary(RQ1A_Y4_2)
 eta_squared(car::Anova(RQ1A_Y4_2, type = 3))
 
 #Y5: Empathy
-RQ1A_Y5_2 <- lm(data = d2_hi, EmpathyP_av ~ ESJ_av*Atonement_fact_r, contrasts =
+RQ1A_Y5_2 <- lm(data = d2_hi, EmpathyP_av ~ ESJ_av_c*Atonement_fact_r, contrasts =
                 my.contrasts)
 summary(RQ1A_Y5_2)
 eta_squared(car::Anova(RQ1A_Y5_2, type = 3))
@@ -626,27 +624,27 @@ summary(RQ1B_Y1_2)
 eta_squared(car::Anova(RQ1B_Y1_2, type = 3))
 
 #Y2: Stigma
-RQ1B_Y2_2 <- lm(data = d2_lo, StigmaP_av ~ ESJ_av*Atonement_fact_r, contrasts =
+RQ1B_Y2_2 <- lm(data = d2_lo, StigmaP_av ~ ESJ_av_c*Atonement_fact_r, contrasts =
                 my.contrasts)
 summary(RQ1B_Y2_2)
 eta_squared(car::Anova(RQ1B_Y2_2, type = 3))
 
 #Y3: Likability
-RQ1B_Y3_2 <- lm(data = d2_lo, LikabilityP_av ~ ESJ_av*Atonement_fact_r, contrasts =
+RQ1B_Y3_2 <- lm(data = d2_lo, LikabilityP_av ~ ESJ_av_c*Atonement_fact_r, contrasts =
                 my.contrasts)
 summary(RQ1B_Y3_2)
 eta_squared(car::Anova(RQ1B_Y3_2, type = 3))
-plot_model(RQ1B_Y3_2, type = "pred", terms = c("Atonement_fact_r", "ESJ_av"))
+plot_model(RQ1B_Y3_2, type = "pred", terms = c("Atonement_fact_r", "ESJ_av_c"))
 
 #Y4: Personality
-RQ1B_Y4_2 <- lm(data = d2_lo, PersonalityP_av ~ ESJ_av*Atonement_fact_r, contrasts =
+RQ1B_Y4_2 <- lm(data = d2_lo, PersonalityP_av ~ ESJ_av_c*Atonement_fact_r, contrasts =
                 my.contrasts)
 summary(RQ1B_Y4_2)
 eta_squared(car::Anova(RQ1B_Y4_2, type = 3))
-plot_model(RQ1B_Y4_2, type = "pred", terms = c("Atonement_fact_r", "ESJ_av"))
+plot_model(RQ1B_Y4_2, type = "pred", terms = c("Atonement_fact_r", "ESJ_av_c"))
 
 #Y5: Empathy
-RQ1B_Y5_2 <- lm(data = d2_lo, EmpathyP_av ~ ESJ_av*Atonement_fact_r, contrasts =
+RQ1B_Y5_2 <- lm(data = d2_lo, EmpathyP_av ~ ESJ_av_c*Atonement_fact_r, contrasts =
                 my.contrasts)
 summary(RQ1B_Y5_2)
 eta_squared(car::Anova(RQ1B_Y5_2, type = 3))
@@ -659,30 +657,31 @@ summary(RQExp_Y1_2)
 eta_squared(car::Anova(RQExp_Y1_2, type = 3))
 
 #Y2: Stigma
-RQExp_Y2_2 <- lm(data = d2, StigmaP_av ~ ESJ_av*Atonement_fact_r*SES, contrasts =
+RQExp_Y2_2 <- lm(data = d2, StigmaP_av ~ ESJ_av_c*Atonement_fact_r*SES, contrasts =
                   my.contrasts)
 summary(RQExp_Y2_2)
 eta_squared(car::Anova(RQExp_Y2_2, type = 3))
-plot_model(RQExp_Y2_2, type = "pred", terms = c("Atonement_fact_r", "ESJ_av", "SES"))
+plot_model(RQExp_Y2_2, type = "pred", terms = c("Atonement_fact_r", "ESJ_av_c"))
+plot_model(RQExp_Y2_2, type = "pred", terms = c("Atonement_fact_r", "ESJ_av_c","SES"))
 
 #Y3: Likability
-RQExp_Y3_2 <- lm(data = d2, LikabilityP_av ~ ESJ_av*Atonement_fact_r*SES, contrasts =
+RQExp_Y3_2 <- lm(data = d2, LikabilityP_av ~ ESJ_av_c*Atonement_fact_r*SES, contrasts =
                   my.contrasts)
 summary(RQExp_Y3_2)
 eta_squared(car::Anova(RQExp_Y3_2, type = 3))
 
 #Y4: Personality
-RQExp_Y4_2 <- lm(data = d2, PersonalityP_av ~ ESJ_av*Atonement_fact_r*SES, contrasts =
+RQExp_Y4_2 <- lm(data = d2, PersonalityP_av ~ ESJ_av_c*Atonement_fact_r*SES, contrasts =
                   my.contrasts)
 summary(RQExp_Y4_2)
 eta_squared(car::Anova(RQExp_Y4_2, type = 3))
 
 #Y5: Empathy
-RQExp_Y5_2 <- lm(data = d2, EmpathyP_av ~ ESJ_av*Atonement_fact_r*SES, contrasts =
+RQExp_Y5_2 <- lm(data = d2, EmpathyP_av ~ ESJ_av_c*Atonement_fact_r*SES, contrasts =
                   my.contrasts)
 summary(RQExp_Y5_2)
 eta_squared(car::Anova(RQExp_Y5_2, type = 3))
-plot_model(RQExp_Y5_2, type = "pred", terms = c("Atonement_fact_r", "ESJ_av", "SES"))
+plot_model(RQExp_Y5_2, type = "pred", terms = c("Atonement_fact_r", "SES"))
 
 
 
@@ -943,98 +942,100 @@ d3_hi <- d3[which(d$SES == "1"),]
 ### MAIN ANALYSES - REGRESSION -------------------------------------------------
 ## RQ1A ------------------------------------------------------------------------
 # Y1: Blame
-RQ1A_Y1_3 <- lm(data = d3_hi, BlameP_z_av ~ ESJ_av_c*Atonement_fact_r, contrasts 
-= my.contrasts)
+RQ1A_Y1_3 <- lm(data = d3_hi, BlameP_z_av ~ ESJ_av_c*Atonement_fact_r, contrasts = 
+                  my.contrasts)
 summary(RQ1A_Y1_3)
 eta_squared(car::Anova(RQ1A_Y1_3, type = 3))
 
 #Y2: Stigma
-RQ1A_Y2_3 <- lm(data = d3_hi, StigmaP_av ~ ESJ_av*Atonement_fact_r, contrasts =
+RQ1A_Y2_3 <- lm(data = d3_hi, StigmaP_av ~ ESJ_av_c*Atonement_fact_r, contrasts =
                   my.contrasts)
 summary(RQ1A_Y2_3)
 eta_squared(car::Anova(RQ1A_Y2_3, type = 3))
-plot_model(RQ1A_Y2_3, type = "pred", terms = c("Atonement_fact_r", "ESJ_av"))
+plot_model(RQ1A_Y2_3, type = "pred", terms = c("Atonement_fact_r", "ESJ_av_c"))
 
 #Y3: Likability
-RQ1A_Y3_3 <- lm(data = d3_hi, LikabilityP_av ~ ESJ_av*Atonement_fact_r, 
-contrasts = my.contrasts)
+RQ1A_Y3_3 <- lm(data = d3_hi, LikabilityP_av ~ ESJ_av_c*Atonement_fact_r, contrasts =
+                  my.contrasts)
 summary(RQ1A_Y3_3)
 eta_squared(car::Anova(RQ1A_Y3_3, type = 3))
 
 #Y4: Personality
-RQ1A_Y4_3 <- lm(data = d3_hi, PersonalityP_av ~ ESJ_av*Atonement_fact_r, 
-contrasts = my.contrasts)
+RQ1A_Y4_3 <- lm(data = d3_hi, PersonalityP_av ~ ESJ_av_c*Atonement_fact_r, contrasts =
+                  my.contrasts)
 summary(RQ1A_Y4_3)
 eta_squared(car::Anova(RQ1A_Y4_3, type = 3))
 
 #Y5: Empathy
-RQ1A_Y5_3 <- lm(data = d3_hi, EmpathyP_av ~ ESJ_av*Atonement_fact_r, contrasts 
-= my.contrasts)
+RQ1A_Y5_3 <- lm(data = d3_hi, EmpathyP_av ~ ESJ_av_c*Atonement_fact_r, contrasts =
+                  my.contrasts)
 summary(RQ1A_Y5_3)
 eta_squared(car::Anova(RQ1A_Y5_3, type = 3))
 
 ## RQ1B ------------------------------------------------------------------------
 # Y1: Blame
-RQ1B_Y1_3 <- lm(data = d3_lo, BlameP_z_av ~ ESJ_av_c*Atonement_fact_r, contrasts 
-= my.contrasts)
+RQ1B_Y1_3 <- lm(data = d3_lo, BlameP_z_av ~ ESJ_av_c*Atonement_fact_r, contrasts = 
+                  my.contrasts)
 summary(RQ1B_Y1_3)
 eta_squared(car::Anova(RQ1B_Y1_3, type = 3))
 
 #Y2: Stigma
-RQ1B_Y2_3 <- lm(data = d3_lo, StigmaP_av ~ ESJ_av*Atonement_fact_r, contrasts =
+RQ1B_Y2_3 <- lm(data = d3_lo, StigmaP_av ~ ESJ_av_c*Atonement_fact_r, contrasts =
                   my.contrasts)
 summary(RQ1B_Y2_3)
 eta_squared(car::Anova(RQ1B_Y2_3, type = 3))
 
 #Y3: Likability
-RQ1B_Y3_3 <- lm(data = d3_lo, LikabilityP_av ~ ESJ_av*Atonement_fact_r, contrasts 
-= my.contrasts)
+RQ1B_Y3_3 <- lm(data = d3_lo, LikabilityP_av ~ ESJ_av_c*Atonement_fact_r, contrasts =
+                  my.contrasts)
 summary(RQ1B_Y3_3)
 eta_squared(car::Anova(RQ1B_Y3_3, type = 3))
 
 #Y4: Personality
-RQ1B_Y4_3 <- lm(data = d3_lo, PersonalityP_av ~ ESJ_av*Atonement_fact_r, 
-contrasts = my.contrasts)
+RQ1B_Y4_3 <- lm(data = d3_lo, PersonalityP_av ~ ESJ_av_c*Atonement_fact_r, contrasts =
+                  my.contrasts)
 summary(RQ1B_Y4_3)
 eta_squared(car::Anova(RQ1B_Y4_23, type = 3))
-plot_model(RQ1B_Y4_3, type = "pred", terms = c("Atonement_fact_r", "ESJ_av"))
+plot_model(RQ1B_Y4_3, type = "pred", terms = c("Atonement_fact_r", "ESJ_av_c"))
 
 #Y5: Empathy
-RQ1B_Y5_3 <- lm(data = d3_lo, EmpathyP_av ~ ESJ_av*Atonement_fact_r, contrasts =
+RQ1B_Y5_3 <- lm(data = d3_lo, EmpathyP_av ~ ESJ_av_c*Atonement_fact_r, contrasts =
                   my.contrasts)
 summary(RQ1B_Y5_3)
 eta_squared(car::Anova(RQ1B_Y5_3, type = 3))
 
 ## Exploratory 3-way interaction -----------------------------------------------
 # Y1: Blame
-RQExp_Y1_3 <- lm(data = d3, BlameP_z_av ~ ESJ_av_c*Atonement_fact_r*SES, 
-contrasts = my.contrasts)
+RQExp_Y1_3 <- lm(data = d3, BlameP_z_av ~ ESJ_av_c*Atonement_fact_r*SES, contrasts = 
+                   my.contrasts)
 summary(RQExp_Y1_3)
 eta_squared(car::Anova(RQExp_Y1_3, type = 3))
 
 #Y2: Stigma
-RQExp_Y2_3 <- lm(data = d3, StigmaP_av ~ ESJ_av*Atonement_fact_r*SES, contrasts 
-= my.contrasts)
+RQExp_Y2_3 <- lm(data = d3, StigmaP_av ~ ESJ_av_c*Atonement_fact_r*SES, contrasts =
+                   my.contrasts)
 summary(RQExp_Y2_3)
 eta_squared(car::Anova(RQExp_Y2_3, type = 3))
 
 #Y3: Likability
-RQExp_Y3_3 <- lm(data = d3, LikabilityP_av ~ ESJ_av*Atonement_fact_r*SES, 
-contrasts = my.contrasts)
+RQExp_Y3_3 <- lm(data = d3, LikabilityP_av ~ ESJ_av_c*Atonement_fact_r*SES, contrasts =
+                   my.contrasts)
 summary(RQExp_Y3_3)
 eta_squared(car::Anova(RQExp_Y3_3, type = 3))
 
 #Y4: Personality
-RQExp_Y4_3 <- lm(data = d3, PersonalityP_av ~ ESJ_av*Atonement_fact_r*SES, 
-contrasts = my.contrasts)
+RQExp_Y4_3 <- lm(data = d3, PersonalityP_av ~ ESJ_av_c*Atonement_fact_r*SES, contrasts =
+                   my.contrasts)
 summary(RQExp_Y4_3)
 eta_squared(car::Anova(RQExp_Y4_3, type = 3))
 
 #Y5: Empathy
-RQExp_Y5_3 <- lm(data = d3, EmpathyP_av ~ ESJ_av*Atonement_fact_r*SES, contrasts 
-= my.contrasts)
+RQExp_Y5_3 <- lm(data = d3, EmpathyP_av ~ ESJ_av_c*Atonement_fact_r*SES, contrasts =
+                   my.contrasts)
 summary(RQExp_Y5_3)
 eta_squared(car::Anova(RQExp_Y5_3, type = 3))
+
+
 
 ############################### MEGA-ANALYSIS ##################################
 
@@ -1113,7 +1114,7 @@ RQ1A_Y1_rs6 <- summary(RQ1A_Y1_step3)$r.squared
 RQ1A_Y1_rs.change3 <- RQ1A_Y1_rs5-RQ1A_Y1_rs6 # provides R-sqd-change
 RQ1A_Y1_rs.change3
 
-## Y2: Blame
+## Y2: Stigma
 # Regression table
 # Step 0: Intercept
 RQ1A_Y2_step0 <- lm(StigmaP_av ~ 1, data = d4_hi)
