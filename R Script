@@ -1677,24 +1677,27 @@ RQExp_Y5_rs.change3 <- RQExp_Y5_rs5-RQExp_Y5_rs6 # provides R-sqd-change
 RQExp_Y5_rs.change3
 
 
-############################################Allison's Script############################################
-#This is analyses related to the Vic DVs#
-#Also, note that Kira and I have different R quirks, so the way we script things does not totaly align, 
-#but that's part of what makes us such a good team XD
+###########################################Allison's Script - Final#########################################
+#look at datasets
+describe(Prof1)
+describe(Prof2)
+describe(sona)
 
+#add column to data sets, which will be their sample variable
+#1 = Prolific 1
+#2 = Prolific 2
+#3 = sona
+Prof1$sample <- 1
+Prof2$sample <- 2
+sona$sample <- 3
 
-#load libraries
-library(psych)
+#combine all three data sets into one
+mega <- rbind(Prof1, Prof2, sona)
 
-#Import data sets
+#############################Scale Scoring###############################
 
-library(readxl)
-Prof1 <- read_excel("C:/Users/allis/Documents/Western Washington/Research/Redemption Narratives/Perp Study Data Analysis/PSS_Prolific1_CLEAN.xlsx")
-
-
-#####Scale Scoring####
-
-#economic system justification
+####################economic system justification#########################
+###Prolific Sample 1
 #reverse score necessary items
 Prof1$ESJ4_r <- 8 - Prof1$ESJ4
 Prof1$ESJ6_r <- 8 - Prof1$ESJ6
@@ -1709,57 +1712,247 @@ Prof1$esj <- (Prof1$ESJ1 + Prof1$ESJ2 + Prof1$ESJ3 + Prof1$ESJ4_r +
               Prof1$ESJ12 + Prof1$ESJ13_r + Prof1$ESJ14 + Prof1$ESJ15_r + 
               Prof1$ESJ16 + Prof1$ESJ17_r)/17
 
-hist(Prof1$esj) #pretty normal distribution - not quite hitting full rnage (no 6 or 7s, but overall good)
+#visualize data
+hist(Prof1$esj) 
+boxplot(Prof1$esj) #no outliers
 
+#cronbach's alpha
 esj_a <- subset(Prof1, select = c(ESJ1, ESJ2, ESJ3, ESJ4_r, ESJ5, ESJ6_r, ESJ7, 
                                 ESJ8_r, ESJ9, ESJ10_r, ESJ11, ESJ12, ESJ13_r, 
                                 ESJ14, ESJ15_r, ESJ16, ESJ17_r))
-alpha(esj_a)
+psych::alpha(esj_a)
 
 #mean center
 Prof1$esj.m <- scale(Prof1$esj, center = T)
-
 #z-score
 Prof1$esj.z <- scale(Prof1$esj, center = T, scale = T)
 
 
+###Prolific Sample2
+#reverse score
+Prof2$ESJ4_r <- 8 - Prof2$ESJ4
+Prof2$ESJ6_r <- 8 - Prof2$ESJ6
+Prof2$ESJ8_r <- 8 - Prof2$ESJ8
+Prof2$ESJ10_r <- 8 - Prof2$ESJ10
+Prof2$ESJ13_r <- 8 - Prof2$ESJ13
+Prof2$ESJ15_r <- 8 - Prof2$ESJ15
+Prof2$ESJ17_r <- 8 - Prof2$ESJ17
+Prof2$esj <- (Prof2$ESJ1 + Prof2$ESJ2 + Prof2$ESJ3 + Prof2$ESJ4_r + 
+                Prof2$ESJ5 + Prof2$ESJ6_r + Prof2$ESJ7 + 
+                Prof2$ESJ8_r + Prof2$ESJ9 + Prof2$ESJ10_r + Prof2$ESJ11 + 
+                Prof2$ESJ12 + Prof2$ESJ13_r + Prof2$ESJ14 + Prof2$ESJ15_r + 
+                Prof2$ESJ16 + Prof2$ESJ17_r)/17
 
-#Perp Response
-Prof1$Presp <- (Prof1$P_resp1 + Prof1$P_resp2 + Prof1$P_resp3 + Prof1$P_resp4 + Prof1$P_resp5)/5
-hist(Prof1$Presp)
+#visualize data
+hist(Prof2$esj)
+boxplot(Prof2$esj) #no outliers
 
-Presp_a <- subset(Prof1, select = c(P_resp1, P_resp2, P_resp3, P_resp4, P_resp5))
-alpha(Presp_a)
+#cronbachs alpha
+esj_a2 <- subset(Prof2, select = c(ESJ1, ESJ2, ESJ3, ESJ4_r, ESJ5, ESJ6_r, ESJ7, 
+                                  ESJ8_r, ESJ9, ESJ10_r, ESJ11, ESJ12, ESJ13_r, 
+                                  ESJ14, ESJ15_r, ESJ16, ESJ17_r))
+psych::alpha(esj_a2)
 
-#Vic Response
+#mean center
+Prof2$esj.m <- scale(Prof2$esj, center = T)
+#z-score
+Prof2$esj.z <- scale(Prof2$esj, center = T, scale = T)
+
+####SONA
+#reverse score
+sona$ESJ4_r <- 8 - sona$ESJ4
+sona$ESJ6_r <- 8 - sona$ESJ6
+sona$ESJ8_r <- 8 - sona$ESJ8
+sona$ESJ10_r <- 8 - sona$ESJ10
+sona$ESJ13_r <- 8 - sona$ESJ13
+sona$ESJ15_r <- 8 - sona$ESJ15
+sona$ESJ17_r <- 8 - sona$ESJ17
+sona$esj <- (sona$ESJ1 + sona$ESJ2 + sona$ESJ3 + sona$ESJ4_r + 
+                sona$ESJ5 + sona$ESJ6_r + sona$ESJ7 + 
+                sona$ESJ8_r + sona$ESJ9 + sona$ESJ10_r + sona$ESJ11 + 
+                sona$ESJ12 + sona$ESJ13_r + sona$ESJ14 + sona$ESJ15_r + 
+                sona$ESJ16 + sona$ESJ17_r)/17
+
+#visualize data
+hist(sona$esj)
+boxplot(sona$esj) #no outliers
+
+#cronbachs alpha
+esj_a3 <- subset(sona, select = c(ESJ1, ESJ2, ESJ3, ESJ4_r, ESJ5, ESJ6_r, ESJ7, 
+                                   ESJ8_r, ESJ9, ESJ10_r, ESJ11, ESJ12, ESJ13_r, 
+                                   ESJ14, ESJ15_r, ESJ16, ESJ17_r))
+psych::alpha(esj_a3)
+
+#mean center
+sona$esj.m <- scale(sona$esj, center = T)
+#z-score
+sona$esj.z <- scale(sona$esj, center = T, scale = T)
+
+#####Mega data set
+#reverse score
+mega$ESJ4_r <- 8 - mega$ESJ4
+mega$ESJ6_r <- 8 - mega$ESJ6
+mega$ESJ8_r <- 8 - mega$ESJ8
+mega$ESJ10_r <- 8 - mega$ESJ10
+mega$ESJ13_r <- 8 - mega$ESJ13
+mega$ESJ15_r <- 8 - mega$ESJ15
+mega$ESJ17_r <- 8 - mega$ESJ17
+mega$esj <- (mega$ESJ1 + mega$ESJ2 + mega$ESJ3 + mega$ESJ4_r + 
+                mega$ESJ5 + mega$ESJ6_r + mega$ESJ7 + 
+                mega$ESJ8_r + mega$ESJ9 + mega$ESJ10_r + mega$ESJ11 + 
+                mega$ESJ12 + mega$ESJ13_r + mega$ESJ14 + mega$ESJ15_r + 
+                mega$ESJ16 + mega$ESJ17_r)/17
+
+#visualize data
+hist(mega$esj)
+boxplot(mega$esj) #no outliers
+
+#cronbachs alpha
+esj_a4 <- subset(mega, select = c(ESJ1, ESJ2, ESJ3, ESJ4_r, ESJ5, ESJ6_r, ESJ7, 
+                                   ESJ8_r, ESJ9, ESJ10_r, ESJ11, ESJ12, ESJ13_r, 
+                                   ESJ14, ESJ15_r, ESJ16, ESJ17_r))
+psych::alpha(esj_a4)
+
+#mean center
+mega$esj.m <- scale(mega$esj, center = T)
+#z-score
+mega$esj.z <- scale(mega$esj, center = T, scale = T)
+
+
+
+######################Vic Response#########################
+####Prolific Sample1
 Prof1$Vresp <- (Prof1$V_resp1 + Prof1$V_resp2 + Prof1$V_resp3 + Prof1$V_resp4)/4
+
+#visualize data
 hist(Prof1$Vresp)
+boxplot(Prof1$Vresp) #no outliers
+
+#cronbachs alpha
+Vresp_a1 <- subset(Prof1, select = c(V_resp1, V_resp2, V_resp3, V_resp4))
+psych::alpha(Vresp_a1)
+
+####Prolific Sample 2
+Prof2$Vresp <- (Prof2$V_resp1 + Prof2$V_resp2 + Prof2$V_resp3 + Prof2$V_resp4)/4
+
+#visualize data
+hist(Prof2$Vresp)
+boxplot(Prof2$Vresp) #no outliers
+
+#cronbachs alpha
+Vresp_a2 <- subset(Prof2, select = c(V_resp1, V_resp2, V_resp3, V_resp4))
+psych::alpha(Vresp_a2)
+
+#####Sona
+sona$Vresp <- (sona$V_resp1 + sona$V_resp2 + sona$V_resp3 + sona$V_resp4)/4
+
+#visualize data
+hist(sona$Vresp)
+boxplot(sona$Vresp) #no outliers
+
+#cronbachs alpha
+Vresp_a3 <- subset(sona, select = c(V_resp1, V_resp2, V_resp3, V_resp4))
+psych::alpha(Vresp_a3)
+
+#####mega
+mega$Vresp <- (mega$V_resp1 + mega$V_resp2 + mega$V_resp3 + mega$V_resp4)/4
+
+#visualize data
+hist(mega$Vresp)
+boxplot(mega$Vresp) #no outliers
+
+#cronbachs alpha
+Vresp_a4 <- subset(mega, select = c(V_resp1, V_resp2, V_resp3, V_resp4))
+psych::alpha(Vresp_a4)
 
 
-Vresp_a <- subset(Prof1, select = c(V_resp1, V_resp2, V_resp3, V_resp4))
-alpha(Vresp_a)
 
 
-#TIPI- Perpetrator
-Prof1$TIPI_P2_r <- 6 - Prof1$TIPI_P2
-Prof1$TIPI_P4_r <- 6 - Prof1$TIPI_P4
-Prof1$TIPI_P6_r <- 6 - Prof1$TIPI_P6
-Prof1$TIPI_P8_r <- 6 - Prof1$TIPI_P8
-Prof1$TIPI_P10_r <- 6 - Prof1$TIPI_P10
+####################Severity of the incident#######################
+####Prolific sample 1
+Prof1$Sev3 <- 8 - Prof1$Sev3_r
+Prof1$Sev4 <- 8 - Prof1$Sev4_r
+Prof1$Sev <- (Prof1$Sev1 + Prof1$Sev2 + Prof1$Sev3 + Prof1$Sev4 + Prof1$Sev5)/5
 
-Prof1$TIPI_P <- (Prof1$TIPI_P1 + Prof1$TIPI_P2_r + Prof1$TIPI_P3 + Prof1$TIPI_P4_r + 
-                   Prof1$TIPI_P5 + Prof1$TIPI_P6_r + Prof1$TIPI_P7 + Prof1$TIPI_P8_r + 
-                   Prof1$TIPI_P9 + Prof1$TIPI_P10_r)/10
-hist(Prof1$TIPI_P)
+#visualize data
+hist(Prof1$Sev)
+boxplot(Prof1$Sev) #several outliers
+boxplot.stats(Prof1$Sev)
 
-TIPI_Pos <- subset(Prof1, select = c(TIPI_P1, TIPI_P2_r, TIPI_P3, TIPI_P4_r, 
-                                     TIPI_P5, TIPI_P6_r, TIPI_P7, TIPI_P8_r,
-                                     TIPI_P9, TIPI_P10_r))
-alpha(TIPI_Pos) ##When I ran cronbachs, it looks like 6 does not fit in. Cronbach
-                ##is indicating that it should not be reverse scored. Could be an
-                ##argument to drop the item
+#find value 3 sd below the mean
+mean(Prof1$Sev) - (3*sd(Prof1$Sev))
 
-#TIPI - Victim
+#recode the values below 3 sd from the mean to be equal to 3 sd below the mean
+Prof1$Sev[Prof1$Sev <= mean(Prof1$Sev) - (3*sd(Prof1$Sev))] <- mean(Prof1$Sev) - (3*sd(Prof1$Sev))
+
+#cronbach's alpha
+sev_1a <- subset(Prof1, select=c(Sev1, Sev2, Sev3, Sev4, Sev5))
+psych::alpha(sev_1a)
+
+####Prolific Sample 2
+Prof2$Sev3 <- 8 - Prof2$Sev3_r
+Prof2$Sev4 <- 8 - Prof2$Sev4_r
+Prof2$Sev <- (Prof2$Sev1 + Prof2$Sev2 + Prof2$Sev3 + Prof2$Sev4 + Prof2$Sev5)/5
+
+#visualize data
+hist(Prof2$Sev)
+boxplot(Prof2$Sev) #couple outliers to recode
+boxplot.stats(Prof2$Sev)
+
+#find value 3 sd below the mean
+mean(Prof2$Sev) - (3*sd(Prof1$Sev)) #none of the values are outside 3 sds, so no need to recode
+
+#cronbachs alpha
+sev_2b <- subset(Prof2, select=c(Sev1, Sev2, Sev3, Sev4, Sev5))
+psych::alpha(sev_2b)
+
+####Sona
+sona$Sev3 <- 8 - sona$Sev3_r
+sona$Sev4 <- 8 - sona$Sev4_r
+sona$Sev <- (sona$Sev1 + sona$Sev2 + sona$Sev3 + sona$Sev4 + sona$Sev5)/5
+
+#visualize data
+hist(sona$Sev)
+boxplot(sona$Sev) #several outliers
+boxplot.stats(sona$Sev)
+
+#find value 3 sd below the mean
+mean(sona$Sev) - (3*sd(sona$Sev)) #some values need to be recoded
+
+#recode outliers to be 3 sd below the mean
+sona$Sev[sona$Sev <= mean(sona$Sev) - (3*sd(sona$Sev))] <- mean(sona$Sev) - (3*sd(sona$Sev))
+
+#cronbachs alpha
+sev_2c <- subset(sona, select=c(Sev1, Sev2, Sev3, Sev4, Sev5))
+psych::alpha(sev_2c)
+
+####Mega
+mega$Sev3 <- 8 - mega$Sev3_r
+mega$Sev4 <- 8 - mega$Sev4_r
+mega$Sev <- (mega$Sev1 + mega$Sev2 + mega$Sev3 + mega$Sev4 + mega$Sev5)/5
+
+#visualize data
+hist(mega$Sev)
+boxplot(mega$Sev) #several outliers
+boxplot.stats(mega$Sev)
+
+#find 3 sd below the mean
+mean(mega$Sev) - (3*sd(mega$Sev))
+
+#recode outliers to be equal to 3 sd below the mean
+mega$Sev[mega$Sev <= mean(mega$Sev) - (3*sd(mega$Sev))] <- mean(mega$Sev) - (3*sd(mega$Sev))
+
+#cronbachs alpha
+sev_2d <- subset(mega, select=c(Sev1, Sev2, Sev3, Sev4, Sev5))
+psych::alpha(sev_2d)
+
+
+
+
+
+
+#####################TIPI - Victim#########################
+######Prolific Sample 1
 Prof1$TIPI_V2_r <- 8 - Prof1$TIPI_V2
 Prof1$TIPI_V4_r <- 8 - Prof1$TIPI_V4
 Prof1$TIPI_V6_r <- 8 - Prof1$TIPI_V6
@@ -1769,65 +1962,428 @@ Prof1$TIPI_V10_r <- 8 - Prof1$TIPI_V10
 Prof1$TIPI_V <- (Prof1$TIPI_V1 + Prof1$TIPI_V2_r + Prof1$TIPI_V3 + Prof1$TIPI_V4_r + 
                    Prof1$TIPI_V5 + Prof1$TIPI_V6_r + Prof1$TIPI_V7 + Prof1$TIPI_V8_r + 
                    Prof1$TIPI_V9 + Prof1$TIPI_V10_r)/10
+#visualize data
 hist(Prof1$TIPI_V)
+boxplot(Prof1$TIPI_V)
+boxplot.stats(Prof1$TIPI_V)
+
+#find 3 sd below and above the mean
+mean(Prof1$TIPI_V) - (3*sd(Prof1$TIPI_V)) #need to recode some outliers below
+mean(Prof1$TIPI_V) + (3*sd(Prof1$TIPI_V)) #no outliers above to recode
+
+#recode outliers 3sd below the mean
+Prof1$TIPI_V[Prof1$TIPI_V <= mean(Prof1$TIPI_V) - (3*sd(Prof1$TIPI_V))] <- mean(Prof1$TIPI_V) - (3*sd(Prof1$TIPI_V))
 
 
-TIPI_Vic <- subset(Prof1, select = c(TIPI_V1, TIPI_V2_r, TIPI_V3, TIPI_V4_r, 
+#cronbach alpha                                                                                                 
+TIPI_Vic1 <- subset(Prof1, select = c(TIPI_V1, TIPI_V2_r, TIPI_V3, TIPI_V4_r, 
                                      TIPI_V5, TIPI_V6_r, TIPI_V7, TIPI_V8_r,
                                      TIPI_V9, TIPI_V10_r))
-alpha(TIPI_Vic) #six is a bad item. 
+psych::alpha(TIPI_Vic1) #six is a bad item. but we are going to keep it since alpha is fine an its an established scale 
 
-##ASK BRI IF WE SHOULD DROP ITEM 6 - can drop from both V and P if we want#########
+#####Prolific Sample 2
+Prof2$TIPI_V2_r <- 8 - Prof2$TIPI_V2
+Prof2$TIPI_V4_r <- 8 - Prof2$TIPI_V4
+Prof2$TIPI_V6_r <- 8 - Prof2$TIPI_V6
+Prof2$TIPI_V8_r <- 8 - Prof2$TIPI_V8
+Prof2$TIPI_V10_r <- 8 - Prof2$TIPI_V10
 
-#Likeability of victim
-Prof1$Like_V <- (Prof1$Like_V1 + Prof1$Like_V2 + Prof1$Like_V3 + Prof1$Like_V4 + 
-                   Prof1$Like_V5)/5
+Prof2$TIPI_V <- (Prof2$TIPI_V1 + Prof2$TIPI_V2_r + Prof2$TIPI_V3 + Prof2$TIPI_V4_r + 
+                   Prof2$TIPI_V5 + Prof2$TIPI_V6_r + Prof2$TIPI_V7 + Prof2$TIPI_V8_r + 
+                   Prof2$TIPI_V9 + Prof2$TIPI_V10_r)/10
 
-Like_Va <- subset(Prof1, select = c(Like_V1, Like_V2, Like_V3, Like_V4, Like_V5))
-alpha(Like_Va) #very low alpha - this scale needs to be changed
-#Items 3, 4 and 5 were presented weird to participants. ASK BRI whether to keep or trash
+#visualize data
+hist(Prof2$TIPI_V)
+boxplot(Prof2$TIPI_V) #many outliers - need to recode
+boxplot.stats(Prof2$TIPI_V)
 
-#SA - Victim
+#find the value that is 3 sd above and below the mean
+mean(Prof2$TIPI_V) - (3*sd(Prof2$TIPI_V)) #have some below we need to recode
+mean(Prof2$TIPI_V) + (3*sd(Prof2$TIPI_V)) #have some above to recode as well
+
+#recode values outside of +/- 3 sd to 3 sd
+Prof2$TIPI_V[Prof2$TIPI_V <= mean(Prof2$TIPI_V) - (3*sd(Prof2$TIPI_V))] <- mean(Prof2$TIPI_V) - (3*sd(Prof2$TIPI_V))
+Prof2$TIPI_V[Prof2$TIPI_V >= mean(Prof2$TIPI_V) + (3*sd(Prof2$TIPI_V))] <- mean(Prof2$TIPI_V) + (3*sd(Prof2$TIPI_V))
+boxplot.stats(Prof2$TIPI_V)
+
+#cronbach alpha
+TIPI_Vic2 <- subset(Prof2, select = c(TIPI_V1, TIPI_V2_r, TIPI_V3, TIPI_V4_r, 
+                                      TIPI_V5, TIPI_V6_r, TIPI_V7, TIPI_V8_r,
+                                      TIPI_V9, TIPI_V10_r))
+psych::alpha(TIPI_Vic2)
+
+#######Sona
+#reverse score
+sona$TIPI_V2_r <- 8 - sona$TIPI_V2
+sona$TIPI_V4_r <- 8 - sona$TIPI_V4
+sona$TIPI_V6_r <- 8 - sona$TIPI_V6
+sona$TIPI_V8_r <- 8 - sona$TIPI_V8
+sona$TIPI_V10_r <- 8 - sona$TIPI_V10
+
+#scale average
+sona$TIPI_V <- (sona$TIPI_V1 + sona$TIPI_V2_r + sona$TIPI_V3 + sona$TIPI_V4_r + 
+                   sona$TIPI_V5 + sona$TIPI_V6_r + sona$TIPI_V7 + sona$TIPI_V8_r + 
+                   sona$TIPI_V9 + sona$TIPI_V10_r)/10
+
+#visualize it
+hist(sona$TIPI_V)
+boxplot(sona$TIPI_V) #many outliers - need to recode
+boxplot.stats(sona$TIPI_V)
+
+#find values that are 3sd above and below the mean
+mean(sona$TIPI_V) - (3*sd(sona$TIPI_V)) #some values below need to be recoded
+mean(sona$TIPI_V) + (3*sd(sona$TIPI_V)) #no values above to recode
+
+#recode values outside of -3 sd to be -3sd
+sona$TIPI_V[sona$TIPI_V <= mean(sona$TIPI_V) - (3*sd(sona$TIPI_V))] <- mean(sona$TIPI_V) - (3*sd(sona$TIPI_V))
+
+#cronbachs alpha
+TIPI_Vic3 <- subset(sona, select = c(TIPI_V1, TIPI_V2_r, TIPI_V3, TIPI_V4_r, 
+                                      TIPI_V5, TIPI_V6_r, TIPI_V7, TIPI_V8_r,
+                                      TIPI_V9, TIPI_V10_r))
+psych::alpha(TIPI_Vic3)
+
+#######Mega
+#reverse score
+mega$TIPI_V2_r <- 8 - mega$TIPI_V2
+mega$TIPI_V4_r <- 8 - mega$TIPI_V4
+mega$TIPI_V6_r <- 8 - mega$TIPI_V6
+mega$TIPI_V8_r <- 8 - mega$TIPI_V8
+mega$TIPI_V10_r <- 8 - mega$TIPI_V10
+
+mega$TIPI_V <- (mega$TIPI_V1 + mega$TIPI_V2_r + mega$TIPI_V3 + mega$TIPI_V4_r + 
+                  mega$TIPI_V5 + mega$TIPI_V6_r + mega$TIPI_V7 + mega$TIPI_V8_r + 
+                  mega$TIPI_V9 + mega$TIPI_V10_r)/10
+hist(mega$TIPI_V)
+boxplot(mega$TIPI_V) #many outliers - need to recode
+boxplot.stats(mega$TIPI_V)
+
+#find 3 sd above and below the mean
+mean(mega$TIPI_V) - (3*sd(mega$TIPI_V)) #have some below that need to be recoded
+mean(mega$TIPI_V) + (3*sd(mega$TIPI_V)) #some above need to be recoded too
+
+#recode outliers
+mega$TIPI_V[mega$TIPI_V <= mean(mega$TIPI_V) - (3*sd(mega$TIPI_V))] <- mean(mega$TIPI_V) - (3*sd(mega$TIPI_V))
+mega$TIPI_V[mega$TIPI_V >= mean(mega$TIPI_V) + (3*sd(mega$TIPI_V))] <- mean(mega$TIPI_V) + (3*sd(mega$TIPI_V))
+
+#cronbachs alpha
+TIPI_Vic4 <- subset(mega, select = c(TIPI_V1, TIPI_V2_r, TIPI_V3, TIPI_V4_r, 
+                                     TIPI_V5, TIPI_V6_r, TIPI_V7, TIPI_V8_r,
+                                     TIPI_V9, TIPI_V10_r))
+psych::alpha(TIPI_Vic4)
+
+
+
+
+
+####################Likeability of victim####################
+#######Prolific Sample 1
+#for Prof1, we are only using the first two items in the scale since the others were not displayed correctly
+Prof1$Like_V <- (Prof1$Like_V1 + Prof1$Like_V2)/2
+
+boxplot(Prof1$Like_V) #no outliers
+
+#######Prolific Sample 2
+#for sample 2, we are using all 5 items in the scale
+Prof2$Like_V <- (Prof2$Like_V1 + Prof2$Like_V2 + Prof2$Like_V3 + Prof2$Like_V4 + 
+                   Prof2$Like_V5)/5
+#visualize data
+hist(Prof2$Like_V)
+boxplot(Prof2$Like_V) #one potential outlier
+boxplot.stats(Prof2$Like_V)
+
+#check what 3 sd above mean is
+mean(Prof2$Like_V) + 3*sd(Prof2$Like_V) #outlier is not > 3 sd above mean
+
+#cronbachs alpha
+LikeV2 <- subset(Prof2, select = c(Like_V1, Like_V2, Like_V3, Like_V4, Like_V5))
+psych::alpha(LikeV2)
+
+######Sona
+sona$Like_V <- (sona$Like_V1 + sona$Like_V2 + sona$Like_V3 + sona$Like_V4 + 
+                  sona$Like_V5)/5
+hist(sona$Like_V)
+boxplot(sona$Like_V) #some outliers
+boxplot.stats(sona$Like_V)
+
+#find 3 sd above and below mean
+mean(sona$Like_V, na.rm = T) - 3*sd(sona$Like_V, na.rm = T) #some outliers below need to be recoded
+mean(sona$Like_V, na.rm = T) + 3*sd(sona$Like_V, na.rm = T) #some above need to be recoded
+
+#recode outliers
+sona$Like_V[sona$Like_V <= mean(sona$Like_V, na.rm = T) - 3*sd(sona$Like_V, na.rm = T)] <- mean(sona$Like_V, na.rm = T) - 3*sd(sona$Like_V, na.rm = T)
+sona$Like_V[sona$Like_V >= mean(sona$Like_V, na.rm = T) + 3*sd(sona$Like_V, na.rm = T)] <- mean(sona$Like_V, na.rm = T) + 3*sd(sona$Like_V, na.rm = T)
+
+#cronbachs alpha
+LikeV3 <- subset(sona, select = c(Like_V1, Like_V2, Like_V3, Like_V4, Like_V5))
+psych::alpha(LikeV3)
+
+#######Mega
+mega$Like_V <- (mega$Like_V1 + mega$Like_V2 + mega$Like_V3 + mega$Like_V4 +
+                  mega$Like_V5)/5          
+
+hist(mega$Like_V)  
+boxplot(mega$Like_V) #some potential outliers above and below
+boxplot.stats(mega$Like_V)
+
+#calculate 3 sd above and below mean
+mean(mega$Like_V, na.rm = T) - 3*sd(mega$Like_V, na.rm = T) #some below to recode
+mean(mega$Like_V, na.rm = T) + 3*sd(mega$Like_V, na.rm = T) #some above to recode
+
+#recode outliers
+mega$Like_V[mega$Like_V <= mean(mega$Like_V, na.rm = T) - 3*sd(mega$Like_V, na.rm = T)] <- 
+  mean(mega$Like_V, na.rm = T) - 3*sd(mega$Like_V, na.rm = T)
+mega$Like_V[mega$Like_V >= mean(mega$Like_V, na.rm = T) + 3*sd(mega$Like_V, na.rm = T)] <- 
+  mean(mega$Like_V, na.rm = T) + 3*sd(mega$Like_V, na.rm = T)
+
+#cronbach's alpha
+LikeV4 <- subset(mega, select = c(Like_V1, Like_V2, Like_V3, Like_V4, Like_V5))
+psych::alpha(LikeV4)
+
+
+
+
+
+
+#####################SA - Victim#####################
+###NEED TO REVERSE CODE THIS VARIABLE#####
+#####Prolific Sample 1
 Prof1$SA_V <- (Prof1$SA_V_1 + Prof1$SA_V_2 + Prof1$SA_V_3 + Prof1$SA_V_4 + 
                  Prof1$SA_V_5)/5
-SA_va <- subset(Prof1, select = c(SA_V_1, SA_V_2, SA_V_3, SA_V_4, SA_V_5))
-alpha(SA_va)
+Prof1$SA_V.rc <- 8 - Prof1$SA_V
+
+#visualize data
+hist(Prof1$SA_V)
+boxplot(Prof1$SA_V.rc) #several outliers
+boxplot.stats(Prof1$SA_V) 
+
+#calculate 3 sd above and below mean
+mean(Prof1$SA_V.rc, na.rm = T) - 3*sd(Prof1$SA_V.rc, na.rm = T) #none fall 3 sd below mean
+mean(Prof1$SA_V.rc, na.rm = T) + 3*sd(Prof1$SA_V.rc, na.rm = T) #none fall 3 sd above mean
+
+#cronbachs alpha
+SA_va1 <- subset(Prof1, select = c(SA_V_1, SA_V_2, SA_V_3, SA_V_4, SA_V_5))
+psych::alpha(SA_va1)
+
+#####Prolific Sample 2
+Prof2$SA_V <- (Prof2$SA_V_1 + Prof2$SA_V_2 + Prof2$SA_V_3 + Prof2$SA_V_4 + 
+                 Prof2$SA_V_5)/5
+Prof2$SA_V.rc <- 8 - Prof2$SA_V
+
+#visualize data
+hist(Prof2$SA_V)
+boxplot(Prof2$SA_V.rc) #several outliers to recode
+boxplot.stats(Prof2$SA_V.rc)
+
+#find 3 sd above and below mean
+mean(Prof2$SA_V.rc) - 3*sd(Prof2$SA_V.rc) #no outliers below mean to recode
+mean(Prof2$SA_V.rc) + 3*sd(Prof2$SA_V.rc) #no outliers above mean to recode
+
+#cronbachs alpha
+SA_va2 <- subset(Prof2, select = c(SA_V_1, SA_V_2, SA_V_3, SA_V_4, SA_V_5))
+psych::alpha(SA_va2)
+
+
+######Sona
+sona$SA_V <- (sona$SA_V_1 + sona$SA_V_2 + sona$SA_V_3 + sona$SA_V_4 + sona$SA_V_5)/5
+sona$SA_V.rc <- 8 - sona$SA_V
+
+
+#visualize data
+hist(sona$SA_V.rc)
+boxplot(sona$SA_V.rc) #several outliers
+boxplot.stats(sona$SA_V.rc)
+
+#calculate 3 sd above and below mean
+mean(sona$SA_V.rc) - 3*sd(sona$SA_V.rc) #not outliers below to recode
+mean(sona$SA_V.rc) + 3*sd(sona$SA_V.rc) #some outliers above to recode
+
+#recode outliers above to be = to 3sd above the means
+sona$SA_V.rc[sona$SA_V.rc >= mean(sona$SA_V.rc, na.rm = T) + 3*sd(sona$SA_V.rc, na.rm = T)] <- 
+  mean(sona$SA_V.rc, na.rm = T) + 3*sd(sona$SA_V.rc, na.rm = T)
+boxplot.stats(sona$SA_V.rc)
+
+#cronbach's alpha
+SA_V3 <- subset(sona, select = c(SA_V_1, SA_V_2, SA_V_3, SA_V_4, SA_V_5))
+psych::alpha(SA_V3)
+
+######Mega
+mega$SA_V <- (mega$SA_V_1 + mega$SA_V_2 + mega$SA_V_3 + mega$SA_V_4 + mega$SA_V_5)/5
+mega$SA_V.rc <- 8 - mega$SA_V
+
+
+#visualize data
+hist(mega$SA_V.rc)
+boxplot(mega$SA_V.rc) #some outliers 
+boxplot.stats(mega$SA_V.rc)
+
+#calculate 3sd above and below the mean
+mean(mega$SA_V.rc, na.rm = T) - 3*sd(mega$SA_V.rc, na.rm = T) #no outliers below to recode
+mean(mega$SA_V.rc, na.rm = T) + 3*sd(mega$SA_V.rc, na.rm = T) #no outliers above to recode
+
+#cronbach's alpha
+SA_V4 <- subset(mega, select = c(SA_V_1, SA_V_2, SA_V_3, SA_V_4, SA_V_5))
+psych::alpha(SA_V4)
 
 
 
-#Empathy for the Victim - these are just the 6 empathy items
-##there are still some distress and filler items not included in this summation
+
+###################Empathy for the Victim######################### 
+######Prolific Sample 1
 Prof1$Emp_V <- (Prof1$Emp_V_1 + Prof1$Emp_V_2 + Prof1$Emp_V_5 + Prof1$Emp_V_10 +
                   Prof1$Emp_V_15 + Prof1$Emp_V_17)/6
+#visualize data
 hist(Prof1$Emp_V)
+boxplot(Prof1$Emp_V)
 
-Emp_Va <- subset(Prof1, select = c(Emp_V_1, Emp_V_2, Emp_V_5, Emp_V_10, 
+#cronbachs alpha
+Emp_Va1 <- subset(Prof1, select = c(Emp_V_1, Emp_V_2, Emp_V_5, Emp_V_10, 
                                    Emp_V_15, Emp_V_17))
-alpha(Emp_Va)
+psych::alpha(Emp_Va1)
+
+#######prolific Sample 2
+Prof2$Emp_V <- (Prof2$Emp_V_1 + Prof2$Emp_V_2 + Prof2$Emp_V_5 + Prof2$Emp_V_10 +
+                  Prof2$Emp_V_15 + Prof2$Emp_V_17)/6
+#visualize data
+hist(Prof2$Emp_V)
+boxplot(Prof2$Emp_V) #no outliers
+
+#cronbachs alpha
+Emp_Va2 <- subset(Prof2, select = c(Emp_V_1, Emp_V_2, Emp_V_5, Emp_V_10, 
+                                    Emp_V_15, Emp_V_17))
+psych::alpha(Emp_Va2)
+
+#####sona
+sona$Emp_V <- (sona$Emp_V_1 + sona$Emp_V_2 + sona$Emp_V_5 + sona$Emp_V_10 + 
+                 sona$Emp_V_15 + sona$Emp_V_17)/6
+
+#visualize data
+hist(sona$Emp_V)
+boxplot(sona$Emp_V) #no outliers
+
+#cronbach's alphs
+Emp_Va3 <- subset(sona, select = c(Emp_V_1, Emp_V_2, Emp_V_5, Emp_V_10, 
+                                  Emp_V_15, Emp_V_17))
+psych::alpha(Emp_Va3)
+
+
+####mega
+mega$Emp_V <- (mega$Emp_V_1 + mega$Emp_V_2 + mega$Emp_V_5 + mega$Emp_V_10 +
+                 mega$Emp_V_15 + mega$Emp_V_17)/6
+
+#visualize data
+hist(mega$Emp_V)
+boxplot(mega$Emp_V) #no outliers
+
+#cronbachs alpha
+Emp_Va4 <- subset(mega, select = c(Emp_V_1, Emp_V_2, Emp_V_5, Emp_V_10, Emp_V_15,
+                                   Emp_V_17))
+psych::alpha(Emp_Va4)
+
+
+##################Distress towards the Victim#############
+#####Prolific sample 1
+Prof1$distV <- (Prof1$Emp_V_4 + Prof1$Emp_V_6 + Prof1$Emp_V_7 + 
+                  Prof1$Emp_V_13 + Prof1$Emp_V_16 + Prof1$Emp_V_18)/6
+#visualize data
+hist(Prof1$distV)
+boxplot(Prof1$distV) #no outliers
+
+#cronbachs alpha
+distV1 <- subset(Prof1, select = c(Emp_V_4, Emp_V_6, Emp_V_7, Emp_V_13, 
+                                   Emp_V_16, Emp_V_18))
+psych::alpha(distV1)
+
+######prolific sample 2
+Prof2$distV <- (Prof2$Emp_V_4 + Prof2$Emp_V_6 + Prof2$Emp_V_7 +
+                  Prof2$Emp_V_13 + Prof2$Emp_V_16 + Prof2$Emp_V_18)/6
+
+#visualize data
+hist(Prof2$distV)
+boxplot(Prof2$distV) #no outliers
+
+#cronbachs alpha
+distV2 <- subset(Prof2, select =c(Emp_V_4, Emp_V_6, Emp_V_7, Emp_V_13, Emp_V_16, Emp_V_18))
+psych::alpha(distV2)
+
+######Sona
+sona$distV <- (sona$Emp_V_4 + sona$Emp_V_6 + sona$Emp_V_7 + sona$Emp_V_13 + 
+                 sona$Emp_V_16 + sona$Emp_V_18)/6
+
+#visualize data
+hist(sona$distV)
+boxplot(sona$distV) #no outliers
+
+#cronbachs alpha
+distV3 <- subset(sona, select = c(Emp_V_4, Emp_V_6, Emp_V_7, Emp_V_13, Emp_V_16, Emp_V_18))
+psych::alpha(distV3)
+
+#####mega sample
+mega$distV <- (mega$Emp_V_4 + mega$Emp_V_6 + mega$Emp_V_7 + mega$Emp_V_13 + 
+                 mega$Emp_V_16 + mega$Emp_V_18)/6
+
+#visualize data
+hist(mega$distV)
+boxplot(mega$distV) #no outliers
+
+#cronbachs alpha
+distV4 <- subset(mega, select = c(Emp_V_4, Emp_V_6, Emp_V_7, Emp_V_13, Emp_V_16, Emp_V_18))
+psych::alpha(distV4)
 
 
 
-
-
-
-
-
-####Data Subsets###
+#####################Data Subsets###################
+#make a reverse coded SES variable
+Prof1$SES10 <- 1 - Prof1$SES
+Prof2$SES10 <- 1 - Prof2$SES
+sona$SES10 <- 1 - sona$SES
+mega$SES10 <- 1 - mega$SES
 #make atonement condition a factor
 #reverse code atonement so that 2 = low, 1 = med, and 0 = high
 Prof1$atone.r <- 2-Prof1$Atonement
-Prof1$atone.r <- factor(Prof1$Atonement, 
+Prof1$atone.r <- factor(Prof1$atone.r, 
                            levels = c("0", "1", "2"),
                            labels = c("High", "Med", "Low"))
+Prof2$atone.r <- 2-Prof2$Atonement
+Prof2$atone.r <- factor(Prof2$atone.r, 
+                        levels = c("0", "1", "2"),
+                        labels = c("High", "Med", "Low"))
+sona$atone.r <- 2-sona$Atonement
+sona$atone.r <- factor(sona$atone.r, 
+                        levels = c("0", "1", "2"),
+                        labels = c("High", "Med", "Low"))
+mega$atone.r <- 2-mega$Atonement
+mega$atone.r <- factor(mega$atone.r, 
+                        levels = c("0", "1", "2"),
+                        labels = c("High", "Med", "Low"))
+mega$atone.test <- 2 - mega$Atonement
+mega$atone.test <- as.factor(mega$atone.test)
+
+
+#make the sample variable a factor in the mega data set
+#mega$sample <- factor(mega$sample, 
+    #                  levels = c("1", "2", "3"),
+     #                 labels = c("Prolific1", "Prolific2", "Sona"))
+
+
+###Dummy coded contrasts
+#Comparing Prolific 1 to Prolific 2, Prof1 = -1, sona = 0, Prof2 = 1
+mega$sampleD1 <- as.numeric(dplyr::recode(mega$sample, "1" = "-1", "2" = "1", "3" = "0"))
+
+#Comparing Sona to Prolific1/Prolific 2, Sona = -2, Prof1 = 1, Prof 2 = 1
+mega$sampleD2 <- as.numeric(dplyr::recode(mega$sample, "1" = "1", "2" = "1", "3" = "-2"))
 
 #High Status Condition
-HS <- subset(Prof1, SES == 1)
+p1HS <- subset(Prof1, SES == 1)
+p2HS <- subset(Prof2, SES == 1)
+sHS <- subset(sona, SES == 1)
+mHS <- subset(mega, SES ==1)
 
 #Low status Condition
-LS <- subset(Prof1, SES == 0)
-
-
-
+p1LS <- subset(Prof1, SES == 0)
+p2LS <- subset(Prof2, SES == 0)
+sLS <- subset(sona, SES == 0)
+mLS <- subset(mega, SES == 0)
 
 
 
@@ -1835,27 +2391,719 @@ LS <- subset(Prof1, SES == 0)
 ########################################Analysis########################################
 #Setting Helmert Contrasts
 contr1 <- list(atone.r = contr.helmert)
+
   #we are using the reverse coded atonement to create the contrasts. 
   #this will contrast 0 and 1 to 2 (high/med to low) and 0 to 1 (high to med)
 
 
+
+
 ###Research Question 2 and 3: Looking at DVs relevant to the Victim####
-#Victim response
-Vresp_anal1 <- lm(Vresp ~ esj.m*atone.r, data = HS, contrasts = contr1)
-summary(Vresp_anal1)
+####Severity of the incidence####
 
-#TIPI - Vict
-TIPIv_anal1 <- lm(TIPI_V ~ esj.m*atone.r, data = HS, contrasts = contr1)
-summary(TIPIv_anal1)
+#prolific sample 1, high status
+sev_prof1h <- lm(Sev ~ esj.m*atone.r, data = p1HS, contrasts = contr1)
+summary(sev_prof1h)
+
+#prolific sample 1, low status
+sev_prof1l <- lm(Sev ~ esj.m*atone.r, data = p1LS, contrasts = contr1)
+summary(sev_prof1l)
+
+#prolific sample 1 three way interaction
+sev_prof1 <- lm(Sev ~ esj.m*atone.r*SES, data = Prof1)
+summary(sev_prof1)
+
+#prolific sample 2, high status
+sev_prof2h <- lm(Sev ~ esj.m*atone.r, data = p2HS, contrasts = contr1)
+summary(sev_prof2h)
+
+#prolific sample 2, low status
+sev_prof2l <- lm(Sev ~ esj.m*atone.r, data = p2LS, contrasts = contr1)
+summary(sev_prof2l)
+
+#prolific sample 2, three way interaction
+sev_prof2 <- lm(Sev ~ esj.m*atone.r*SES, data = Prof2, contrasts = contr1)
+summary(sev_prof2)
+
+#sona sample, high status
+sev_sonah <- lm(Sev ~ esj.m*atone.r, data = sHS, contrasts = contr1)
+summary(sev_sonah)
+
+#sona sample, low status
+sev_sonal <- lm(Sev ~ esj.m*atone.r, data = sLS, contrasts = contr1)
+summary(sev_sonal)
+
+#sona sample, three way interaction
+sev_sona <- lm(Sev ~ esj.m*atone.r*SES, data = sona, contrasts = contr1)
+summary(sev_sona)
 
 
-#Likeability of Vic - need to come back to after fixing scale
+#Severity of incidence - mega sample - hierarchical regression###
 
-#SA - Victim
-SAV_anal1 <- lm(SA_V ~ esj.m*atone.r, data = HS, contrasts = contr1)
-summary(SAV_anal1)
+#mega sample, high status,
+#step 1 - sample 
+m1s1 <- lm(Sev ~ sampleD1 + sampleD2, data = mHS)
+summary(m1s1) #sample predicts severity of incident
+#step 2 - main effects
+m1s2 <- lm(Sev ~ sampleD1 + sampleD2 + esj.m + atone.r, data = mHS, contrasts = contr1)
+summary(m1s2)
+anova(m1s1, m1s2)
+#step 3 - two way interactions
+m1s3 <- lm(Sev ~ sampleD1 + sampleD2 +esj.m*atone.r, data = mHS, contrasts = contr1)
+summary(m1s3)
+anova(m1s2, m1s3) #no stat difference in steps
 
 
-#Empathy for victim
-EmpV_anal1 <- lm(Emp_V ~ esj.m*atone.r, data = HS, contrasts = contr1)
-summary(EmpV_anal1)
+#mega sample, low status, controlled for sample differences
+#step 1 - sample
+m2s1 <- lm(Sev ~ sampleD1 + sampleD2, data = mLS)
+summary(m2s1) #sample significant predictor
+#step 2 - main effects
+m2s2 <- lm(Sev ~ sampleD1 + sampleD2 + esj.m + atone.r, data = mLS, contrasts = contr1)
+summary(m2s2)
+anova(m2s1, m2s2)
+#step 3 - two way interactions
+m2s3 <- lm(Sev ~ sampleD1 + sampleD2 + esj.m*atone.r, data = mLS, contrasts = contr1)
+summary(m2s3)
+#plot(m2s3)
+anova(m2s2, m2s3)
+#plot_model(m2s3)
+simple_slopes(m2s3)
+ggeffect(m2s3)
+
+
+#mega sample, three way interactions
+#step 1 - sample
+m3s1 <- lm(Sev ~ sampleD1 + sampleD2, data = mega)
+summary(m3s1)
+#Step 2 - main effects
+m3s2 <- lm(Sev ~ sampleD1 + sampleD2 + SES + esj.m + atone.r, data = mega, contrasts = contr1)
+summary(m3s2)
+anova(m3s1, m3s2)
+#step 3 - two way interactions
+m3s3 <- lm(Sev ~ sampleD1 + sampleD2 + SES*esj.m + SES*atone.r + esj.m*atone.r, data = mega, contrasts = contr1)
+summary(m3s3)
+anova(m3s2, m3s3)
+#step 4 - three way interaction
+m3s4 <- lm(Sev ~ sampleD1 + sampleD2 + SES*esj.m*atone.r, data = mega, contrasts = contr1)
+summary(m3s4)
+anova(m3s3, m3s4)
+
+#step 4 - three-way interaction with SES reverse coded
+m3s4r <- lm(Sev ~ sampleD1 + sampleD2 +SES10*esj.m*atone.r, data=mega, contrasts = contr1)
+summary(m3s4r)
+sev_megal <- lm(Sev ~ esj.m*atone.r + sample, data = mLS, contrasts = contr1)
+summary(sev_megal)
+
+
+
+
+#####Victim responsibility####
+#prolific sample 1, high status
+TIPIv_prof1h <- lm(TIPI_V ~ esj.m*atone.r, data = p1HS, contrasts = contr1)
+summary(TIPIv_prof1h)
+
+#Prolific sample 1, low status
+TIPIv_prof1l <- lm(TIPI_V ~ esj.m*atone.r, data = p1LS, contrasts = contr1)
+summary(TIPIv_prof1l)
+
+#Prolific sample 1, three way interaction
+TIPIv_prof1 <- lm(TIPI_V ~ esj.m*atone.r*SES, data = Prof1, contrasts = contr1)
+summary(TIPIv_prof1)
+
+#Prolific sample 2, high status
+Vresp_prof2h <- lm(Vresp ~ esj.m*atone.r, data = p2HS, contrasts = contr1)
+summary(Vresp_prof2h)
+
+#Profilic Sample 2, low status
+Vresp_prof2l <- lm(Vresp ~ esj.m*atone.r, data = p2LS, contrasts = contr1)
+summary(Vresp_prof2b)
+
+#Prolific Sample 2, three way interaction
+Vresp_prof2 <- lm(Vresp ~ esj.m*atone.r*SES, data = Prof2, contrasts = contr1)
+summary(Vresp_prof2)
+
+#sona sample, high status
+Vresp_sonah <- lm(Vresp ~ esj.m*atone.r, data = sHS, contrasts = contr1)
+summary(Vresp_sonah)
+
+#sona sample, low status
+Vresp_sonal <- lm(Vresp ~ esj.m*atone.r, data = sLS, contrasts = contr1)
+summary(Vresp_sonal)
+
+#sona sample, three way interaction
+Vresp_sona <- lm(Vresp ~ esj.m*atone.r*SES, data = sona, contrasts = contr1)
+summary(Vresp_sona)
+
+#mega sample - high status - hierarchical regression
+#step 1 - sample
+Vresp_m1s1 <- lm(Vresp ~ sampleD1 + sampleD2, data = mHS)
+summary(Vresp_m1s1)
+#step 2 - main effects
+Vresp_m1s2 <- lm(Vresp ~ sampleD1 + sampleD2 + esj.m + atone.r, data = mHS, contrasts = contr1)
+summary(Vresp_m1s2)
+anova(Vresp_m1s1, Vresp_m1s2)
+#step 3 - interactions
+Vresp_m1s3 <- lm(Vresp ~ sampleD1 + sampleD2 + esj.m*atone.r, data = mHS, contrasts = contr1)
+summary(Vresp_m1s3)
+anova(Vresp_m1s2, Vresp_m1s3)
+  #simple Slopes
+Vresp_ss <- lm(Vresp ~ esj*Atonement, data = mHS)
+simple_slopes(Vresp_ss)
+
+
+#mega sample - low status - hierarchical regression
+#step 1 - sample
+Vresp_m2s1 <- lm(Vresp ~ sampleD1 + sampleD2, data = mLS)
+summary(Vresp_m2s1)
+#step 2 - main effects
+Vresp_m2s2 <- lm(Vresp ~ sampleD1 + sampleD2 + esj.m + atone.r, data = mLS, contrasts = contr1)
+summary(Vresp_m2s2)
+anova(Vresp_m2s1, Vresp_m2s2)
+#step 3 - interactions
+Vresp_m2s3 <- lm(Vresp ~ sampleD1 + sampleD2 + esj.m*atone.r, data = mLS, contrasts = contr1)
+summary(Vresp_m2s3)
+anova(Vresp_m2s2, Vresp_m2s3)
+
+#mega sample - three way interaction - hierarchical regressions
+#step 1 - sample
+Vresp_m3s1 <- lm(Vresp ~ sampleD1 + sampleD2, data = mega)
+summary(Vresp_m3s1)
+#step 2 - main effects
+Vresp_m3s2 <- lm(Vresp ~ sampleD1 + sampleD2 + esj.m + atone.r + SES, data = mega, contrasts = contr1)
+summary(Vresp_m3s2)
+anova(Vresp_m3s1, Vresp_m3s2)
+#step 3 - two way interactions
+Vresp_m3s3 <- lm(Vresp ~ sampleD1 + sampleD2 + esj.m*atone.r + esj.m*SES + atone.r*SES, data =mega, contrasts = contr1)
+summary(Vresp_m3s3)
+anova(Vresp_m3s2, Vresp_m3s3)
+#step 4 - three way interaction
+Vresp_m3s4 <- lm(Vresp ~ sampleD1 + sampleD2 + esj.m*atone.r*SES, data = mega, contrasts = contr1)
+summary(Vresp_m3s4)
+anova(Vresp_m3s3, Vresp_m3s4)
+
+Vresp_m3s5 <- lm(Vresp ~ sampleD1 + sampleD2 + esj.m*atone.r*SES10, data = mega, contrasts = contr1)
+summary(Vresp_m3s5)
+
+
+#####TIPI - Vict####
+#Prolific sample 1, high status
+TIPIv_prof1h <- lm(TIPI_V ~ esj.m*atone.r, data = p1HS, contrasts = contr1)
+summary(TIPIv_prof1h)
+
+#Prolific sample 1, low status
+TIPIv_prof1l <- lm(TIPI_V ~ esj.m*atone.r, data = p1LS, contrasts = contr1)
+summary(TIPIv_prof1l)
+
+#prolific sample 1, three way interaction
+TIPIv_prof1 <- lm(TIPI_V ~ esj.m*atone.r*SES, data = Prof1, contrasts = contr1)
+summary(TIPIv_prof1)
+
+#Prolific sample 2, high status
+TIPIv_prof2h <- lm(TIPI_V ~ esj.m*atone.r, data = p2HS, contrasts = contr1)
+summary(TIPIv_prof2h)
+
+#Prolific sample 2, low status
+TIPIv_prof2l <- lm(TIPI_V ~ esj.m*atone.r, data = p2LS, contrasts = contr1)
+summary(TIPIv_prof2l)
+
+#Prolific sample 2, three way interaction
+TIPIv_prof2 <- lm(TIPI_V ~ esj.m*atone.r*SES, data = Prof2, contrasts = contr1)
+summary(TIPIv_prof2)
+
+#sona sample, high status
+TIPIv_sonah <- lm(TIPI_V ~ esj.m*atone.r, data = sHS, contrasts = contr1)
+summary(TIPIv_sonah)
+
+#sona sample, low status
+TIPIv_sonal <- lm(TIPI_V ~ esj.m*atone.r, data = sLS, contrasts = contr1)
+summary(TIPIv_sonal)
+
+#sona sample, three way interaction
+TIPIv_sona <- lm(TIPI_V ~ esj.m*atone.r*SES, data = sona, contrasts = contr1)
+summary(TIPIv_sona)
+
+#mega sample - hierarchical regression - high status
+#step 1 - sample
+TIPIs1 <- lm(TIPI_V ~ sampleD1 + sampleD2, data = mHS)
+summary(TIPIs1)
+#step 2 - main effects
+TIPIs2 <- lm(TIPI_V ~ sampleD1 + sampleD2 + atone.r + esj.m, data = mHS, contrasts = contr1)
+summary(TIPIs2)
+anova(TIPIs1, TIPIs2)
+#step 3 - two way interactions
+TIPIs3 <- lm(TIPI_V ~ sampleD1 + sampleD2 + atone.r*esj.m, data = mHS, contrasts = contr1)
+summary(TIPIs3)
+anova(TIPIs2, TIPIs3)
+
+
+#mega sample - hierarchical regression - low status
+#step 1 - sample
+TIPI2s1 <- lm(TIPI_V ~ sampleD1 + sampleD2, data = mLS)
+summary(TIPI2s1)
+#step 2 - main effects
+TIPI2s2 <- lm(TIPI_V ~ sampleD1 + sampleD2 + esj.m + atone.r, data = mLS, contrasts= contr1)
+summary(TIPI2s2)
+anova(TIPI2s1, TIPI2s2)
+#step 3 - two way interactions
+TIPI2s3 <- lm(TIPI_V ~ sampleD1 + sampleD2 + esj.m*atone.r, data = mLS, contrasts = contr1)
+summary(TIPI2s3)
+anova(TIPI2s2, TIPI2s3)
+TIPIss <- lm(TIPI_V ~ esj*Atonement, data = mLS)
+simple_slopes(TIPIss)
+
+#mega sample - hierarchical regression - three way interaction
+#step 1 - sample
+TIPI3s1 <- lm(TIPI_V ~ sampleD1 + sampleD2, data = mega)
+summary(TIPI3s1)
+#step 2 - main effects
+TIPI3s2 <- lm(TIPI_V ~ sampleD1 + sampleD2 + atone.r + esj.m + SES, data = mega, contrasts = contr1)
+summary(TIPI3s2)
+anova(TIPI3s1, TIPI3s2)
+#step 3 - two way interactions
+TIPI3s3 <- lm(TIPI_V ~ sampleD1 + sampleD2 + atone.r*esj.m + atone.r*SES + esj.m*SES, data = mega, contrasts = contr1)
+summary(TIPI3s3)
+anova(TIPI3s2, TIPI3s3)
+#step 4 - three way interaction
+TIPI3s4 <- lm(TIPI_V ~ sampleD1 + sampleD2 + atone.r*esj.m*SES, data = mega, contrasts = contr1)
+summary(TIPI3s4)
+anova(TIPI3s3, TIPI3s4)
+
+TIPI3s5 <- lm(TIPI_V ~ sampleD1 + sampleD2 + atone.r*esj.m*SES10, data = mega, contrasts = contr1)
+summary(TIPI3s5)
+
+
+
+
+######Likeability of Vic######
+#Prolific sample 1, high status
+LikeV_prof1h <- lm(Like_V ~ esj.m*atone.r, data = p1HS, contrasts = contr1)
+summary(LikeV_prof1h)
+
+#Prolific sample 1, low status
+LikeV_prof1l <- lm(Like_V ~ esj.m*atone.r, data = p1LS, contrasts = contr1)
+Summary(LikeV_prof1l)
+
+#Prolific sample 1, three way interaction
+LikeV_prof1 <- lm(Like_V ~ esj.m*atone.r*SES, data = Prof1, contrasts = contr1)
+summary(LikeV_prof1)
+
+#Prolific Sample 2, high status
+LikeV_prof2h <- lm(Like_V ~ esj.m*atone.r, data = p2HS, contrasts = contr1)
+summary(LikeV_prof2h)
+
+#Prolific Sample 2, low status
+LikeV_prof2l <- lm(Like_V ~ esj.m*atone.r, data = p2LS, contrasts = contr1)
+summary(LikeV_prof2l)
+
+#Prolific sample 2, three way interaction
+LikeV_prof2 <- lm(Like_V ~ esj.m*atone.r*SES, data = Prof2, contrasts = contr1)
+summary(LikeV_prof2)
+
+#sona sample, high status
+LikeV_sonah <- lm(Like_V ~ esj.m*atone.r, data = sHS, contrasts = contr1)
+summary(LikeV_sonah)
+
+#sona sample, low status
+LikeV_sonal <- lm(Like_V ~ esj.m*atone.r, data = sLS, contrasts = contr1)
+summary(LikeV_sonal)
+
+#sona sample, three way interaction
+LikeV_sona <- lm(Like_V ~ esj.m*atone.r*SES, data = sona, contrasts = contr1)
+summary(LikeV_sona)
+
+#mega sample - hierarchical regression - high status
+#step 1 - sample
+Like1s1 <- lm(Like_V ~ sampleD1 + sampleD2, data = mHS)
+summary(Like1s1)
+#step 2 - main effect
+Like1s2 <- lm(Like_V ~ sampleD1 + sampleD2 + atone.r + esj.m, data = mHS, contrasts = contr1)
+summary(Like1s2)
+anova(Like1s1, Like1s2)
+#step 3 - two way interactions
+Like1s3 <- lm(Like_V ~ sampleD1 + sampleD2 + atone.r*esj.m, data = mHS, contrasts = contr1)
+summary(Like1s3)
+anova(Like1s2, Like1s3)
+
+
+#mega sample - hierarchical regression - low status
+#step 1
+Like2s1 <- lm(Like_V ~ sampleD1 + sampleD2, data = mLS)
+summary(Like2s1)
+#step 2 - main effects
+Like2s2 <- lm(Like_V ~ sampleD1 + sampleD2 + atone.r + esj.m, data = mLS, contrasts = contr1)
+summary(Like2s2)
+anova(Like2s1, Like2s2)
+#step 3 - two way interactions
+Like2s3 <- lm(Like_V ~ sampleD1 + sampleD2 + atone.r*esj.m, data = mLS, contrasts = contr1)
+summary(Like2s3)
+anova(Like2s2, Like2s3)
+
+
+#mega sample - hierarchical regression - three way interaction
+#step 1 - sample
+Like3s1 <- lm(Like_V ~ sampleD1 + sampleD2, data = mega)
+summary(Like3s1)
+#step 2 - main effects
+Like3s2 <- lm(Like_V ~ sampleD1 + sampleD2 + atone.r + esj.m + SES, data = mega, contrasts = contr1)
+summary(Like3s2)
+anova(Like3s1, Like3s2)
+#step 3 - two way interactions
+Like3s3 <- lm(Like_V ~ sampleD1 + sampleD2 + atone.r*esj.m + atone.r*SES + esj.m*SES, data = mega, contrasts = contr1)
+summary(Like3s3)
+anova(Like3s2, Like3s3)
+#step 4 - three way interactions
+Like3s4 <- lm(Like_V ~ sampleD1 + sampleD2 + atone.r*esj.m*SES, data = mega, contrasts = contr1)
+summary(Like3s4)
+anova(Like3s3, Like3s4)
+Like3s5 <- lm(Like_V ~ sampleD1 + sampleD2 + atone.r*esj.m*SES10, data = mega, contrasts = contr1)
+summary(Like3s5)
+
+
+##########SA - Victim########
+#Prolific sample 1, high status
+SAV_prof1h <- lm(SA_V.rc ~ esj.m*atone.r, data = p1HS, contrasts = contr1)
+summary(SAV_prof1h)
+
+#Prolific sample 1, low status
+SAV_prof1l <- lm(SA_V.rc ~ esj.m*atone.r, data = p1LS, contrasts = contr1)
+summary(SAV_prof1l)
+
+#Prolific sample 1, three way interaction
+SAV_prof1 <- lm(SA_V.rc ~ esj.m*atone.r*SES, data = Prof1, contrasts = contr1)
+summary(SAV_prof1)
+
+#Prolific Sample 2, high status
+SAV_prof2h <- lm(SA_V.rc ~ esj.m*atone.r, data = p2HS, contrasts= contr1)
+summary(SAV_prof2h)
+
+#Prolific sample 2, low status
+SAV_prof2l <- lm(SA_V.rc ~ esj.m*atone.r, data = p2LS, contrasts= contr1)
+summary(SAV_prof2l)
+
+#Prolific sample 2, three way interaction
+SAV_prof2 <- lm(SA_V.rc ~ esj.m*atone.r*SES, data = Prof2, contrasts = contr1)
+summary(SAV_prof2)
+
+#sona sample, high status
+SAV_sonah <- lm(SA_V.rc ~ esj.m*atone.r, data = sHS, contrasts = contr1)
+summary(SAV_sonah)
+
+#sona sample, low status
+SAV_sonal <- lm(SA_V.rc ~ esj.m*atone.r, data = sLS, contrasts = contr1)
+summary(SAV_sonal)
+
+#sona sample, three way interaction
+SAV_sona <- lm(SA_V.rc ~ esj.m*atone.r*SES, data = sona, contrasts = contr1)
+summary(SAV_sona)
+
+#mega - hierarchical regression - high status
+#step 1 - sample
+SA1s1 <- lm(SA_V.rc ~ sampleD1 + sampleD2, data = mHS)
+summary(SA1s1)
+#step 2 - main effects
+SA1s2 <- lm(SA_V.rc ~ sampleD1 + sampleD2 + esj.m + atone.r, data = mHS, contrasts = contr1)
+summary(SA1s2)
+anova(SA1s1, SA1s2)
+#step 3 - interactions
+SA1s3 <- lm(SA_V.rc ~ sampleD1 + sampleD2 + esj.m*atone.r, data = mHS, contrasts = contr1)
+summary(SA1s3)
+anova(SA1s2, SA1s3)
+
+#mega - hierarchical regression - low status
+#step - sample
+SA2s1 <- lm(SA_V.rc ~ sampleD1 + sampleD2, data = mLS)
+summary(SA2s1)
+#step 2 - main effects
+SA2s2 <- lm(SA_V.rc ~ sampleD1 + sampleD2 + esj.m + atone.r, data = mLS, contrasts = contr1)
+summary(SA2s2)
+anova(SA2s1, SA2s2)
+#step 3 - two way interactions
+SA2s3 <- lm(SA_V.rc ~ sampleD1 + sampleD2 + esj.m*atone.r, data= mLS, contrasts = contr1)
+summary(SA2s3)
+anova(SA2s2, SA2s3)
+
+#mega - hierarchical regression - three way interaction
+#step 1 - sample
+SA3s1 <- lm(SA_V.rc ~ sampleD1 + sampleD2, data = mega)
+summary(SA3s1)
+#step 2 - main effects
+SA3s2 <- lm(SA_V.rc ~ sampleD1 + sampleD2 + esj.m + atone.r + SES, data = mega, contrasts = contr1)
+summary(SA3s2)
+anova(SA3s1, SA3s2)
+#step 3 - two way interactions
+SA3s3 <- lm(SA_V.rc ~ sampleD1 + sampleD2 + esj.m*atone.r + esj.m*SES + atone.r*SES, data = mega, contrasts = contr1)
+summary(SA3s3)
+anova(SA3s2, SA3s3)
+#step 4 - three way interactions
+SA3s4 <- lm(SA_V.rc ~ sampleD1 + sampleD2 + esj.m*atone.r*SES, data = mega, contrasts = contr1)
+summary(SA3s4)
+anova(SA3s3, SA3s4)
+SA3s5 <- lm(SA_V.rc ~ sampleD1 + sampleD2 + esj.m*atone.r*SES10, data = mega, contrasts = contr1)
+summary(SA3s5)
+
+########Empathy for victim#######
+#Prolific sample 1, high status
+EmpV_prof1h <- lm(Emp_V ~ esj.m*atone.r, data = p1HS, contrasts = contr1)
+summary(EmpV_prof1h)
+
+#Prolific sample 1, low status
+EmpV_prof1l <- lm(Emp_V ~ esj.m*atone.r, data = p1LS, contrasts = contr1)
+summary(EmpV_prof1l)
+
+#Prolific sample 1, three way interaction
+EmpV_prof1 <- lm(Emp_V ~ esj.m*atone.r*SES, data = Prof1, contrasts = contr1)
+summary(EmpV_prof1)
+
+#Prolific Sample 2, high status
+EmpV_prof2h <- lm(Emp_V ~ esj.m*atone.r, data = p2HS, contrasts = contr1)
+summary(EmpV_prof2h)
+
+#Prolific Sample 2, low status
+EmpV_prof2l <- lm(Emp_V ~ esj.m*atone.r, data = p2LS, contrasts = contr1)
+summary(EmpV_prof2l)
+
+#Prolific Sample 2, three way interaction
+EmpV_prof2 <- lm(Emp_V ~ esj.m*atone.r*SES, data = Prof2, contrasts = contr1)
+summary(EmpV_prof2)
+
+#sona sample, high status
+EmpV_sonah <- lm(Emp_V ~ esj.m*atone.r, data = sHS, contrasts = contr1)
+summary(EmpV_sonah)
+
+#sona sample, low status
+EmpV_sonal <- lm(Emp_V ~ esj.m*atone.r, data= sLS, contrasts = contr1)
+summary(EmpV_sonal)
+
+#sona sample, three way interaction
+EmpV_sona <- lm(Emp_V ~ esj.m*atone.r, data = sona, contrasts = contr1)
+summary(EmpV_sona)
+
+#mega sample - hierarchical regression - high status
+#step 1 - sample
+Emp1s1 <- lm(Emp_V ~ sampleD1 + sampleD2, data = mHS)
+summary(Emp1s1)
+#step 2 - main effects
+Emp1s2 <- lm(Emp_V ~ sampleD1 + sampleD2 + esj.m + atone.r, data = mHS, contrasts = contr1)
+summary(Emp1s2)
+anova(Emp1s1, Emp1s2)
+#step 3 - two way interactions
+Emp1s3 <- lm(Emp_V ~ sampleD1 + sampleD2 + esj.m*atone.r, data = mHS, contrasts = contr1)
+summary(Emp1s3)
+anova(Emp1s2, Emp1s3)
+
+
+
+#mega sample- hierarchical regression =- low status
+#step 1 - sample
+Emp2s1 <- lm(Emp_V ~ sampleD1 + sampleD2, data = mLS)
+summary(Emp2s1)
+#step 2 - main effects
+Emp2s2 <- lm(Emp_V ~ sampleD1 + sampleD2 + esj.m + atone.r, data = mLS, contrasts = contr1)
+summary(Emp2s2)
+anova(Emp2s1, Emp2s2)
+#step 3 - two way interactions
+Emp2s3 <- lm(Emp_V ~ sampleD1 + sampleD2 + esj.m*atone.r, data = mLS, contrasts = contr1)
+summary(Emp2s3)
+anova(Emp2s2, Emp2s3)
+
+#mega sample - hierarchical regression - three way interaction
+#step 1 - sample
+Emp3s1 <- lm(Emp_V ~ sampleD1 + sampleD2, data = mega)
+summary(Emp3s1)
+#step 2 - main effects
+Emp3s2 <- lm(Emp_V ~ sampleD1 + sampleD2 + esj.m + atone.r + SES, data = mega, contrasts = contr1)
+summary(Emp3s2)
+anova(Emp3s1, Emp3s2)
+#step 3 - two way interactions
+Emp3s3 <- lm(Emp_V ~ sampleD1 + sampleD2 + esj.m*atone.r + esj.m*SES + atone.r*SES, data = mega, contrasts = contr1)
+summary(Emp3s3)
+anova(Emp3s2, Emp3s3)
+#step 4 - three way interaction
+Emp3s4 <- lm(Emp_V ~ sampleD1 + sampleD2 + esj.m*atone.r*SES, data = mega, contrasts = contr1)
+summary(Emp3s4)
+anova(Emp3s3, Emp3s4)
+
+Emp3s5 <- lm(Emp_V ~ sampleD1 + sampleD2 + esj.m*atone.r*SES10, data = mega, contrasts = contr1)
+summary(Emp3s5)
+
+######Distress for the Victim######
+#Prolific sample 1, high status
+distV_prof1h <- lm(distV ~ esj.m*atone.r, data = p1HS, contrasts = contr1)
+summary(distV_prof1h)
+
+#Prolific sample 1, low status
+distV_prof1l <- lm(distV ~ esj.m*atone.r, data = p1LS, contrasts = contr1)
+summary(distV_prof1l)
+
+#Prolific sample 1, three way interactions
+distV_prof1 <- lm(distV ~ esj.m*atone.r*SES, data = Prof1, contrasts = contr1)
+summary(distV_prof1)
+
+#Prolific Sample 2, high status
+distV_prof2h <- lm(distV ~ esj.m*atone.r, data = p2HS, contrasts = contr1)
+summary(distV_prof2h)
+
+#Prolific Sample 2, low status
+distV_prof2l <- lm(distV ~ esj.m*atone.r, data = p2LS, contrasts = contr1)
+summary(distV_prof2l)
+
+#Proflific Sample 2, three way interaction
+distV_prof2 <- lm(distV ~ esj.m*atone.r*SES, data = Prof2, contrasts = contr1)
+summary(distV_prof2)
+
+#sona sample, high status
+distV_sonah <- lm(distV ~ esj.m*atone.r, data = sHS, contrasts = contr1)
+summary(distV_sonah)
+
+#sona sample, low status
+distV_sonal <- lm(distV ~ esj.m*atone.r, data = sLS, contrasts = contr1)
+summary(distV_sonal)
+
+#sona sample, three way interaction
+distV_sona <- lm(distV ~ esj.m*atone.r*SES, data = sona, contrasts = contr1)
+summary(distV_sona)
+
+#mega sample - hierarchical regression - high status
+#step 1 - sample
+distV1s1 <- lm(distV ~ sampleD1 + sampleD2, data = mHS)
+summary(distV1s1)
+#step 2 - main effects
+distV1s2 <- lm(distV ~ sampleD1 + sampleD2 + esj.m + atone.r, data = mHS, contrasts = contr1)
+summary(distV1s2)
+anova(distV1s1, distV1s2)
+#step 3 - two way interaction
+distV1s3 <- lm(distV ~ sampleD1 + sampleD2 + esj.m*atone.r, data = mHS, contrasts = contr1)
+summary(distV1s3)
+anova(distV1s2, distV1s3)
+
+
+#mega sample - hierarchical regression - low status
+#step 1 - sample
+distV2s1 <- lm(distV ~ sampleD1 + sampleD2, data = mLS)
+summary(distV2s1)
+#step 2 - main effects
+distV2s2 <- lm(distV ~ sampleD1 + sampleD2 + esj.m + atone.r, data = mLS, contrasts = contr1)
+summary(distV2s2)
+anova(distV2s1, distV2s2)
+#step 3 - two way interactions
+distV2s3 <- lm(distV ~ sampleD1 + sampleD2 + esj.m*atone.r, data = mLS, contrasts = contr1)
+summary(distV2s3)
+anova(distV2s2, distV2s3)
+
+#mega sample - three way interaction
+#step 1 - sample
+distV3s1 <- lm(distV ~ sampleD1 + sampleD2, data = mega)
+summary(distV3s1)
+#step 2 - main effects
+distV3s2 <- lm(distV ~ sampleD1 + sampleD2 + esj.m + atone.r + SES, data = mega, contrasts = contr1)
+summary(distV3s2)
+anova(distV3s1, distV3s2)
+#step 3 - two way interactions
+distV3s3 <- lm(distV ~ sampleD1 + sampleD2 + esj.m*atone.r + esj.m*SES + atone.r*SES, data = mega, contrasts = contr1)
+summary(distV3s3)
+anova(distV3s2, distV3s3)
+#step 4 - three way interactions
+distV3s4 <- lm(distV ~ sampleD1 + sampleD2 + esj.m*atone.r*SES, data = mega, contrasts = contr1)
+summary(distV3s4)
+anova(distV3s3, distV3s4)
+
+distV3s5 <- lm(distV ~ sampleD1 + sampleD2 + esj.m*atone.r*SES10, data = mega, contrasts = contr1)
+summary(distV3s5)
+plot(mHS$Like_V ~ mHS$atone.r)
+
+
+
+
+############Figures###################
+
+
+#Graphing the Severity interaction that occurs in the Low Status Condition
+levels(mLS$atone.r)
+mLS$Atonement_graph <- factor(dplyr::recode(mLS$Atonement, "0" = "Low", "1" = "Medium", "2" = "High"))
+levels(mLS$Atonement)
+m_graph <- lm(Sev ~ Atonement_graph*esj, data = mLS)
+
+d_graph <- expand.grid(Sev = seq(min(mLS$Sev), max(mLS$Sev), 
+                                           length = 80),
+                       Atonement_graph = c("Low", "Medium","High"),
+                       esj = seq(min(mLS$esj), max(mLS$esj), 
+                                    length = 80))
+
+d_graph <- ggplotPredict(m_graph, d_graph)
+
+mLS %>%
+  ggplot(aes(x = esj, y = Sev, color = Atonement_graph)) +
+  geom_point(aes(shape = Atonement_graph)) +
+  geom_smooth(data = d_graph, stat = "identity", 
+              aes(y = Predicted, ymin = CILo, ymax = CIHi)) + 
+  labs(x = "Economic System Justification", y = "Perceived Severity of the Incident") + # clarify axis name
+  theme_minimal() +
+  theme(
+    #legend.position = c(.2, .93), # positioning legend
+    legend.background = element_blank(), # removing background of legend
+    legend.title = element_blank()) + # removing title of legend
+  scale_color_brewer(palette = "Set1")
+
+#Graphing the Victim Responsibility interaction in the High Status condition
+
+mLS$Atonement_graph <- as.factor(dplyr::recode(mLS$Atonement, "0" = "Low", "1" = "Medium", "2" = "High"))
+mLS$Atonement_str <- factor(mLS$Atonement_graph, levels = c("Low", "Medium", "High"))
+
+mHS$Atonement_graph <- as.factor(dplyr::recode(mHS$Atonement, "0" = "Low", "1" = "Medium", "2" = "High"))
+mHS$Atonement_str <- factor(mHS$Atonement_graph, levels = c("Low", "Medium", "High"))
+
+
+
+m_graph <- lm(Vresp ~ Atonement_str*esj, data = mHS)
+
+d_graph <- expand.grid(Vresp = seq(min(mHS$Vresp), max(mHS$Vresp), 
+                                 length = 80),
+                       Atonement_str = c("Low", "Medium","High"),
+                       esj = seq(min(mHS$esj), max(mHS$esj), 
+                                 length = 80))
+
+d_graph <- ggplotPredict(m_graph, d_graph)
+
+mHS %>%
+  ggplot(aes(x = esj, y = Vresp, color = Atonement_str)) +
+  geom_point(aes(shape = Atonement_str)) +
+  geom_smooth(data = d_graph, stat = "identity", 
+              aes(y = Predicted, ymin = CILo, ymax = CIHi)) + 
+  labs(x = "Economic System Justification", y = "Perceived Responsibility of the Victim") + # clarify axis name
+  theme_minimal() +
+  theme(
+    #legend.position = c(.2, .93), # positioning legend
+    legend.background = element_blank(), # removing background of legend
+    legend.title = element_blank()) + # removing title of legend
+  scale_color_brewer(palette = "Set1")
+
+plot(Vresp ~ atone.r, data = mHS)
+
+#Graphing the Positive Personality interaction for Low Status Perps
+TIPI2s3 <- lm(TIPI_V ~ sampleD1 + sampleD2 + esj.m*atone.r, data = mLS, contrasts = contr1)
+
+m_graph1 <- lm(TIPI_V ~ Atonement_str*esj, data = mLS)
+
+d_graph <- expand.grid(TIPI_V = seq(min(mLS$TIPI_V), max(mLS$TIPI_V), 
+                                   length = 80),
+                       Atonement_str = c("Low", "Medium","High"),
+                       esj = seq(min(mLS$esj), max(mLS$esj), 
+                                 length = 80))
+
+d_graph <- ggplotPredict(m_graph, d_graph)
+
+mLS %>%
+  ggplot(aes(x = esj, y = TIPI_V, color = Atonement_str)) +
+  geom_point(aes(shape = Atonement_str)) +
+  geom_smooth(data = d_graph, stat = "identity", 
+              aes(y = Predicted, ymin = CILo, ymax = CIHi)) + 
+  labs(x = "Economic System Justification", y = "Perceived Positive Personality of the Victim") + # clarify axis name
+  theme_minimal() +
+  theme(
+    #legend.position = c(.2, .93), # positioning legend
+    legend.background = element_blank(), # removing background of legend
+    legend.title = element_blank()) + # removing title of legend
+  scale_color_brewer(palette = "Set1")
+
+
